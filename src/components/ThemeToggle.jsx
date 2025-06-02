@@ -35,7 +35,7 @@ export default function ThemeToggle() {
       ) : (
         <FaMoon
           className="
-          h-[1.5rem] w-[1.5rem]
+          h-[1.5rem] w-[1.5rem] text-yellow-500
         "
         />
       )}

@@ -1,31 +1,33 @@
 /** @type {import('tailwindcss').Config} */
-import { black as _black, white as _white, emerald as _emerald, indigo as _indigo, yellow as _yellow, warmGray, lightBlue, trueGray, coolGray, blueGray } from 'tailwindcss/colors';
+const { black, white, emerald, indigo, yellow, warmGray, lightBlue, trueGray, coolGray, blueGray } = require('tailwindcss/colors');
 
-export const content = [
-  "./app/**/*.{js,ts,jsx,tsx}",
-  "./pages/**/*.{js,ts,jsx,tsx}",
-  "./components/**/*.{js,ts,jsx,tsx}",
-  "./src/**/*.{js,ts,jsx,tsx}",
-  './src/app/**/*.{js,ts,jsx,tsx}',
-  './src/components/**/*.{js,ts,jsx,tsx}',
-];
-export const darkMode = 'class';
-export const theme = {
-  extend: {
-    colors: {
-      transparent: 'transparent',
-      current: 'currentColor',
-      black: _black,
-      white: _white,
-      emerald: _emerald,
-      indigo: _indigo,
-      yellow: _yellow,
-      stone: warmGray,
-      sky: lightBlue,
-      neutral: trueGray,
-      gray: coolGray,
-      slate: blueGray,
-    }
+module.exports = {
+  content: [
+    "./app/**/*.{js,ts,jsx,tsx}",
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "./src/app/**/*.{js,ts,jsx,tsx}",
+    "./src/components/**/*.{js,ts,jsx,tsx}",
+  ],
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        transparent: 'transparent',
+        current: 'currentColor',
+        black,
+        white,
+        emerald,
+        indigo,
+        yellow,
+        stone: warmGray,
+        sky: lightBlue,
+        neutral: trueGray,
+        gray: coolGray,
+        slate: blueGray,
+      }
+    },
   },
+  plugins: [],
 };
-export const plugins = [];

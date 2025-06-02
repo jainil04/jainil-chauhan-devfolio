@@ -1,21 +1,29 @@
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; */
+@import "tailwindcss";
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #e8b6b6;
 }
 
-.dark {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+
+html {
+  --background: #ffffff;
+  --foreground: #000000;
+}
+
+html.dark {
+  --background: oklch(21% 0.034 264.665);
+  --foreground: #e8b6b6;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
 }
+
 html {
   a:-webkit-any-link {
     color: #0a0a0a;
@@ -29,5 +37,97 @@ html.dark {
     color: #ffffff;
     cursor: pointer;
     text-decoration: none;
+  }
+}
+
+li {
+  list-style: none;
+}
+
+nav li {
+  margin: 1rem 1rem;
+}
+
+
+@keyframes slide-in {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease;
+}
+
+.hamburger-btn {
+  display: none;
+}
+
+/* .nav-links-container {
+  display: flex;
+} */
+
+/* .overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 20;
+}
+
+*/
+
+
+/*  fixed top-0 left-0 w-64 bg-white dark:bg-gray-900 shadow-lg z-30 flex flex-col p-6 md:hidden animate-slide-in */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--background);
+  z-index: 30; /* Ensure it overlays the overlay */
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.sidebar ul {
+  padding: 0 !important;
+}
+
+.sidebar-ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+}
+
+/* Custom media queries for mobile and iPad devices */
+@media (max-width: 767px) {
+
+  /* Mobile styles */
+  body {
+    font-size: 16px;
+  }
+
+  .hamburger-btn {
+    display: flex;
+  }
+
+  /* .nav-links-container {
+    display: none;
+  } */
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+
+  /* iPad/tablet styles */
+  body {
+    font-size: 18px;
   }
 }
