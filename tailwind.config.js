@@ -1,6 +1,3 @@
-/** @type {import('tailwindcss').Config} */
-const { black, white, emerald, indigo, yellow, warmGray, lightBlue, trueGray, coolGray, blueGray } = require('tailwindcss/colors');
-
 module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx}",
@@ -13,20 +10,16 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
-      colors: {
-        transparent: 'transparent',
-        current: 'currentColor',
-        black,
-        white,
-        emerald,
-        indigo,
-        yellow,
-        stone: warmGray,
-        sky: lightBlue,
-        neutral: trueGray,
-        gray: coolGray,
-        slate: blueGray,
-      }
+      fontFamily: {
+        inter: ['Inter', 'sans-serif'],
+        pacifico: ['"Pacifico"', 'cursive'],
+        oswald: ['"Oswald"', 'sans-serif'],
+        merriweather: ['Merriweather', 'serif'],
+        firacode: ['"Fira Code"', 'monospace'],
+      },
+      fontSize: {
+        'fluid-xl': 'clamp(1.5rem, 8vw, 8rem)',
+      },
     },
   },
   plugins: [],

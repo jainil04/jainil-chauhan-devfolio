@@ -5,7 +5,7 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #e8b6b6;
+  --foreground: #000000;
 }
 
 
@@ -16,7 +16,7 @@ html {
 
 html.dark {
   --background: oklch(21% 0.034 264.665);
-  --foreground: #e8b6b6;
+  --foreground: #ffffff;
 }
 
 body {
@@ -92,7 +92,8 @@ nav li {
   width: 100%;
   height: 100%;
   background-color: var(--background);
-  z-index: 30; /* Ensure it overlays the overlay */
+  z-index: 30;
+  /* Ensure it overlays the overlay */
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
@@ -107,6 +108,109 @@ nav li {
   margin: 0;
 }
 
+/* 2) Define keyframes to “snap” between sans, serif, monospace, then back to sans */
+/*
+sans-serif
+monospace
+serif
+
+*/
+@keyframes cycleFont {
+  0% {
+    font-family: sans-serif;
+  }
+  5% {
+    font-family: monospace;
+  }
+  10% {
+    font-family: serif;
+  }
+  15% {
+    font-family: sans-serif;
+  }
+  20% {
+    font-family: monospace;
+  }
+  25% {
+    font-family: serif;
+  }
+  30% {
+    font-family: sans-serif;
+  }
+  35% {
+    font-family: monospace;
+  }
+  40% {
+    font-family: serif;
+  }
+  45% {
+    font-family: sans-serif;
+  }
+  50% {
+    font-family: monospace;
+  }
+  55% {
+    font-family: serif;
+  }
+  60% {
+    font-family: sans-serif;
+  }
+  65% {
+    font-family: monospace;
+  }
+  70% {
+    font-family: serif;
+  }
+  75% {
+    font-family: sans-serif;
+  }
+  80% {
+    font-family: monospace;
+  }
+  85% {
+    font-family: serif;
+  }
+  90% {
+    font-family: sans-serif;
+  }
+  95% {
+    font-family: serif;
+  }
+  100% {
+    font-family: sans-serif;
+  }
+}
+
+/* 3) Apply that animation to any <span class="cycle-span"> */
+.cycle-span {
+  /*
+    3s total duration → each of three steps lasts 1s (since 0→33%→66%→100%).
+    step-end → “snap” at each keyframe rather than interpolate.
+    forwards → stay on the final frame (which is “sans-serif” again).
+    If you want it to loop forever, change “forwards” → “infinite”.
+  */
+  line-height: 7rem;
+  animation: cycleFont 3s step-end forwards;
+}
+
+/* .jainil {
+      display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+} */
+
+.jainil {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+
 /* Custom media queries for mobile and iPad devices */
 @media (max-width: 767px) {
 
@@ -119,6 +223,10 @@ nav li {
     display: flex;
   }
 
+  .cycle-span {
+    line-height: 1rem;
+  }
+
   /* .nav-links-container {
     display: none;
   } */
@@ -127,7 +235,10 @@ nav li {
 @media (min-width: 768px) and (max-width: 1024px) {
 
   /* iPad/tablet styles */
-  body {
+  /* body {
     font-size: 18px;
+  } */
+  .cycle-span {
+    line-height: 3rem;
   }
 }

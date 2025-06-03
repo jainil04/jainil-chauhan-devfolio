@@ -14,9 +14,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// export const metadata: Metadata = {
+//   title: "Jainil Chauhan Portfolio",
+//   viewport: "width=device-width, initial-scale=1.0",
+// };
 export const metadata: Metadata = {
-  title: "Jainil Chauhan Portfolio",
-  viewport: "width=device-width, initial-scale=1.0",
+  title: "Jainil Chauhan Portfolio"
 };
 
 export default function RootLayout({
