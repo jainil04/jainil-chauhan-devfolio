@@ -16,7 +16,7 @@ export default function Navbar() {
     <nav className="
       sticky inset-x-0 top-0 z-50 h-16 flex
       items-center justify-between md:justify-center
-      px-6 backdrop-blur-md
+      px-6 md:backdrop-blur-md
       ">
       {/* Drawer hamburger button - mobile only */}
       <div className="hamburger-btn">
@@ -52,7 +52,7 @@ export default function Navbar() {
             style={{ pointerEvents: drawerOpen ? 'auto' : 'none' }}
           >
             <button
-              className="self-end mb-8 text-2xl"
+              className="flex px-6 mt-3 mb-8 text-2xl"
               aria-label="Close menu"
               onClick={() => setDrawerOpen(false)}
             >

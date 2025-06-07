@@ -64,10 +64,10 @@ export default function AnimatedHeadline() {
         "
       >
         <p className='my-4'>
-          My name is Jainil Chauhan – Front-End Delepoer (a.k.a. “Developer”—yes, typos happen before the code even runs).
+          I am Jainil Chauhan – Front-End Delepoer (a.k.a. “Developer” — yes, typos happen before the code even runs).
         </p>
         <p className='my-4'>
-          As a Front-End Delepoer, I turn fancy mockups into blazing-fast, responsive web experiences—while battling rogue semicolons and caffeine shortages. I wield React, Vue, and modern JavaScript like a bug-slaying superhero, obsessing over performance, accessibility, and code that doesn’t break when the user sneezes.
+          As a Front-End “Developer”, I turn fancy mockups into blazing-fast, responsive web experiences—while battling rogue semicolons and caffeine shortages. I wield React, Vue, and modern JavaScript like a bug-slaying superhero, obsessing over performance, accessibility, and code that doesn’t break when the user sneezes.
         </p>
         <p>
           My daily quest? Optimizing load times so your grandma’s dial-up–evolved PC doesn’t cry, crafting interactive components that feel smoother than butter, and championing pixel-perfect layouts that survive even the most aggressive browser tantrums. In short: I slay bugs, sip coffee, and build interface magic—one commit at a time.
