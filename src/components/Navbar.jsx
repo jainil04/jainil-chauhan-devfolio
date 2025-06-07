@@ -12,9 +12,12 @@ export default function Navbar() {
     { href: '/resume', label: 'Resume' },
     { href: '/contact', label: 'Contact' },
   ];
-  console.log(drawerOpen);
   return (
-    <nav className="flex justify-start md:justify-center">
+    <nav className="
+      sticky inset-x-0 top-0 z-50 h-16 flex
+      items-center justify-between md:justify-center
+      px-6 backdrop-blur-md
+      ">
       {/* Drawer hamburger button - mobile only */}
       <div className="hamburger-btn">
         <MenuIcon color="success"
@@ -71,9 +74,8 @@ export default function Navbar() {
           </aside>
         </>
       )}
-      {/* Place ThemeToggle in the bottom right corner */}
-      {/* div style={{ position: 'fixed', bottom: '2rem', right: '2rem', zIndex: 50 }}> */}
-      <div className="fixed bottom-8 right-8 z-50">
+      {/* Theme toggle button */}
+      <div className="flex absolute right-5 fixed z-50">
         <ThemeToggle />
       </div>
     </nav>
