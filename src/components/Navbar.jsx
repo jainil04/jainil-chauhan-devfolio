@@ -75,7 +75,7 @@ export default function Navbar() {
         </>
       )}
       {/* Theme toggle button */}
-      <div className="flex absolute right-5 fixed z-50">
+      <div className="flex top-4 right-5 fixed z-50">
         <ThemeToggle />
       </div>
     </nav>
