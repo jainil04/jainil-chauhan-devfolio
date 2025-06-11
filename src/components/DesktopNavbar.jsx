@@ -38,10 +38,10 @@ export default function DesktopNavbar() {
       <ul className="hidden md:flex space-x-4">
         {links.map(({ href, label }) => (
           <li key={href}>
-            <Link href={href} className={`${baseClasses} ${linkBgClasses}`}>
+            <Link href={href} className={`${baseClasses} ${linkBgClasses} ${mounted && currentTheme === 'light' ? 'glass' : ''}`}>
               <span
                 aria-hidden="true"
-                className={`absolute inset-0 border ${mounted && currentTheme === 'light' ? 'border-gray-300' : 'border-white/30'} rounded-full`}
+                className={`absolute inset-0 border ${mounted && currentTheme === 'light' ? 'glass' : 'border-white/30'} rounded-full`}
               />
               <span
                 aria-hidden="true"
@@ -56,7 +56,7 @@ export default function DesktopNavbar() {
       </ul>
 
       {/* Theme toggle button */}
-      <div className="flex top-4 right-5 fixed z-50">
+      <div className="flex top-1 right-5 fixed z-50 glass p-4 rounded-full">
         <ThemeToggle />
       </div>
     </nav>

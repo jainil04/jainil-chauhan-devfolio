@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
-import { FaMoon } from "react-icons/fa";
-import { FaSun } from "react-icons/fa";
+// import { FaMoon } from "react-icons/fa";
+// import { FaSun } from "react-icons/fa";
+import { FiSun } from "react-icons/fi";
+import { FiMoon } from "react-icons/fi";
 
 export default function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
@@ -23,19 +25,19 @@ export default function ThemeToggle() {
 
   return (
     <button
-      className="bg-transparent border-0"
+      className=""
       onClick={() => setTheme(current === 'dark' ? 'light' : 'dark')}
     >
       {current === 'dark' ? (
-        <FaSun
+        <FiSun
           className="
-          h-[1.5rem] w-[1.5rem] text-yellow-500
+          h-[1.5rem] w-[1.5rem]
         "
         />
       ) : (
-        <FaMoon
+        <FiMoon
           className="
-          h-[1.5rem] w-[1.5rem] text-yellow-500
+          h-[1.5rem] w-[1.5rem]
         "
         />
       )}

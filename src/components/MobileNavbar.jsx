@@ -8,13 +8,13 @@ import { GoHome } from 'react-icons/go';
 import { GrProjects } from 'react-icons/gr';
 import { TfiLayoutAccordionList } from 'react-icons/tfi';
 import { IoIosContact } from 'react-icons/io';
-import { motion, AnimatePresence } from 'framer-motion';
 
 export default function MobileNavbar() {
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const { theme, systemTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
+  // Wait until theme loads
   useEffect(() => setMounted(true), []);
   const currentTheme = theme === 'system' ? systemTheme : theme;
 
@@ -25,72 +25,86 @@ export default function MobileNavbar() {
     { href: '/contact', label: 'Contact', icon: IoIosContact },
   ];
 
+  // Base pill styling
   const baseClasses =
-    'group relative inline-flex items-center justify-center p-3 rounded-full backdrop-blur-lg overflow-hidden shadow-md transition-transform hover:scale-105';
-  const linkBgClasses =
-    mounted && currentTheme === 'light' ? 'bg-white' : 'bg-white/20 dark:bg-gray-800/30';
-  const borderClasses =
-    mounted && currentTheme === 'light' ? 'border-gray-300' : 'border-white/30';
+    'flex items-center justify-center p-4 rounded-full transition-transform duration-200 ease-in-out hover:scale-105';
+
+  // Liquid glass background base for pills
+  const pillBgBase =
+    mounted && currentTheme === 'light'
+      ? 'bg-white/70 shadow-inner shadow-white/20'
+      : 'bg-white/20 dark:bg-gray-900/30 shadow-inner';
+  // Show border only when menu is open
+  const pillBorder =
+    open
+      ? mounted && currentTheme === 'light'
+        ? 'border border-white/80'
+        : 'border border-white/30 dark:border-gray-700'
+      : '';
+  // Complete pill classes
+  const pillBg = `${pillBgBase} ${pillBorder}`.trim();
+
+  // Container for all pills (with conditional border)
+  const containerBgBase =
+    mounted && currentTheme === 'light'
+      ? 'bg-white/70 shadow-inner shadow-white/20'
+      : 'bg-white/20 dark:bg-gray-900/30 shadow-inner';
+  const containerBorder =
+    open
+      ? mounted && currentTheme === 'light'
+        ? 'border border-white/80'
+        : 'border border-white/30 dark:border-gray-700'
+      : '';
+    // Dynamic container padding: more when open, compact when closed
+  const containerPadding = 'p-2';
+  // const containerPadding = open ? 'p-3 gap-4' : 'p-2';
+  // Container for all pills (with conditional border)
+  const containerClasses =
+    `fixed bottom-5 right-5 z-50 flex flex-col items-center ${containerPadding} backdrop-blur-2xl ${
+      containerBgBase
+    } ${containerBorder} rounded-full`;
 
   return (
-    <>
-      {/* Mobile menu button positioned bottom-right */}
+    <div className={`${containerClasses} md:hidden glass`}>
+      {/* Expanded links */}
+      {open && (
+        <>
+          {links.map(({ href, label, icon: Icon }) => (
+            <Link
+              key={href}
+              href={href}
+              className={`${baseClasses} ${pillBg} glass mb-6`}
+              aria-label={label}
+              onClick={() => setOpen(false)}
+            >
+              <Icon
+                className={`w-6 h-6 ${
+                  mounted && currentTheme === 'light' ? 'text-black' : 'text-white'
+                }`}
+                aria-hidden="true"
+              />
+            </Link>
+          ))}
+          {/* Theme toggle pill */}
+          <div className={`${baseClasses} ${pillBg} glass mb-6`}>
+            <ThemeToggle />
+          </div>
+        </>
+      )}
+
+      {/* Always-visible toggle button */}
       <button
         type="button"
-        className="fixed bottom-4 right-5 z-50 p-2 rounded-full border-2 border-black/20 dark:border-white/30 md:hidden"
-        onClick={() => setDrawerOpen((open) => !open)}
-        aria-label={drawerOpen ? 'Close menu' : 'Open menu'}
+        className={`${baseClasses} ${pillBg} glass`}
+        onClick={() => setOpen((o) => !o)}
+        aria-label={open ? 'Close menu' : 'Open menu'}
       >
-        <CiMenuFries className="w-6 h-6 text-current" />
+        <CiMenuFries
+          className={`w-6 h-6 transform ${open ? 'rotate-90' : 'rotate-0'} ${
+            mounted && currentTheme === 'light' ? 'text-black' : 'text-white'
+          }`}
+        />
       </button>
-
-      {/* Transparent overlay capturing clicks */}
-      <aside
-        className={`fixed inset-0 z-40 ${drawerOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}
-        onClick={() => setDrawerOpen(false)}
-      />
-
-      {/* AnimatePresence for smooth open/close */}
-      <AnimatePresence>
-        {drawerOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ duration: 0.2 }}
-            className="fixed bottom-16 right-5 z-50 flex flex-col items-end space-y-4 md:hidden"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {links.map(({ href, label, icon: Icon }) => (
-              <Link
-                key={href}
-                href={href}
-                className={`${baseClasses} ${linkBgClasses} border ${borderClasses}`}
-                onClick={() => setDrawerOpen(false)}
-                aria-label={label}
-              >
-                <Icon
-                  className={`w-6 h-6 ${
-                    mounted && currentTheme === 'light' ? 'text-black' : 'text-white'
-                  }`}
-                  aria-hidden="true"
-                />
-              </Link>
-            ))}
-
-            {/* Optional theme toggle below links */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              transition={{ duration: 0.2, delay: 0.1 }}
-              className={`${baseClasses} ${linkBgClasses} border ${borderClasses}`}
-            >
-              <ThemeToggle />
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+    </div>
   );
 }
