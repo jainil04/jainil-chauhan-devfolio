@@ -4,7 +4,7 @@ import { isAnimatedHeadlineEnabled, isTypedHeadlineEnabled } from "../configs";
 
 export default function Home() {
   return (
-    <div className="min-h-screen pt-16">
+    <div className="">
       {isAnimatedHeadlineEnabled && <AnimatedHeadline />}
       {isTypedHeadlineEnabled && <TypedHeadline />}
     </div>

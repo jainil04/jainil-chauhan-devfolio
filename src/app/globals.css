@@ -15,7 +15,8 @@ html {
 }
 
 html.dark {
-  --background: oklch(21% 0.034 264.665);
+  /* --background: oklch(21% 0.034 264.665); */
+  --background: #000000;
   --foreground: #ffffff;
 }
 
@@ -202,13 +203,19 @@ serif
     align-items: center;
 } */
 
-.jainil {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-content: center;
-  justify-content: center;
-  align-items: center;
+@keyframes border-shine {
+  0% {
+    transform: translateX(-100%) skewX(-20deg);
+  }
+  100% {
+    transform: translateX(200%) skewX(-20deg);
+  }
+}
+
+@layer utilities {
+  .animate-border-shine {
+    animation: border-shine 1s ease-in-out forwards;
+  }
 }
 
 /* Custom media queries for mobile and iPad devices */

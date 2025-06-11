@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeRegistry } from '../components/ThemeRegistry';
-import Navbar from "../components/Navbar";
+import DesktopNavbar from "../components/DesktopNavbar";
+import MobileNavbar from "../components/MobileNavbar";
 import DotsBackground from "../components/DotsBackground";
 import AbstractDotsBackground from "../components/AbstractDotsBackground";
 import "./globals.css";
@@ -56,7 +57,8 @@ export default function RootLayout({
               repulsionStrength={80}
             /> }
           </div>
-          <Navbar></Navbar>
+          <DesktopNavbar></DesktopNavbar>
+          <MobileNavbar></MobileNavbar>
           {children}
         </ThemeRegistry>
       </body>
