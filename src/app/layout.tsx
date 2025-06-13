@@ -4,9 +4,11 @@ import { ThemeRegistry } from '../components/ThemeRegistry';
 import DesktopNavbar from "../components/DesktopNavbar";
 import MobileNavbar from "../components/MobileNavbar";
 import DotsBackground from "../components/DotsBackground";
+import NoiseCanvas from "../components/NoiseCanvas";
 import AbstractDotsBackground from "../components/AbstractDotsBackground";
+import GlowingBackground from "../components/GlowingBackground";
 import "./globals.css";
-import { isAbstractDotsBackground, isDotsBackground } from "../configs";
+import { isAbstractDotsBackground, isDotsBackground, isNoiseCanvas, isGlowingBackground } from "../configs";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,7 +40,7 @@ export default function RootLayout({
       >
         <ThemeRegistry>
           <div className="relative">
-            { isAbstractDotsBackground && <AbstractDotsBackground
+            {isAbstractDotsBackground && <AbstractDotsBackground
               spacing={60}
               dotRadius={1}
               repulsionRadius={150}
@@ -49,13 +51,22 @@ export default function RootLayout({
               ]}
               driftSpeed={0.015}
               maxSpeed={0.4}
-            /> }
-            { isDotsBackground && <DotsBackground
+            />}
+            {isDotsBackground && <DotsBackground
               spacing={48}
               dotRadius={4}
               repulsionRadius={120}
               repulsionStrength={80}
-            /> }
+            />}
+            {isNoiseCanvas && <div className="absolute w-full h-screen">
+              {/* Your other content here… */}
+              <NoiseCanvas animate={true} opacity={10} />
+            </div>}
+            { isGlowingBackground && <div className="absolute w-full h-screen">
+              <GlowingBackground />
+            </div>
+
+            }
           </div>
           <DesktopNavbar></DesktopNavbar>
           <MobileNavbar></MobileNavbar>

@@ -19,6 +19,8 @@ module.exports = {
       },
       fontSize: {
         'fluid-xl': 'clamp(1.5rem, 8vw, 8rem)',
+        "text-50": "50rem",
+        "line-50": "calc(50 / 1)",
       },
     },
   },
