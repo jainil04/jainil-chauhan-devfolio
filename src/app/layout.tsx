@@ -1,14 +1,18 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeRegistry } from '../components/ThemeRegistry';
-import DesktopNavbar from "../components/DesktopNavbar";
-import MobileNavbar from "../components/MobileNavbar";
+// import DesktopNavbar from "../components/DesktopNavbar";
+// import MobileNavbar from "../components/MobileNavbar";
 import DotsBackground from "../components/DotsBackground";
 import NoiseCanvas from "../components/NoiseCanvas";
 import AbstractDotsBackground from "../components/AbstractDotsBackground";
 import GlowingBackground from "../components/GlowingBackground";
 import "./globals.css";
 import { isAbstractDotsBackground, isDotsBackground, isNoiseCanvas, isGlowingBackground } from "../configs";
+import Nav from "@/components/nav";
+import ScrollToTop from '@/components/ScrollToTop';
+
+import SmoothScroll from '@/components/SmoothScroll';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,6 +39,10 @@ export default function RootLayout({
 }>) {
   return (
     <html suppressHydrationWarning className="dark" lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -59,18 +67,23 @@ export default function RootLayout({
               repulsionStrength={80}
             />}
             {isNoiseCanvas && <div className="absolute w-full h-screen">
-              {/* Your other content here… */}
               <NoiseCanvas animate={true} opacity={10} />
             </div>}
-            { isGlowingBackground && <div className="absolute w-full h-screen">
+            {isGlowingBackground && <div className="absolute w-full h-screen">
               <GlowingBackground />
             </div>
 
             }
           </div>
-          <DesktopNavbar></DesktopNavbar>
-          <MobileNavbar></MobileNavbar>
-          {children}
+          {/* <DesktopNavbar></DesktopNavbar>
+          <MobileNavbar></MobileNavbar> */}
+          {/* <section> */}
+          <SmoothScroll>
+            <Nav />
+            {children}
+          </SmoothScroll>
+          <ScrollToTop />
+          {/* </section> */}
         </ThemeRegistry>
       </body>
     </html>
