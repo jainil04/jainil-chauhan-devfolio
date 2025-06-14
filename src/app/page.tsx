@@ -22,7 +22,7 @@ export default function Home() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.utils.toArray('.fade-in').forEach((el: any) => {
+      gsap.utils.toArray<HTMLElement>('.fade-in').forEach((el) => {
         gsap.from(el, {
           y: 50,
           autoAlpha: 0,
