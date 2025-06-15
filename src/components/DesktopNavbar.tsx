@@ -68,6 +68,7 @@
 
 import Link from 'next/link';
 import { ScrollSmoother } from 'gsap/dist/ScrollSmoother';
+import ThemeToggle from './ThemeToggle';
 
 // 1) Define just the bits of the instance you need:
 interface ScrollToConfig {
@@ -122,6 +123,9 @@ export default function DesktopNavbar() {
           </li>
         ))}
       </ul>
+      <div className="flex top-1 right-5 fixed z-50 p-4 rounded-full">
+        <ThemeToggle />
+      </div>
     </nav>
   );
 }

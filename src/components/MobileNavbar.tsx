@@ -122,6 +122,7 @@ import { createPortal } from 'react-dom';
 import { FiMenu } from 'react-icons/fi';
 import { IoMdClose } from 'react-icons/io';
 import { ScrollSmoother } from 'gsap/dist/ScrollSmoother';
+import ThemeToggle from './ThemeToggle';
 
 // ScrollTo configuration interface
 interface ScrollToConfig {
@@ -183,11 +184,11 @@ export default function MobileNav() {
 
       {/* Menu Overlay via Portal */}
       {mounted && isOpen && createPortal(
-        <div className="fixed inset-0 h-screen z-40 overflow-hidden bg-white/20 dark:bg-black/20 flex flex-col items-center justify-center space-y-8">
+        <div className="fixed inset-0 h-screen z-40 overflow-hidden bg-white dark:bg-gray-800 flex flex-col items-center justify-center space-y-8">
           <button
             onClick={toggleMenu}
             aria-label={isOpen ? 'Close menu' : 'Open menu'}
-            className="fixed top-4 right-4 p-2 z-50 bg-white/20 dark:bg-black/20 backdrop-blur-md rounded-md"
+            className="fixed top-4 right-4 p-2 z-50 bg-white/20 dark:bg-gray-800 backdrop-blur-md rounded-md"
           >
             { isOpen && (
               <IoMdClose className="w-6 h-6 text-white" />
@@ -202,6 +203,9 @@ export default function MobileNav() {
               {label}
             </button>
           ))}
+          <div className="mb-6">
+            <ThemeToggle />
+          </div>
         </div>,
         document.body
       )}

@@ -49,13 +49,18 @@ export default function Home() {
           {isAnimatedHeadlineEnabled && <AnimatedHeadline />}
         </section>
       </section>
-      <section id="showcase" className="min-h-screen flex justify-center items-center">
+      {/* <section id="showcase" className="min-h-screen flex justify-center items-center">
         <section className="fade-in flex justify-center">
           <Showcase />
         </section>
+      </section> */}
+      <section id="showcase" className="min-h-screen">
+        <section className="fade-in mt-8">
+          <Showcase />
+        </section>
       </section>
-      <section id="experience" className="min-h-screen flex justify-center items-center">
-        <section className="fade-in flex justify-center">
+      <section id="experience" className="min-h-screen">
+        <section className="fade-in">
           <Experience />
         </section>
       </section>
