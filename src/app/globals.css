@@ -16,7 +16,6 @@ html {
 }
 
 html.dark {
-  /* --background: oklch(21% 0.034 264.665); */
   --background: #000000;
   --foreground: #ffffff;
 }
@@ -25,7 +24,7 @@ body {
   background: var(--background);
   color: var(--foreground);
 }
-
+/* #ebf5df */
 html {
   a:-webkit-any-link {
     color: #0a0a0a;
@@ -90,6 +89,29 @@ body {
   font-size: 30px;
   color: #E5E5E5;
   text-align: center;
+}
+
+/* .masked-image {
+  background: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 12.5%, rgb(0, 0, 0) 87.5%, rgba(0, 0, 0, 0) 100%);
+} */
+
+.masked-image {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 12.5%,
+    rgba(0, 0, 0, 1) 87.5%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 12.5%,
+    rgba(0, 0, 0, 1) 87.5%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  mask-mode: alpha;
+  -webkit-mask-mode: alpha;
 }
 
 
@@ -377,5 +399,27 @@ serif
   .unbounded-headline-subtitle {
     text-align: center;
     font-size: 20px;
+  }
+}
+
+@layer utilities {
+  .skeleton-shimmer {
+    background-image: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.15) 50%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite linear;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
   }
 }

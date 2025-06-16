@@ -4,16 +4,16 @@ import { ExperienceItem } from "@/types/types";
 
 const myExperience: ExperienceItem[] = [
   {
-    title: "Sn Front-End Engineer",
+    title: "Sr Front-End Engineer",
     company: "NTT Data Americas",
     date: "Feb 2021 – Present",
     responsibilities: [
-      "Optimized a Vue 3 micro-frontend architecture refactored Webpack configs (Module Federation, dynamic imports, tree-shaking, Brotli compression) to shrink client bundle size by 60 % and cut first paint and TTI times nearly in half.",
-      "Profiled and eliminated resource leaks using Chrome DevTools and Vue DevTools, rewrote memory-heavy components to drop peak heap usage by 50 % and lower CPU time on critical interactions.",
-      "Solved high-priority production bugs across MFEs, tracing issues from UI down to API contracts and deploying hot-fixes that met same-day SLAs.",
-      "Delivered new customer-facing features with Composition API, Vue Router, and shared design-system components while maintaining strict accessibility and responsive-layout standards and Tailwind CSS.",
-      "Produced in-depth performance reports before/after Lighthouse scores, Web Vitals, memory/CPU charts."
-    ],
+      "Optimize a Vue 3 micro-frontend architecture, refactor Webpack configs (Module Federation, dynamic imports, tree-shaking, Brotli compression) to shrink client bundle size by 60% and reduce first paint and TTI times significantly.",
+      "Profile and eliminate resource leaks using Chrome DevTools and Vue DevTools; rewrite memory-heavy components to drop peak heap usage by 50% and lower CPU time on critical interactions.",
+      "Solve high-priority production bugs across MFEs, trace issues from UI to API contracts, and deploy hot-fixes that meet same-day SLAs.",
+      "Deliver new customer-facing features using the Composition API, Vue Router, and shared design-system components while maintaining accessibility, responsive layout standards, and Tailwind CSS.",
+      "Produce in-depth performance reports comparing Lighthouse scores, Web Vitals, and memory/CPU metrics."
+    ]
   },
   {
     title: "Front-End Engineer",
@@ -43,7 +43,7 @@ export default function Experience() {
     <section className="min-h-screen flex justify-center items-center">
       <div className="w-full">
         <div className="max-w-6xl mx-auto px-6"> {/* 👈 Important! use px not p-10 here */}
-          <div className="unbounded-headline-title flex justify-center">Professional Experience</div>
+          <div className="unbounded-headline-title flex justify-center">Work Experience</div>
           <ExperienceAccordion experiences={myExperience} />
         </div>
       </div>
