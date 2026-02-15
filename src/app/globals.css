@@ -1,425 +1,101 @@
-/* @tailwind base;
-@tailwind components;
-@tailwind utilities; */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=JetBrains+Mono:wght@400;500&display=swap');
+
 @import "tailwindcss";
-/* @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&display=swap'); */
 
 :root {
-  --background: #ffffff;
-  --foreground: #000000;
+  /* ── Fonts (custom – not covered by shadcn) ── */
+  --font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* ── Shadcn design tokens (warm palette) ── */
+  --radius: 0.65rem;
+  --background: oklch(0.965 0.006 84.566);
+  --foreground: oklch(0.293 0.000 89.876);
+  --card: oklch(0.928 0.010 87.473);
+  --card-foreground: oklch(0.293 0.000 89.876);
+  --popover: oklch(0.965 0.006 84.566);
+  --popover-foreground: oklch(0.293 0.000 89.876);
+  --primary: oklch(0.837 0.251 137.198);
+  --primary-foreground: oklch(0.16 0.05 137.198);
+  --secondary: oklch(0.928 0.010 87.473);
+  --secondary-foreground: oklch(0.348 0.000 89.876);
+  --muted: oklch(0.928 0.010 87.473);
+  --muted-foreground: oklch(0.528 0.000 89.876);
+  --accent: oklch(0.480 0.068 138.457);
+  --accent-foreground: oklch(0.965 0.006 84.566);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.928 0.010 87.473);
+  --input: oklch(0.928 0.010 87.473);
+  --ring: oklch(0.837 0.251 137.198);
+  --chart-1: oklch(0.611 0.077 139.451);
+  --chart-2: oklch(0.480 0.068 138.457);
+  --chart-3: oklch(0.639 0.035 242.651);
+  --chart-4: oklch(0.692 0.072 71.932);
+  --chart-5: oklch(0.348 0.000 89.876);
+  --sidebar: oklch(0.965 0.006 84.566);
+  --sidebar-foreground: oklch(0.293 0.000 89.876);
+  --sidebar-primary: oklch(0.837 0.251 137.198);
+  --sidebar-primary-foreground: oklch(0.16 0.05 137.198);
+  --sidebar-accent: oklch(0.928 0.010 87.473);
+  --sidebar-accent-foreground: oklch(0.348 0.000 89.876);
+  --sidebar-border: oklch(0.928 0.010 87.473);
+  --sidebar-ring: oklch(0.837 0.251 137.198);
 }
 
 
-html {
-  --background: #ffffff;
-  --foreground: #000000;
-}
+*, *::before, *::after { box-sizing: border-box; }
 
-html.dark {
-  --background: #000000;
-  --foreground: #ffffff;
-}
-
-body {
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
   background: var(--background);
   color: var(--foreground);
-}
-/* #ebf5df */
-html {
-  a:-webkit-any-link {
-    color: #0a0a0a;
-    cursor: pointer;
-    text-decoration: none;
-  }
-}
-
-html.dark {
-  a:-webkit-any-link {
-    color: #ffffff;
-    cursor: pointer;
-    text-decoration: none;
-  }
-}
-
-html,
-body {
-  height: 100%;
-  margin: 0;
-  /* restore native scrolling on the document so GSAP can hijack wheel/touch events */
-  overflow: auto;
-}
-
-.smooth-wrapper {
-  position: fixed;
-  overflow-y: scroll;
-  /* allow vertical scrolling */
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  /* prevent horizontal scroll */
-  overscroll-behavior: none;
-  /* hide scrollbar in Firefox */
-  scrollbar-width: none;
-  /* clip-path: inset(4rem 0 0 0); */
 }
 
-.smooth-wrapper::-webkit-scrollbar {
-  /* hide scrollbar in WebKit browsers */
-  display: none;
-}
+::selection { background: var(--accent); color: var(--accent-foreground); }
 
-.smooth-content {
-  position: relative;
-  /* ensure content is tall enough to scroll */
-  min-height: 100%;
-}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--secondary-foreground); border-radius: 3px; opacity: 0.3; }
 
-.unbounded-headline-title {
-  font-family: "Unbounded", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 900;
-  font-style: normal;
-  font-size: 50px;
-  text-align: center;
-}
-
-.unbounded-headline-subtitle {
-  font-family: "Unbounded", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 200;
-  font-style: normal;
-  font-size: 30px;
-  color: #E5E5E5;
-  text-align: center;
-}
-
-/* .masked-image {
-  background: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 12.5%, rgb(0, 0, 0) 87.5%, rgba(0, 0, 0, 0) 100%);
-} */
-
-.masked-image {
-  -webkit-mask-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 1) 12.5%,
-    rgba(0, 0, 0, 1) 87.5%,
-    rgba(0, 0, 0, 0) 100%
-  );
-  mask-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 1) 12.5%,
-    rgba(0, 0, 0, 1) 87.5%,
-    rgba(0, 0, 0, 0) 100%
-  );
-  mask-mode: alpha;
-  -webkit-mask-mode: alpha;
-}
-
-
-/* li {
-  list-style: none;
-} */
-
-/* nav li {
-  margin: 1rem 1rem;
-} */
-
-
-@keyframes slide-in {
-  from {
-    transform: translateX(-100%);
-  }
-
-  to {
-    transform: translateX(0);
-  }
-}
-
-.animate-slide-in {
-  animation: slide-in 0.3s ease;
-}
-
-.hamburger-btn {
-  display: none;
-}
-
-/* .nav-links-container {
-  display: flex;
-} */
-
-/* .overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 20;
-}
-
-*/
-
-
-/*  fixed top-0 left-0 w-64 bg-white dark:bg-gray-900 shadow-lg z-30 flex flex-col p-6 md:hidden animate-slide-in */
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: var(--background);
-  z-index: 30;
-  /* Ensure it overlays the overlay */
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-}
-
-.sidebar ul {
-  padding: 0 !important;
-}
-
-.sidebar-ul {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0;
-}
-
-/* 2) Define keyframes to “snap” between sans, serif, monospace, then back to sans */
-/*
-sans-serif
-monospace
-serif
-
-*/
-@keyframes cycleFont {
-  0% {
-    font-family: sans-serif;
-  }
-
-  5% {
-    font-family: monospace;
-  }
-
-  10% {
-    font-family: serif;
-  }
-
-  15% {
-    font-family: sans-serif;
-  }
-
-  20% {
-    font-family: monospace;
-  }
-
-  25% {
-    font-family: serif;
-  }
-
-  30% {
-    font-family: sans-serif;
-  }
-
-  35% {
-    font-family: monospace;
-  }
-
-  40% {
-    font-family: serif;
-  }
-
-  45% {
-    font-family: sans-serif;
-  }
-
-  50% {
-    font-family: monospace;
-  }
-
-  55% {
-    font-family: serif;
-  }
-
-  60% {
-    font-family: sans-serif;
-  }
-
-  65% {
-    font-family: monospace;
-  }
-
-  70% {
-    font-family: serif;
-  }
-
-  75% {
-    font-family: sans-serif;
-  }
-
-  80% {
-    font-family: monospace;
-  }
-
-  85% {
-    font-family: serif;
-  }
-
-  90% {
-    font-family: sans-serif;
-  }
-
-  95% {
-    font-family: serif;
-  }
-
-  100% {
-    font-family: sans-serif;
-  }
-}
-
-/* 3) Apply that animation to any <span class="cycle-span"> */
-.cycle-span {
-  /*
-    3s total duration → each of three steps lasts 1s (since 0→33%→66%→100%).
-    step-end → “snap” at each keyframe rather than interpolate.
-    forwards → stay on the final frame (which is “sans-serif” again).
-    If you want it to loop forever, change “forwards” → “infinite”.
-  */
-  line-height: 7rem;
-  animation: cycleFont 3s step-end forwards;
-}
-
-/* .jainil {
-      display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-content: center;
-    justify-content: center;
-    align-items: center;
-} */
-
-@keyframes border-shine {
-  0% {
-    transform: translateX(-100%) skewX(-20deg);
-  }
-
-  100% {
-    transform: translateX(200%) skewX(-20deg);
-  }
-}
-
-@layer utilities {
-  .animate-border-shine {
-    animation: border-shine 1s ease-in-out forwards;
-  }
-}
-
-.glass {
-  /* position: relative; */
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(2px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  /* border-radius: 2rem; */
-  /* box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2),
-    inset 0 4px 20px rgba(255, 255, 255, 0.3); */
-  box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
-    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
-    0 12.5px 10px rgba(0, 0, 0, 0.06),
-    0 22.3px 17.9px rgba(0, 0, 0, 0.072),
-    0 41.8px 33.4px rgba(0, 0, 0, 0.086),
-    0 100px 80px rgba(0, 0, 0, 0.12),
-    inset 0 2.8px 2.2px rgba(255, 255, 255, 0.04),
-    0 6.7px 5.3px rgba(255, 255, 255, 0.06),
-    0 12.5px 10px rgba(255, 255, 255, 0.08),
-    0 22.3px 17.9px rgba(255, 255, 255, 0.10),
-    0 2.8px 2.2px rgba(255, 255, 255, 0.059),
-    0 100px 80px rgba(255, 255, 255, 0.057);
-}
-
-.glass::after {
+.noise-overlay::before {
   content: '';
-  /* position: absolute; */
-  /* top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%; */
-  background: rgba(255, 255, 255, 0.1);
-  /* border-radius: 2rem; */
-  backdrop-filter: blur(1px);
-  box-shadow: inset -10px -8px 0px -11px rgba(255, 255, 255, 1),
-    inset 0px -9px 0px -8px rgba(255, 255, 255, 1);
-  opacity: 0.6;
-  z-index: -1;
-  filter: blur(1px) drop-shadow(10px 4px 6px black) brightness(115%);
+  position: fixed;
+  inset: 0;
+  opacity: 0.018;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
 }
 
-/* Custom media queries for mobile and iPad devices */
-@media (max-width: 767px) {
+@keyframes led-pulse {
+  0%, 100% { opacity: 0.6; box-shadow: 0 0 4px 1px #4caf50; }
+  50% { opacity: 1; box-shadow: 0 0 14px 4px #4caf50; }
+}
+.led-glow { animation: led-pulse 2.5s ease-in-out infinite; }
 
-  /* Mobile styles */
-  body {
-    font-size: 16px;
-  }
-
-  .hamburger-btn {
-    display: flex;
-  }
-
-  .cycle-span {
-    line-height: 1rem;
-  }
-
-  /* .nav-links-container {
-    display: none;
-  } */
-  .unbounded-headline-title {
-    text-align: center;
-    font-size: 30px;
-  }
-
-  .unbounded-headline-subtitle {
-    text-align: center;
-    font-size: 20px;
-  }
+@keyframes idle-float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
 }
 
-@media (min-width: 768px) and (max-width: 1024px) {
-
-  /* iPad/tablet styles */
-  /* body {
-    font-size: 18px;
-  } */
-  .cycle-span {
-    line-height: 3rem;
-  }
-  .unbounded-headline-title {
-    text-align: center;
-    font-size: 30px;
-  }
-
-  .unbounded-headline-subtitle {
-    text-align: center;
-    font-size: 20px;
-  }
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
 }
 
-@layer utilities {
-  .skeleton-shimmer {
-    background-image: linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.05) 0%,
-      rgba(255, 255, 255, 0.15) 50%,
-      rgba(255, 255, 255, 0.05) 100%
-    );
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite linear;
-  }
+@keyframes draw-line { to { stroke-dashoffset: 0; } }
 
-  @keyframes shimmer {
-    0% {
-      background-position: -200% 0;
-    }
-    100% {
-      background-position: 200% 0;
-    }
-  }
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
+
