@@ -17,14 +17,18 @@ import type { SpaceObject } from "@/types/types";
 export const OBJECTS: SpaceObject[] = [
   {
     id: "snowboard",
-    label: "Snowboard",
-    subtitle: "Growth & Momentum",
+    label: "Snowboarding",
+    subtitle: "Momentum",
     description: [
-      "Every season starts with a blank run. Snowboarding taught me that progress isn't linear — it's carved through turns, falls, and the willingness to go faster than you're comfortable with.",
-      "The mountain doesn't care about your resume. It asks: can you adapt? Can you stay balanced when the terrain changes?",
-      "I bring this same energy to engineering — momentum over perfection, iteration over planning paralysis.",
+      "I snowboard to reset.",
+      "Where I ride: Lake Tahoe.",
+      "Resorts I've explored: Heavenly. Northstar. Kirkwood.",
+      "Each one feels different — wide cruisers, icy mornings, surprise powder days.",
+      "Next trip: Not decided yet. Waiting for the right snow.",
+      "Level: Intermediate. Comfortable carving blues. Working toward cleaner turns, more control, and smoother flow.",
+      "Every season feels slightly better than the last.",
     ],
-    tags: ["Movement", "Flow State", "Iteration"],
+    tags: ["Tahoe", "Momentum", "Reset"],
     x: 8,
     y: 25,
     width: 60,
@@ -69,7 +73,7 @@ export const OBJECTS: SpaceObject[] = [
   },
   {
     id: "camera",
-    label: "Camera",
+    label: "Photos Gallery",
     subtitle: "Visual Storytelling",
     description: [
       "A mirrorless body lives in my bag at all times. Photography forces you to see composition, balance, and negative space — skills that transfer directly to interface design.",

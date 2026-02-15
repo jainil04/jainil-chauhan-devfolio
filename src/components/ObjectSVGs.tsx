@@ -287,8 +287,8 @@ export function FieldNotesSVG({ className = "" }: { className?: string }) {
       <line x1="95" y1="10" x2="95" y2="170" stroke="#6b4c30" strokeWidth="1.5" />
       {/* Title area */}
       <rect x="30" y="35" width="70" height="30" rx="2" fill="#a07d55" opacity="0.4" />
-      <text x="42" y="48" fill="#3a3a3a" fontSize="7" fontFamily="sans-serif" fontWeight="bold" letterSpacing="1">FIELD</text>
-      <text x="40" y="58" fill="#3a3a3a" fontSize="7" fontFamily="sans-serif" fontWeight="bold" letterSpacing="1">NOTES</text>
+      <text x="42" y="48" fill="#3a3a3a" fontSize="7" fontFamily="sans-serif" fontWeight="bold" letterSpacing="1">Jainil</text>
+      <text x="40" y="58" fill="#3a3a3a" fontSize="7" fontFamily="sans-serif" fontWeight="bold" letterSpacing="1">Chauhan</text>
       {/* Page lines visible */}
       {[90, 100, 110, 120, 130, 140].map((y) => (
         <line key={y} x1="30" y1={y} x2="88" y2={y} stroke="#a07d55" strokeWidth="0.3" opacity="0.5" />
