@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import type { SpaceObject } from "@/types/types";
 import { OBJECTS } from "@/data/objects";
@@ -11,17 +12,18 @@ import ContactDialog from "./ContactDialog";
 /* ───────────────────── Main Space ───────────────────── */
 
 export default function InternetSpace() {
+  const router = useRouter();
   const [selected, setSelected] = useState<SpaceObject | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
 
   const handleObjectSelect = useCallback((obj: SpaceObject) => {
     if (obj.id === "camera") {
-      window.open("/photos", "_blank");
+      router.push("/photos");
       return;
     }
     setSelected(obj);
-  }, []);
+  }, [router]);
 
   React.useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
