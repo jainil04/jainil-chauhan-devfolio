@@ -2,10 +2,9 @@
 
 import React, { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import type { SpaceObject } from "@/types/types";
 import { OBJECTS } from "@/data/objects";
-import DetailPanel from "./DetailPanel";
 import CanvasObject from "./CanvasObject";
 import ContactDialog from "./ContactDialog";
 
@@ -13,16 +12,11 @@ import ContactDialog from "./ContactDialog";
 
 export default function InternetSpace() {
   const router = useRouter();
-  const [selected, setSelected] = useState<SpaceObject | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
 
   const handleObjectSelect = useCallback((obj: SpaceObject) => {
-    if (obj.id === "camera") {
-      router.push("/photos");
-      return;
-    }
-    setSelected(obj);
+    router.push(obj.href);
   }, [router]);
 
   React.useEffect(() => {
@@ -175,13 +169,6 @@ export default function InternetSpace() {
           Say Hello
         </button>
       </motion.div>
-
-      {/* ── Detail Modal ── */}
-      <AnimatePresence>
-        {selected && (
-          <DetailPanel obj={selected} onClose={() => setSelected(null)} />
-        )}
-      </AnimatePresence>
 
       {/* ── Contact Dialog ── */}
       <ContactDialog open={contactOpen} onClose={() => setContactOpen(false)} />

@@ -1,7 +1,6 @@
 import React from "react";
 import {
-  SnowboardSVG,
-  PineTreeSVG,
+  OutdoorActivitiesSVG,
   OfficeBagSVG,
   CameraSVG,
   LaptopSVG,
@@ -16,42 +15,24 @@ import type { SpaceObject } from "@/types/types";
 
 export const OBJECTS: SpaceObject[] = [
   {
-    id: "snowboard",
-    label: "Snowboarding",
-    subtitle: "Momentum",
-    description: [
-      "I snowboard to reset.",
-      "Where I ride: Lake Tahoe.",
-      "Resorts I've explored: Heavenly. Northstar. Kirkwood.",
-      "Each one feels different — wide cruisers, icy mornings, surprise powder days.",
-      "Next trip: Not decided yet. Waiting for the right snow.",
-      "Level: Intermediate. Comfortable carving blues. Working toward cleaner turns, more control, and smoother flow.",
-      "Every season feels slightly better than the last.",
-    ],
-    tags: ["Tahoe", "Momentum", "Reset"],
-    x: 8,
-    y: 25,
-    width: 60,
-    floatDelay: 0,
-    rotation: -12,
-    accent: "#4a6741",
-  },
-  {
-    id: "pine-tree",
-    label: "Forest",
-    subtitle: "Outdoors & Hiking",
+    id: "outdoor-activities",
+    label: "Outdoor Activities",
+    subtitle: "Mountains & Nature",
     description: [
       "I spend my best thinking time between trees. The Pacific Northwest isn't just where I live — it's how I recharge.",
       "Hiking 15+ miles on a weekend resets the problem-solving part of my brain. The best architectural decisions I've made started on a trail.",
+      "I snowboard to reset. Lake Tahoe is my winter playground — Heavenly, Northstar, Kirkwood. Each resort feels different: wide cruisers, icy mornings, surprise powder days.",
+      "Level: Intermediate snowboarder. Comfortable carving blues, working toward cleaner turns and more control. Every season feels slightly better than the last.",
       "There's a system design lesson in every forest: distributed, resilient, no single point of failure.",
     ],
-    tags: ["Nature", "Thinking Space", "PNW"],
+    tags: ["Nature", "Hiking", "Snowboarding", "Tahoe", "PNW", "Reset"],
     x: 78,
     y: 8,
     width: 90,
     floatDelay: 1.2,
     rotation: 3,
     accent: "#3d5636",
+    href: "/outdoor-activities",
   },
   {
     id: "work",
@@ -70,6 +51,7 @@ export const OBJECTS: SpaceObject[] = [
     floatDelay: 0.8,
     rotation: -2,
     accent: "#4a6741",
+    href: "/work",
   },
   {
     id: "camera",
@@ -87,6 +69,7 @@ export const OBJECTS: SpaceObject[] = [
     floatDelay: 1.5,
     rotation: 5,
     accent: "#3a3a3a",
+    href: "/photos",
   },
   {
     id: "laptop",
@@ -104,6 +87,7 @@ export const OBJECTS: SpaceObject[] = [
     floatDelay: 0.3,
     rotation: -1,
     accent: "#6b8f62",
+    href: "/code",
   },
   {
     id: "raspberry-pi",
@@ -121,6 +105,7 @@ export const OBJECTS: SpaceObject[] = [
     floatDelay: 2.0,
     rotation: 2,
     accent: "#1a6b3c",
+    href: "/raspberry-pi",
   },
   {
     id: "stock-chart",
@@ -138,6 +123,7 @@ export const OBJECTS: SpaceObject[] = [
     floatDelay: 0.6,
     rotation: -3,
     accent: "#4a6741",
+    href: "/markets",
   },
   {
     id: "desk-lamp",
@@ -155,6 +141,7 @@ export const OBJECTS: SpaceObject[] = [
     floatDelay: 1.0,
     rotation: 0,
     accent: "#b8956a",
+    href: "/workshop",
   },
   {
     id: "field-notes",
@@ -172,14 +159,14 @@ export const OBJECTS: SpaceObject[] = [
     floatDelay: 1.8,
     rotation: 8,
     accent: "#b8956a",
+    href: "/field-notes",
   },
 ];
 
 /* ───────────────────── SVG Map ───────────────────── */
 
 export const SVG_MAP: Record<string, React.FC<{ className?: string }>> = {
-  snowboard: SnowboardSVG,
-  "pine-tree": PineTreeSVG,
+  "outdoor-activities": OutdoorActivitiesSVG,
   work: OfficeBagSVG,
   camera: CameraSVG,
   laptop: LaptopSVG,

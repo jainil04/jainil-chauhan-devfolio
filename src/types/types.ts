@@ -30,4 +30,6 @@ export interface SpaceObject {
   /** Rotation hint in degrees */
   rotation: number;
   accent: string;
+  /** Page path to navigate to */
+  href: string;
 }

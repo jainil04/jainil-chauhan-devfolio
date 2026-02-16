@@ -50,6 +50,64 @@ export function PineTreeSVG({ className = "" }: { className?: string }) {
   );
 }
 
+/* ── Outdoor Activities ── */
+export function OutdoorActivitiesSVG({ className = "" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 200 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Mountain silhouettes - background */}
+      <polygon points="10,140 50,80 90,140" fill="#2f4429" opacity="0.6" />
+      <polygon points="70,140 120,55 170,140" fill="#3d5636" opacity="0.7" />
+
+      {/* Main mountain peak */}
+      <polygon points="60,140 100,35 140,140" fill="#4a6741" />
+
+      {/* Snow cap */}
+      <polygon points="90,50 100,35 110,50" fill="#e8e4dd" opacity="0.9" />
+      <polygon points="85,62 100,45 115,62" fill="#f5f3ef" opacity="0.6" />
+
+      {/* Pine trees - left side */}
+      <polygon points="30,120 35,105 40,120" fill="#3d5636" />
+      <rect x="33.5" y="120" width="3" height="8" fill="#8B6F47" />
+
+      <polygon points="45,125 50,110 55,125" fill="#3d5636" />
+      <rect x="48.5" y="125" width="3" height="8" fill="#8B6F47" />
+
+      {/* Pine trees - right side */}
+      <polygon points="145,125 150,110 155,125" fill="#3d5636" />
+      <rect x="148.5" y="125" width="3" height="8" fill="#8B6F47" />
+
+      <polygon points="160,120 165,105 170,120" fill="#3d5636" />
+      <rect x="163.5" y="120" width="3" height="8" fill="#8B6F47" />
+
+      {/* Hiking trail */}
+      <path
+        d="M 10,145 Q 40,138 60,142 T 100,145 T 140,148 T 190,150"
+        stroke="#6b8f62"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        fill="none"
+        opacity="0.4"
+      />
+
+      {/* Trail markers/dots */}
+      <circle cx="35" cy="140" r="2" fill="#6b8f62" opacity="0.5" />
+      <circle cx="80" cy="143" r="2" fill="#6b8f62" opacity="0.5" />
+      <circle cx="120" cy="146" r="2" fill="#6b8f62" opacity="0.5" />
+
+      {/* Subtle sun/environment */}
+      <circle cx="165" cy="50" r="12" fill="#f5e6d3" opacity="0.3" />
+      <circle cx="165" cy="50" r="8" fill="#f5e6d3" opacity="0.4" />
+
+      {/* Ground layer */}
+      <rect x="0" y="140" width="200" height="40" fill="#3d5636" opacity="0.2" />
+
+      {/* Additional evergreen detail on main mountain */}
+      <polygon points="95,90 100,78 105,90" fill="#2f4429" opacity="0.8" />
+      <polygon points="110,100 115,88 120,100" fill="#2f4429" opacity="0.8" />
+    </svg>
+  );
+}
+
 /* ── Office Bag / Work ── */
 export function OfficeBagSVG({ className = "" }: { className?: string }) {
   return (
