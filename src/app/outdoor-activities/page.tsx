@@ -1,20 +1,45 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { TRAILS } from "@/data/trails";
+import { SNOWBOARDING_DATA } from "@/data/snowboarding";
+import {
+  calculateAggregatedStats,
+  generateAchievements,
+} from "@/utils/metricsEngine";
+import StatsPanel from "@/components/StatsPanel";
+import Achievements from "@/components/Achievements";
+import SnowboardingSection from "@/components/SnowboardingSection";
+
+type ViewMode = "trails" | "snowboarding";
 
 /* ───────────────────── Page Component ───────────────────── */
 
 export default function OutdoorActivitiesPage() {
+  const [viewMode, setViewMode] = useState<ViewMode>("trails");
+
+  // Calculate stats from trails data
+  const stats = useMemo(() => calculateAggregatedStats(TRAILS), []);
+  const achievements = useMemo(() => generateAchievements(TRAILS, stats), [stats]);
+
   return (
     <div
       className="noise-overlay min-h-screen"
       style={{ background: "var(--background)" }}
     >
       {/* ── Header ── */}
-      <header className="sticky top-0 z-40 backdrop-blur-md" style={{ background: "color-mix(in oklch, var(--background) 85%, transparent)" }}>
-        <div className="mx-auto py-5 flex items-center justify-between" style={{ paddingLeft: "3.13rem", paddingRight: "3.13rem" }}>
+      <header
+        className="sticky top-0 z-40 backdrop-blur-md"
+        style={{
+          background: "color-mix(in oklch, var(--background) 85%, transparent)",
+        }}
+      >
+        <div
+          className="mx-auto py-5 flex items-center justify-between"
+          style={{ paddingLeft: "3.13rem", paddingRight: "3.13rem" }}
+        >
           <Link
             href="/"
             className="text-sm flex items-center gap-2 transition-opacity hover:opacity-70"
@@ -49,14 +74,19 @@ export default function OutdoorActivitiesPage() {
             Outdoor Activities
           </h1>
 
-          <div className="w-16" /> {/* spacer for centering */}
+          <div style={{ width: "100px" }} />
         </div>
       </header>
 
-      {/* ── Hero ── */}
+      {/* ── Hero Section (Same for both views) ── */}
       <motion.section
         className="mx-auto"
-        style={{ paddingTop: "5.63rem", paddingBottom: "3.13rem", paddingLeft: "3.13rem", paddingRight: "3.13rem" }}
+        style={{
+          paddingTop: "5.63rem",
+          paddingBottom: "2rem",
+          paddingLeft: "3.13rem",
+          paddingRight: "3.13rem",
+        }}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
@@ -77,185 +107,185 @@ export default function OutdoorActivitiesPage() {
             lineHeight: "1.75",
           }}
         >
-          I spend my best thinking time between trees. The Pacific Northwest isn&rsquo;t just where I live — it&rsquo;s how I recharge.
+          I spend my best thinking time between trees. The Pacific
+          Northwest isn&rsquo;t just where I live — it&rsquo;s how I
+          recharge.
         </p>
       </motion.section>
 
-      {/* ── Content Sections ── */}
-      <section className="mx-auto max-w-4xl" style={{ paddingBottom: "3.13rem", paddingLeft: "3.13rem", paddingRight: "3.13rem" }}>
-
-        {/* Hiking Section */}
-        <motion.div
-          className="mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1, ease: [0.23, 1, 0.32, 1] }}
+      {/* ── Mode Toggle Pills (Centered) ── */}
+      <div className="flex justify-center mb-12" style={{ paddingLeft: "3.13rem", paddingRight: "3.13rem" }}>
+        <div
+          className="flex items-center gap-2 rounded-full p-1"
+          style={{
+            background: "var(--card)",
+            border: "1px solid var(--border)",
+          }}
         >
-          <div className="mb-6">
-            <h3
-              className="text-2xl md:text-3xl mb-2"
-              style={{
-                fontFamily: "var(--font-heading)",
-                color: "var(--foreground)",
-              }}
-            >
-              Hiking
-            </h3>
-            <div className="flex flex-wrap gap-2 mb-4">
-              {["PNW", "Nature", "Thinking Space", "15+ Miles"].map((tag) => (
-                <span
-                  key={tag}
-                  className="text-xs uppercase tracking-wider px-3 py-1 rounded-full"
-                  style={{
-                    background: "var(--card)",
-                    color: "var(--foreground)",
-                    fontFamily: "var(--font-body)",
-                    fontSize: "0.65rem",
-                    letterSpacing: "0.1em",
-                    border: "1px solid var(--border)",
-                  }}
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <p
-              className="text-base md:text-lg"
-              style={{
-                color: "var(--muted-foreground)",
-                lineHeight: "1.75",
-              }}
-            >
-              Hiking 15+ miles on a weekend resets the problem-solving part of my brain. The best architectural decisions I&rsquo;ve made started on a trail.
-            </p>
-            <p
-              className="text-base md:text-lg"
-              style={{
-                color: "var(--muted-foreground)",
-                lineHeight: "1.75",
-              }}
-            >
-              There&rsquo;s a system design lesson in every forest: distributed, resilient, no single point of failure.
-            </p>
-          </div>
-        </motion.div>
-
-        {/* Snowboarding Section */}
-        <motion.div
-          className="mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2, ease: [0.23, 1, 0.32, 1] }}
-        >
-          <div className="mb-6">
-            <h3
-              className="text-2xl md:text-3xl mb-2"
-              style={{
-                fontFamily: "var(--font-heading)",
-                color: "var(--foreground)",
-              }}
-            >
-              Snowboarding
-            </h3>
-            <div className="flex flex-wrap gap-2 mb-4">
-              {["Lake Tahoe", "Intermediate", "Momentum", "Reset"].map((tag) => (
-                <span
-                  key={tag}
-                  className="text-xs uppercase tracking-wider px-3 py-1 rounded-full"
-                  style={{
-                    background: "var(--card)",
-                    color: "var(--foreground)",
-                    fontFamily: "var(--font-body)",
-                    fontSize: "0.65rem",
-                    letterSpacing: "0.1em",
-                    border: "1px solid var(--border)",
-                  }}
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <p
-              className="text-base md:text-lg"
-              style={{
-                color: "var(--muted-foreground)",
-                lineHeight: "1.75",
-              }}
-            >
-              I snowboard to reset. Lake Tahoe is my winter playground — Heavenly, Northstar, Kirkwood. Each resort feels different: wide cruisers, icy mornings, surprise powder days.
-            </p>
-            <p
-              className="text-base md:text-lg"
-              style={{
-                color: "var(--muted-foreground)",
-                lineHeight: "1.75",
-              }}
-            >
-              Level: Intermediate snowboarder. Comfortable carving blues, working toward cleaner turns and more control. Every season feels slightly better than the last.
-            </p>
-          </div>
-        </motion.div>
-
-        {/* Resorts List */}
-        <motion.div
-          className="mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3, ease: [0.23, 1, 0.32, 1] }}
-        >
-          <h4
-            className="text-xl md:text-2xl mb-6"
+          <button
+            onClick={() => setViewMode("trails")}
+            className="px-6 py-2 rounded-full transition-all duration-300"
             style={{
-              fontFamily: "var(--font-heading)",
-              color: "var(--foreground)",
+              background:
+                viewMode === "trails" ? "var(--foreground)" : "transparent",
+              color:
+                viewMode === "trails"
+                  ? "var(--background)"
+                  : "var(--muted-foreground)",
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.875rem",
+              letterSpacing: "0.05em",
+              minWidth: "140px",
             }}
           >
-            Resorts I&rsquo;ve Explored
-          </h4>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { name: "Heavenly", note: "Wide cruisers, lake views" },
-              { name: "Northstar", note: "Well-groomed, family-friendly" },
-              { name: "Kirkwood", note: "Powder days, more challenging terrain" },
-            ].map((resort) => (
-              <div
-                key={resort.name}
-                className="p-6 rounded-lg"
-                style={{
-                  background: "var(--card)",
-                  border: "1px solid var(--border)",
-                }}
-              >
-                <h5
-                  className="text-lg font-semibold mb-2"
-                  style={{
-                    color: "var(--foreground)",
-                    fontFamily: "var(--font-body)",
-                  }}
-                >
-                  {resort.name}
-                </h5>
+            Trails
+          </button>
+          <button
+            onClick={() => setViewMode("snowboarding")}
+            className="px-6 py-2 rounded-full transition-all duration-300"
+            style={{
+              background:
+                viewMode === "snowboarding" ? "var(--foreground)" : "transparent",
+              color:
+                viewMode === "snowboarding"
+                  ? "var(--background)"
+                  : "var(--muted-foreground)",
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.875rem",
+              letterSpacing: "0.05em",
+              minWidth: "140px",
+            }}
+          >
+            Snowboarding
+          </button>
+        </div>
+      </div>
+
+      <AnimatePresence mode="wait">
+        {viewMode === "trails" ? (
+          <motion.div
+            key="trails-mode"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            {/* ── Hiking Description ── */}
+            <motion.section
+              className="mx-auto max-w-4xl mb-12"
+              style={{
+                paddingLeft: "3.13rem",
+                paddingRight: "3.13rem",
+              }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
+            >
+              {/* <div className="space-y-4">
                 <p
-                  className="text-sm"
+                  className="text-base md:text-lg"
                   style={{
                     color: "var(--muted-foreground)",
-                    fontFamily: "var(--font-body)",
+                    lineHeight: "1.75",
                   }}
                 >
-                  {resort.note}
+                  Hiking 15+ miles on a weekend resets the problem-solving
+                  part of my brain. The best architectural decisions
+                  I&rsquo;ve made started on a trail.
                 </p>
-              </div>
-            ))}
-          </div>
-        </motion.div>
+                <p
+                  className="text-base md:text-lg"
+                  style={{
+                    color: "var(--muted-foreground)",
+                    lineHeight: "1.75",
+                  }}
+                >
+                  There&rsquo;s a system design lesson in every forest:
+                  distributed, resilient, no single point of failure.
+                </p>
+              </div> */}
+            </motion.section>
 
-      </section>
+            {/* ── Stats Panel ── */}
+            <section
+              className="mx-auto max-w-7xl mb-16"
+              style={{
+                paddingLeft: "3.13rem",
+                paddingRight: "3.13rem",
+              }}
+            >
+              <StatsPanel stats={stats} />
+            </section>
+
+            {/* ── Achievements ── */}
+            <section
+              className="mx-auto max-w-7xl mb-16"
+              style={{
+                paddingLeft: "3.13rem",
+                paddingRight: "3.13rem",
+              }}
+            >
+              <Achievements achievements={achievements} />
+            </section>
+          </motion.div>
+        ) : (
+          <motion.div
+            key="snowboarding-mode"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            {/* ── Snowboarding Description ── */}
+            <motion.section
+              className="mx-auto max-w-4xl mb-12"
+              style={{
+                paddingLeft: "3.13rem",
+                paddingRight: "3.13rem",
+              }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
+            >
+              {/* <div className="space-y-4">
+                <p
+                  className="text-base md:text-lg"
+                  style={{
+                    color: "var(--muted-foreground)",
+                    lineHeight: "1.75",
+                  }}
+                >
+                  I snowboard to reset. Lake Tahoe is my winter playground —
+                  Heavenly, Northstar, Kirkwood. Each resort feels different:
+                  wide cruisers, icy mornings, surprise powder days.
+                </p>
+                <p
+                  className="text-base md:text-lg"
+                  style={{
+                    color: "var(--muted-foreground)",
+                    lineHeight: "1.75",
+                  }}
+                >
+                  Level: Intermediate snowboarder. Comfortable carving blues,
+                  working toward cleaner turns and more control. Every season
+                  feels slightly better than the last.
+                </p>
+              </div> */}
+            </motion.section>
+
+            {/* ── Snowboarding Section ── */}
+            <section
+              className="mx-auto max-w-7xl mb-16"
+              style={{
+                paddingLeft: "3.13rem",
+                paddingRight: "3.13rem",
+              }}
+            >
+              <SnowboardingSection data={SNOWBOARDING_DATA} />
+            </section>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ── Footer ── */}
       <footer className="pb-8 text-center">
