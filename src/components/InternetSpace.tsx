@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import type { SpaceObject } from "@/types/types";
 import { OBJECTS } from "@/data/objects";
 import CanvasObject from "./CanvasObject";
-import ContactDialog from "./ContactDialog";
+import ContactFlyout from "./ContactFlyout";
 
 /* ───────────────────── Main Space ───────────────────── */
 
@@ -170,8 +170,8 @@ export default function InternetSpace() {
         </button>
       </motion.div>
 
-      {/* ── Contact Dialog ── */}
-      <ContactDialog open={contactOpen} onClose={() => setContactOpen(false)} />
+      {/* ── Contact Flyout ── */}
+      <ContactFlyout open={contactOpen} onClose={() => setContactOpen(false)} />
     </div>
   );
 }
