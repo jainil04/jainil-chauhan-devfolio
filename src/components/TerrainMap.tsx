@@ -8,6 +8,7 @@
 
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import type L from "leaflet";
 import type { Trail } from "@/types/types";
 import ElevationProfile from "./ElevationProfile";
 
