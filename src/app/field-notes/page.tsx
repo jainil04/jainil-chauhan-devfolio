@@ -97,47 +97,8 @@ export default function FieldNotesPage() {
                 color: "var(--foreground)",
               }}
             >
-              Analog Thinking
+              Adding more details soon...
             </h3>
-            <div className="flex flex-wrap gap-2 mb-4">
-              {["Journaling", "System Design", "Analog"].map((tag) => (
-                <span
-                  key={tag}
-                  className="text-xs uppercase tracking-wider px-3 py-1 rounded-full"
-                  style={{
-                    background: "var(--card)",
-                    color: "var(--foreground)",
-                    fontFamily: "var(--font-body)",
-                    fontSize: "0.65rem",
-                    letterSpacing: "0.1em",
-                    border: "1px solid var(--border)",
-                  }}
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <p
-              className="text-base md:text-lg"
-              style={{
-                color: "var(--muted-foreground)",
-                lineHeight: "1.75",
-              }}
-            >
-              Writing by hand forces slower thinking. Slower thinking catches edge cases that fast typing misses.
-            </p>
-            <p
-              className="text-base md:text-lg"
-              style={{
-                color: "var(--muted-foreground)",
-                lineHeight: "1.75",
-              }}
-            >
-              I keep a running log of things I learn, problems I&rsquo;ve solved, and systems I want to build. The notebook is the buffer between inspiration and implementation.
-            </p>
           </div>
         </motion.div>
 

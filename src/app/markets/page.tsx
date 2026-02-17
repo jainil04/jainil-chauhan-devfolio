@@ -97,47 +97,8 @@ export default function MarketsPage() {
                 color: "var(--foreground)",
               }}
             >
-              Market Systems
+              Adding more details soon...
             </h3>
-            <div className="flex flex-wrap gap-2 mb-4">
-              {["Investing", "Data Viz", "Real-time Systems"].map((tag) => (
-                <span
-                  key={tag}
-                  className="text-xs uppercase tracking-wider px-3 py-1 rounded-full"
-                  style={{
-                    background: "var(--card)",
-                    color: "var(--foreground)",
-                    fontFamily: "var(--font-body)",
-                    fontSize: "0.65rem",
-                    letterSpacing: "0.1em",
-                    border: "1px solid var(--border)",
-                  }}
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <p
-              className="text-base md:text-lg"
-              style={{
-                color: "var(--muted-foreground)",
-                lineHeight: "1.75",
-              }}
-            >
-              Understanding market microstructure made me better at designing real-time dashboards and data pipelines.
-            </p>
-            <p
-              className="text-base md:text-lg"
-              style={{
-                color: "var(--muted-foreground)",
-                lineHeight: "1.75",
-              }}
-            >
-              Also, compound interest is the most powerful force in the universe. Einstein probably didn&rsquo;t say that, but he should have.
-            </p>
           </div>
         </motion.div>
 

@@ -97,73 +97,10 @@ export default function CodePage() {
                 color: "var(--foreground)",
               }}
             >
-              Tech Stack
-            </h3>
-            <div className="flex flex-wrap gap-2 mb-4">
-              {["React", "Next.js", "TypeScript", "Performance"].map((tag) => (
-                <span
-                  key={tag}
-                  className="text-xs uppercase tracking-wider px-3 py-1 rounded-full"
-                  style={{
-                    background: "var(--card)",
-                    color: "var(--foreground)",
-                    fontFamily: "var(--font-body)",
-                    fontSize: "0.65rem",
-                    letterSpacing: "0.1em",
-                    border: "1px solid var(--border)",
-                  }}
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <p
-              className="text-base md:text-lg"
-              style={{
-                color: "var(--muted-foreground)",
-                lineHeight: "1.75",
-              }}
-            >
-              I build with React, Next.js, TypeScript, and an unhealthy interest in build tooling, bundle sizes, and Lighthouse scores.
-            </p>
-          </div>
-        </motion.div>
-
-        {/* Philosophy */}
-        <motion.div
-          className="mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2, ease: [0.23, 1, 0.32, 1] }}
-        >
-          <div className="mb-6">
-            <h3
-              className="text-2xl md:text-3xl mb-2"
-              style={{
-                fontFamily: "var(--font-heading)",
-                color: "var(--foreground)",
-              }}
-            >
-              Philosophy
+              Adding more details soon...
             </h3>
           </div>
-
-          <div className="space-y-4">
-            <p
-              className="text-base md:text-lg"
-              style={{
-                color: "var(--muted-foreground)",
-                lineHeight: "1.75",
-              }}
-            >
-              Performance isn&rsquo;t a feature — it&rsquo;s the foundation. Every millisecond of load time is a decision about respect for the person on the other side of the screen.
-            </p>
-          </div>
         </motion.div>
-
       </section>
     </div>
   );

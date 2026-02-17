@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import GlobalContact from "@/components/GlobalContact";
 
 export const metadata: Metadata = {
   title: "Jainil Chauhan — Internet Space",
@@ -28,7 +29,10 @@ export default function RootLayout({
           crossOrigin=""
         />
       </head>
-      <body className="antialiased" suppressHydrationWarning>{children}</body>
+      <body className="antialiased" suppressHydrationWarning>
+        {children}
+        <GlobalContact />
+      </body>
     </html>
   );
 }

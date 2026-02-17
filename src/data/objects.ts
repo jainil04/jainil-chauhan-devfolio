@@ -126,24 +126,6 @@ export const OBJECTS: SpaceObject[] = [
     href: "/markets",
   },
   {
-    id: "desk-lamp",
-    label: "Workshop",
-    subtitle: "Late Night Building",
-    description: [
-      "The best code gets written under desk lamp light after midnight. The world is quiet, the Slack messages stop, and you can think in complete sentences.",
-      "My workspace is minimal by design: one monitor, one keyboard, good lighting, and a beverage of choice.",
-      "Environment shapes output. Every detail of the workspace — from monitor height to ambient temperature — is a variable in the productivity function.",
-    ],
-    tags: ["Focus", "Deep Work", "Environment"],
-    x: 88,
-    y: 60,
-    width: 100,
-    floatDelay: 1.0,
-    rotation: 0,
-    accent: "#b8956a",
-    href: "/workshop",
-  },
-  {
     id: "field-notes",
     label: "Field Notes",
     subtitle: "Ideas & Sketches",
@@ -172,6 +154,5 @@ export const SVG_MAP: Record<string, React.FC<{ className?: string }>> = {
   laptop: LaptopSVG,
   "raspberry-pi": RaspberryPiSVG,
   "stock-chart": StockChartSVG,
-  "desk-lamp": DeskLampSVG,
   "field-notes": FieldNotesSVG,
 };

@@ -97,47 +97,8 @@ export default function RaspberryPiPage() {
                 color: "var(--foreground)",
               }}
             >
-              Home Lab
+              Adding more details soon...
             </h3>
-            <div className="flex flex-wrap gap-2 mb-4">
-              {["Home Lab", "IoT", "Linux", "Self-hosted"].map((tag) => (
-                <span
-                  key={tag}
-                  className="text-xs uppercase tracking-wider px-3 py-1 rounded-full"
-                  style={{
-                    background: "var(--card)",
-                    color: "var(--foreground)",
-                    fontFamily: "var(--font-body)",
-                    fontSize: "0.65rem",
-                    letterSpacing: "0.1em",
-                    border: "1px solid var(--border)",
-                  }}
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <p
-              className="text-base md:text-lg"
-              style={{
-                color: "var(--muted-foreground)",
-                lineHeight: "1.75",
-              }}
-            >
-              There&rsquo;s something deeply satisfying about a $35 computer running 24/7 doing exactly what you told it to. No abstractions, no cloud bills.
-            </p>
-            <p
-              className="text-base md:text-lg"
-              style={{
-                color: "var(--muted-foreground)",
-                lineHeight: "1.75",
-              }}
-            >
-              Embedded systems thinking keeps me grounded. Memory matters. Cycles matter. The constraints make you better.
-            </p>
           </div>
         </motion.div>
 
