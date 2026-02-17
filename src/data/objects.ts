@@ -6,7 +6,7 @@ import {
   LaptopSVG,
   RaspberryPiSVG,
   StockChartSVG,
-  DeskLampSVG,
+  // DeskLampSVG,
   FieldNotesSVG,
 } from "@/components/ObjectSVGs";
 import type { SpaceObject } from "@/types/types";
