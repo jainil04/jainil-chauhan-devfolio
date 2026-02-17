@@ -7,11 +7,9 @@ import { SVG_MAP } from "@/data/objects";
 export default function CanvasObject({
   obj,
   onSelect,
-  isMobile,
 }: {
   obj: SpaceObject;
   onSelect: (obj: SpaceObject) => void;
-  isMobile: boolean;
 }) {
   const SVGComponent = SVG_MAP[obj.id];
   if (!SVGComponent) return null;
@@ -23,7 +21,7 @@ export default function CanvasObject({
       style={{
         left: `${obj.x}%`,
         top: `${obj.y}%`,
-        width: isMobile ? obj.width * 0.45 : obj.width,
+        width: obj.width,
         transform: `rotate(${obj.rotation}deg)`,
       }}
       initial={{ opacity: 0, y: 20 }}

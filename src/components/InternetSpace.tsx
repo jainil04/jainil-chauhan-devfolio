@@ -4,7 +4,7 @@ import React, { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import type { SpaceObject } from "@/types/types";
-import { OBJECTS } from "@/data/objects";
+import { OBJECTS, SVG_MAP } from "@/data/objects";
 import CanvasObject from "./CanvasObject";
 
 /* ───────────────────── Main Space ───────────────────── */
@@ -51,21 +51,23 @@ export default function InternetSpace() {
         ))}
       </div>
 
-      {/* ── Full-screen: centered text + surrounding objects ── */}
-      <div className="relative z-10 h-screen flex items-center justify-center overflow-hidden">
-        {/* Objects scattered around text */}
-        {OBJECTS.map((obj) => (
+      {/* ── Full-screen layout ── */}
+      <div className="relative z-10 h-screen flex flex-col overflow-hidden">
+
+        {/* ── DESKTOP: scattered objects (hidden on mobile) ── */}
+        {!isMobile && OBJECTS.map((obj) => (
           <CanvasObject
             key={obj.id}
             obj={obj}
             onSelect={handleObjectSelect}
-            isMobile={isMobile}
           />
         ))}
 
         {/* Centered hero text */}
         <motion.div
-          className="relative z-20 text-center px-6 pointer-events-none"
+          className={`relative z-20 text-center px-6 pointer-events-none ${
+            isMobile ? "mt-auto" : "my-auto"
+          }`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.23, 1, 0.32, 1] }}
@@ -104,13 +106,79 @@ export default function InternetSpace() {
             animate={{ opacity: 1 }}
             transition={{ delay: 1.0, duration: 0.6 }}
           >
-            click any object to explore
+            {isMobile ? "swipe to explore" : "click any object to explore"}
           </motion.p>
         </motion.div>
 
+        {/* ── MOBILE: horizontal scroll shelf ── */}
+        {isMobile && (
+          <motion.div
+            className="relative z-20 mt-8 mb-24 shrink-0"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
+          >
+            <div
+              className="flex gap-6 px-6 overflow-x-auto scrollbar-hide"
+              style={{
+                scrollSnapType: "x mandatory",
+                WebkitOverflowScrolling: "touch",
+              }}
+            >
+              {OBJECTS.map((obj, i) => {
+                const SVGComponent = SVG_MAP[obj.id];
+                if (!SVGComponent) return null;
+                return (
+                  <motion.button
+                    key={obj.id}
+                    onClick={() => handleObjectSelect(obj)}
+                    className="shrink-0 flex flex-col items-center gap-2 cursor-pointer focus:outline-none"
+                    style={{ scrollSnapAlign: "center" }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.6,
+                      delay: 0.8 + i * 0.08,
+                      ease: [0.23, 1, 0.32, 1],
+                    }}
+                    whileTap={{ scale: 0.93 }}
+                  >
+                    {/* SVG with idle float */}
+                    <div
+                      className="w-17.5 h-17.5 flex items-center justify-center"
+                      style={{
+                        filter: "drop-shadow(0 6px 16px rgba(44,44,44,0.08))",
+                        animation: `idle-float ${6 + obj.floatDelay}s ease-in-out ${obj.floatDelay}s infinite`,
+                      }}
+                    >
+                      <SVGComponent className="w-full h-auto" />
+                    </div>
+                    {/* Label pill */}
+                    <span
+                      className="px-3 py-1 rounded-full whitespace-nowrap"
+                      style={{
+                        background: `${obj.accent}18`,
+                        color: obj.accent,
+                        fontFamily: "var(--font-mono)",
+                        fontSize: "0.55rem",
+                        letterSpacing: "0.1em",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {obj.label}
+                    </span>
+                  </motion.button>
+                );
+              })}
+              {/* Spacer at end for scroll padding */}
+              <div className="shrink-0 w-6" aria-hidden />
+            </div>
+          </motion.div>
+        )}
+
         {/* Footer at bottom of viewport */}
         <motion.footer
-          className="absolute bottom-6 left-0 right-0 z-20 text-center"
+          className={`z-20 text-center ${isMobile ? "mb-20 mt-auto" : "absolute bottom-6 left-0 right-0"}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5, duration: 0.8 }}
