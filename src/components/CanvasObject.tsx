@@ -62,9 +62,9 @@ export default function CanvasObject({
         <SVGComponent className="w-full h-auto" />
       </div>
 
-      {/* Label on hover */}
+      {/* Label on hover (always visible on tablet) */}
       <div
-        className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap pointer-events-none opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200"
+        className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap pointer-events-none opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 md:opacity-100 md:translate-y-0 lg:opacity-0 lg:translate-y-1 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-200"
         style={{ bottom: -32 }}
       >
         <span
