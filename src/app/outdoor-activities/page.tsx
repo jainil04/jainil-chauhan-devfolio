@@ -12,6 +12,7 @@ import {
 import StatsPanel from "@/components/StatsPanel";
 import Achievements from "@/components/Achievements";
 import SnowboardingSection from "@/components/SnowboardingSection";
+import OutdoorAtmosphere from "@/components/atmosphere/OutdoorAtmosphere";
 
 type ViewMode = "trails" | "snowboarding";
 
@@ -26,14 +27,29 @@ export default function OutdoorActivitiesPage() {
 
   return (
     <div
-      className="noise-overlay min-h-screen"
-      style={{ background: "var(--background)" }}
+      className="noise-overlay min-h-screen relative"
+      style={{ position: "relative", zIndex: 2 }}
     >
+      {/* ── Atmospheric background (full viewport, z-index: 0) ── */}
+      <OutdoorAtmosphere activeView={viewMode} />
+
+      {/*
+       * ── Content readability backing (full viewport, z-index: 1) ──
+       * Sits between the atmosphere and page content. Tinted semi-transparently
+       * so the animated scene shows through while cards/text always have
+       * enough contrast regardless of which atmospheric colors sit behind them.
+       */}
+      <div
+        className="fixed inset-0 pointer-events-none"
+        style={{ zIndex: 1 }}
+      />
+
       {/* ── Header ── */}
       <header
         className="sticky top-0 z-40 backdrop-blur-md"
         style={{
-          background: "color-mix(in oklch, var(--background) 85%, transparent)",
+          background: "color-mix(in oklch, var(--background) 90%, transparent)",
+          borderBottom: "1px solid color-mix(in oklch, var(--border) 60%, transparent)",
         }}
       >
         <div
@@ -86,6 +102,8 @@ export default function OutdoorActivitiesPage() {
           paddingBottom: "2rem",
           paddingLeft: "3.13rem",
           paddingRight: "3.13rem",
+          position: "relative",
+          zIndex: 2,
         }}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -116,15 +134,15 @@ export default function OutdoorActivitiesPage() {
       {/* ── Mode Toggle Pills (Centered) ── */}
       <div className="flex justify-center mb-12" style={{ paddingLeft: "3.13rem", paddingRight: "3.13rem" }}>
         <div
-          className="flex items-center gap-2 rounded-full p-1"
+          className="flex items-center gap-2 rounded-full p-1 backdrop-blur-sm"
           style={{
-            background: "var(--card)",
-            border: "1px solid var(--border)",
+            background: "color-mix(in oklch, var(--card) 88%, transparent)",
+            border: "1px solid color-mix(in oklch, var(--border) 70%, transparent)",
           }}
         >
           <button
             onClick={() => setViewMode("trails")}
-            className="px-6 py-2 rounded-full transition-all duration-300"
+            className="px-6 py-2 rounded-full transition-all duration-300 flex items-center gap-2"
             style={{
               background:
                 viewMode === "trails" ? "var(--foreground)" : "transparent",
@@ -135,14 +153,14 @@ export default function OutdoorActivitiesPage() {
               fontFamily: "var(--font-mono)",
               fontSize: "0.875rem",
               letterSpacing: "0.05em",
-              minWidth: "140px",
+              minWidth: "150px",
             }}
           >
-            Trails
+            <span role="img" aria-label="Hiking boot">🥾</span> Trails
           </button>
           <button
             onClick={() => setViewMode("snowboarding")}
-            className="px-6 py-2 rounded-full transition-all duration-300"
+            className="px-6 py-2 rounded-full transition-all duration-300 flex items-center gap-2"
             style={{
               background:
                 viewMode === "snowboarding" ? "var(--foreground)" : "transparent",
@@ -153,14 +171,15 @@ export default function OutdoorActivitiesPage() {
               fontFamily: "var(--font-mono)",
               fontSize: "0.875rem",
               letterSpacing: "0.05em",
-              minWidth: "140px",
+              minWidth: "165px",
             }}
           >
-            Snowboarding
+            <span role="img" aria-label="Snowboarder">🏂</span> Snowboarding
           </button>
         </div>
       </div>
 
+      <div style={{ position: "relative", zIndex: 2 }}>
       <AnimatePresence mode="wait">
         {viewMode === "trails" ? (
           <motion.div
@@ -286,6 +305,7 @@ export default function OutdoorActivitiesPage() {
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
 
       {/* ── Footer ── */}
       <footer className="pb-8 text-center">

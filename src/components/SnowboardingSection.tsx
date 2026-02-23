@@ -5,13 +5,104 @@
 
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import type { SnowboardingData } from "@/types/types";
 
 interface SnowboardingSectionProps {
   data: SnowboardingData;
   className?: string;
+}
+
+interface Snowflake {
+  x: number;
+  y: number;
+  radius: number;
+  speed: number;
+  opacity: number;
+  drift: number;
+  driftSpeed: number;
+  driftAngle: number;
+}
+
+function SnowfallCanvas() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const animFrameRef = useRef<number>(0);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let width = canvas.offsetWidth;
+    let height = canvas.offsetHeight;
+
+    const resize = () => {
+      width = canvas.offsetWidth;
+      height = canvas.offsetHeight;
+      canvas.width = width;
+      canvas.height = height;
+    };
+    resize();
+    const ro = new ResizeObserver(resize);
+    ro.observe(canvas);
+
+    const COUNT = 120;
+    const flakes: Snowflake[] = Array.from({ length: COUNT }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      radius: Math.random() * 2.5 + 0.8,
+      speed: Math.random() * 1.2 + 0.4,
+      opacity: Math.random() * 0.55 + 0.2,
+      drift: 0,
+      driftSpeed: Math.random() * 0.008 + 0.003,
+      driftAngle: Math.random() * Math.PI * 2,
+    }));
+
+    const draw = () => {
+      ctx.clearRect(0, 0, width, height);
+      for (const flake of flakes) {
+        ctx.beginPath();
+        ctx.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${flake.opacity})`;
+        ctx.fill();
+
+        flake.driftAngle += flake.driftSpeed;
+        flake.x += Math.sin(flake.driftAngle) * 0.5;
+        flake.y += flake.speed;
+
+        if (flake.y > height + flake.radius) {
+          flake.y = -flake.radius;
+          flake.x = Math.random() * width;
+        }
+        if (flake.x < -flake.radius) flake.x = width + flake.radius;
+        if (flake.x > width + flake.radius) flake.x = -flake.radius;
+      }
+      animFrameRef.current = requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    return () => {
+      cancelAnimationFrame(animFrameRef.current);
+      ro.disconnect();
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{
+        position: "absolute",
+        inset: 0,
+        width: "100%",
+        height: "100%",
+        pointerEvents: "none",
+        zIndex: 0,
+      }}
+    />
+  );
 }
 
 export default function SnowboardingSection({
@@ -45,7 +136,9 @@ export default function SnowboardingSection({
   ];
 
   return (
-    <div className={className}>
+    <div className={className} style={{ position: "relative", overflow: "hidden" }}>
+      <SnowfallCanvas />
+      <div style={{ position: "relative", zIndex: 1 }}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -287,6 +380,7 @@ export default function SnowboardingSection({
           </motion.div>
         )}
       </motion.div>
+      </div>
     </div>
   );
 }
