@@ -57,7 +57,7 @@ export default function StatsPanel({ stats, className = "" }: StatsPanelProps) {
   return (
     <div className={className}>
       {/* Main Stats Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
         {statItems.map((stat, index) => (
           <motion.div
             key={stat.label}
@@ -71,47 +71,42 @@ export default function StatsPanel({ stats, className = "" }: StatsPanelProps) {
             className="relative"
           >
             <div
-              className="flex flex-col p-6 rounded-lg"
+              className="flex flex-col p-4 rounded-lg"
               style={{
                 background: "var(--card)",
                 border: "1px solid var(--border)",
               }}
             >
               <span
-                className="text-2xl mb-2"
+                className="text-xl mb-2 block"
                 role="img"
                 aria-label={stat.label}
               >
                 {stat.icon}
               </span>
-              <div className="flex items-baseline gap-2 mb-1">
-                <span
-                  className="text-3xl md:text-4xl font-light"
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    color: "var(--foreground)",
-                    letterSpacing: "-0.02em",
-                  }}
-                >
-                  {stat.value}
-                </span>
-                <span
-                  className="text-sm"
+              <div
+                className="text-xl md:text-2xl font-light mb-1"
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  color: "var(--foreground)",
+                  letterSpacing: "-0.02em",
+                }}
+              >
+                {stat.value} <span
                   style={{
                     color: "var(--muted-foreground)",
                     fontFamily: "var(--font-mono)",
                     fontSize: "0.7rem",
                   }}
-                >
-                  {stat.unit}
-                </span>
+                >{stat.unit}</span>
               </div>
               <p
                 className="text-xs uppercase tracking-wider"
                 style={{
                   color: "var(--muted-foreground)",
                   fontFamily: "var(--font-mono)",
-                  letterSpacing: "0.1em",
+                  letterSpacing: "0.08em",
+                  fontSize: "0.6rem",
                 }}
               >
                 {stat.label}
