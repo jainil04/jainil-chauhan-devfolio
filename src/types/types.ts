@@ -76,9 +76,48 @@ export interface Achievement {
   icon: string;
 }
 
-export interface SnowboardingData {
+export interface SnowboardingLifetimeStats {
+  verticalFt: number;
+  liftsRidden: number;
   daysOnMountain: number;
-  resortsVisited: string[];
-  estimatedVerticalFeet: number;
-  seasonProgression: Array<{ date: string; resort: string; runs: number }>;
+  favMountain: string;
+  gpsVerticalFt: number;
+  highestElevationFt: number;
+  distanceMiles: number;
+}
+
+export interface LiftRide {
+  name: string;
+  time: string;
+  area?: string;
+}
+
+export interface SnowboardingDayEntry {
+  date: string;
+  resort: string;
+  verticalFt?: number;
+  liftsRidden?: number;
+  runs?: number;
+  gpsVerticalFt?: number;
+  highestElevationFt?: number;
+  distanceMiles?: number;
+  lifts?: LiftRide[];
+}
+
+export interface SnowboardingSeasonStats {
+  season: string;
+  verticalFt: number;
+  liftsRidden: number;
+  daysOnMountain: number;
+  favMountain: string;
+  gpsVerticalFt?: number;
+  highestElevationFt?: number;
+  distanceMiles?: number;
+  days?: SnowboardingDayEntry[];
+}
+
+export interface SnowboardingData {
+  lifetime: SnowboardingLifetimeStats;
+  totalSeasons: number;
+  seasons: SnowboardingSeasonStats[];
 }

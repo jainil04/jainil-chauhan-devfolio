@@ -109,30 +109,15 @@ export default function SnowboardingSection({
   data,
   className = "",
 }: SnowboardingSectionProps) {
-  const statCards = [
-    {
-      label: "Days on Mountain",
-      value: data.daysOnMountain.toString(),
-      icon: "❄️",
-    },
-    {
-      label: "Resorts Visited",
-      value: data.resortsVisited.length.toString(),
-      icon: "🏔️",
-    },
-    {
-      label: "Vertical Feet",
-      value: `${(data.estimatedVerticalFeet / 1000).toFixed(0)}k`,
-      icon: "📈",
-    },
-  ];
-
-  const tahoeResorts = [
-    { name: "Heavenly", note: "Wide cruisers, lake views", visited: true },
-    { name: "Northstar", note: "Well-groomed, family-friendly", visited: true },
-    { name: "Kirkwood", note: "Powder days, more challenging terrain", visited: true },
-    { name: "Palisades Tahoe", note: "Olympic legacy, expert terrain", visited: false },
-    { name: "Sierra-at-Tahoe", note: "Tree runs, relaxed vibe", visited: false },
+  const lifetimeStats = [
+    { label: "Days on Mountain", value: data.lifetime.daysOnMountain.toString(), icon: "❄️" },
+    { label: "Vertical Feet", value: `${(data.lifetime.verticalFt / 1000).toFixed(1)}k ft`, icon: "📈" },
+    { label: "Lifts Ridden", value: data.lifetime.liftsRidden.toString(), icon: "🚡" },
+    { label: "Fav Mountain", value: data.lifetime.favMountain, icon: "🏔️" },
+    { label: "GPS Vertical", value: `${(data.lifetime.gpsVerticalFt / 1000).toFixed(1)}k ft`, icon: "📡" },
+    { label: "Highest Elevation", value: `${data.lifetime.highestElevationFt.toLocaleString()} ft`, icon: "⛰️" },
+    { label: "Distance", value: `${data.lifetime.distanceMiles} mi`, icon: "📏" },
+    { label: "Total Seasons", value: data.totalSeasons.toString(), icon: "🗓️" },
   ];
 
   return (
@@ -174,31 +159,44 @@ export default function SnowboardingSection({
           </div>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {statCards.map((stat, index) => (
+        {/* Lifetime Stats Grid */}
+        <div className="mb-2">
+          <h4
+            className="text-lg mb-4 uppercase tracking-widest"
+            style={{
+              fontFamily: "var(--font-mono)",
+              color: "var(--muted-foreground)",
+              fontSize: "0.7rem",
+              letterSpacing: "0.15em",
+            }}
+          >
+            Lifetime
+          </h4>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+          {lifetimeStats.map((stat, index) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
                 duration: 0.6,
-                delay: index * 0.1,
+                delay: index * 0.07,
                 ease: [0.23, 1, 0.32, 1],
               }}
             >
               <div
-                className="p-6 rounded-lg"
+                className="p-4 rounded-lg"
                 style={{
                   background: "var(--card)",
                   border: "1px solid var(--border)",
                 }}
               >
-                <span className="text-2xl mb-2 block" role="img" aria-label={stat.label}>
+                <span className="text-xl mb-2 block" role="img" aria-label={stat.label}>
                   {stat.icon}
                 </span>
                 <div
-                  className="text-3xl md:text-4xl font-light mb-2"
+                  className="text-xl md:text-2xl font-light mb-1"
                   style={{
                     fontFamily: "var(--font-mono)",
                     color: "var(--foreground)",
@@ -212,7 +210,8 @@ export default function SnowboardingSection({
                   style={{
                     color: "var(--muted-foreground)",
                     fontFamily: "var(--font-mono)",
-                    letterSpacing: "0.1em",
+                    letterSpacing: "0.08em",
+                    fontSize: "0.6rem",
                   }}
                 >
                   {stat.label}
@@ -222,12 +221,100 @@ export default function SnowboardingSection({
           ))}
         </div>
 
+        {/* Season Breakdown */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4, ease: [0.23, 1, 0.32, 1] }}
+          className="mb-10"
+        >
+          <h4
+            className="text-lg mb-4 uppercase tracking-widest"
+            style={{
+              fontFamily: "var(--font-mono)",
+              color: "var(--muted-foreground)",
+              fontSize: "0.7rem",
+              letterSpacing: "0.15em",
+            }}
+          >
+            By Season
+          </h4>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {data.seasons.map((season, index) => (
+              <motion.div
+                key={season.season}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.5,
+                  delay: 0.45 + index * 0.1,
+                  ease: [0.23, 1, 0.32, 1],
+                }}
+              >
+                <div
+                  className="p-5 rounded-lg h-full"
+                  style={{
+                    background: "var(--card)",
+                    border: "1px solid var(--border)",
+                  }}
+                >
+                  <div
+                    className="text-base font-semibold mb-4"
+                    style={{
+                      fontFamily: "var(--font-mono)",
+                      color: "var(--foreground)",
+                    }}
+                  >
+                    {season.season}
+                  </div>
+                  <div className="space-y-2">
+                    {[
+                      { label: "Days", value: season.daysOnMountain.toString() },
+                      { label: "Vertical", value: `${season.verticalFt.toLocaleString()} ft` },
+                      { label: "Lifts", value: season.liftsRidden.toString() },
+                      { label: "Mountain", value: season.favMountain },
+                      ...(season.highestElevationFt
+                        ? [{ label: "Max Elevation", value: `${season.highestElevationFt.toLocaleString()} ft` }]
+                        : []),
+                      ...(season.distanceMiles
+                        ? [{ label: "Distance", value: `${season.distanceMiles} mi` }]
+                        : []),
+                    ].map((row) => (
+                      <div key={row.label} className="flex justify-between items-baseline">
+                        <span
+                          style={{
+                            fontFamily: "var(--font-mono)",
+                            color: "var(--muted-foreground)",
+                            fontSize: "0.7rem",
+                            letterSpacing: "0.08em",
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          {row.label}
+                        </span>
+                        <span
+                          style={{
+                            fontFamily: "var(--font-mono)",
+                            color: "var(--foreground)",
+                            fontSize: "0.85rem",
+                          }}
+                        >
+                          {row.value}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
         {/* Description */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3, ease: [0.23, 1, 0.32, 1] }}
-          className="mb-8"
+          transition={{ duration: 0.6, delay: 0.65, ease: [0.23, 1, 0.32, 1] }}
         >
           <p
             className="text-base md:text-lg mb-4"
@@ -248,137 +335,6 @@ export default function SnowboardingSection({
             Level: Intermediate snowboarder. Comfortable carving blues, working toward cleaner turns and more control. Every season feels slightly better than the last.
           </p>
         </motion.div>
-
-        {/* Lake Tahoe Resorts */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4, ease: [0.23, 1, 0.32, 1] }}
-        >
-          <h4
-            className="text-xl md:text-2xl mb-6"
-            style={{
-              fontFamily: "var(--font-heading)",
-              color: "var(--foreground)",
-            }}
-          >
-            Lake Tahoe Coverage
-          </h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {tahoeResorts.map((resort, index) => (
-              <motion.div
-                key={resort.name}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{
-                  duration: 0.4,
-                  delay: 0.4 + index * 0.05,
-                  ease: [0.23, 1, 0.32, 1],
-                }}
-              >
-                <div
-                  className="p-5 rounded-lg h-full"
-                  style={{
-                    background: "var(--card)",
-                    border: resort.visited
-                      ? "2px solid var(--foreground)"
-                      : "1px solid var(--border)",
-                    opacity: resort.visited ? 1 : 0.6,
-                  }}
-                >
-                  <div className="flex items-start justify-between mb-2">
-                    <h5
-                      className="text-lg font-semibold"
-                      style={{
-                        color: "var(--foreground)",
-                        fontFamily: "var(--font-body)",
-                      }}
-                    >
-                      {resort.name}
-                    </h5>
-                    {resort.visited && (
-                      <span className="text-sm">✓</span>
-                    )}
-                  </div>
-                  <p
-                    className="text-sm"
-                    style={{
-                      color: "var(--muted-foreground)",
-                      fontFamily: "var(--font-body)",
-                      lineHeight: "1.5",
-                    }}
-                  >
-                    {resort.note}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Season Progression Timeline */}
-        {data.seasonProgression && data.seasonProgression.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6, ease: [0.23, 1, 0.32, 1] }}
-            className="mt-8"
-          >
-            <h4
-              className="text-xl md:text-2xl mb-6"
-              style={{
-                fontFamily: "var(--font-heading)",
-                color: "var(--foreground)",
-              }}
-            >
-              Season Progression
-            </h4>
-            <div className="space-y-3">
-              {data.seasonProgression.map((session, index) => (
-                <motion.div
-                  key={`${session.date}-${index}`}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{
-                    duration: 0.4,
-                    delay: 0.6 + index * 0.05,
-                    ease: [0.23, 1, 0.32, 1],
-                  }}
-                  className="flex items-center gap-4 p-4 rounded"
-                  style={{
-                    background: "var(--card)",
-                    border: "1px solid var(--border)",
-                  }}
-                >
-                  <div
-                    className="text-sm"
-                    style={{
-                      color: "var(--muted-foreground)",
-                      fontFamily: "var(--font-mono)",
-                      minWidth: "80px",
-                    }}
-                  >
-                    {session.date}
-                  </div>
-                  <div className="flex-1">
-                    <span style={{ color: "var(--foreground)" }}>
-                      {session.resort}
-                    </span>
-                  </div>
-                  <div
-                    className="text-sm"
-                    style={{
-                      color: "var(--muted-foreground)",
-                      fontFamily: "var(--font-mono)",
-                    }}
-                  >
-                    {session.runs} runs
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        )}
       </motion.div>
       </div>
     </div>
