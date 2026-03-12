@@ -5,8 +5,8 @@
 
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import type { SnowboardingData } from "@/types/types";
 
 interface SnowboardingSectionProps {
@@ -105,10 +105,20 @@ function SnowfallCanvas() {
   );
 }
 
+function formatDate(dateStr: string) {
+  const d = new Date(dateStr + "T00:00:00");
+  return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+}
+
 export default function SnowboardingSection({
   data,
   className = "",
 }: SnowboardingSectionProps) {
+  const [selectedSeason, setSelectedSeason] = useState(data.seasons.length - 1);
+  const [openDayIndex, setOpenDayIndex] = useState<number | null>(null);
+
+  const activeSeason = data.seasons[selectedSeason];
+
   const lifetimeStats = [
     { label: "Days on Mountain", value: data.lifetime.daysOnMountain.toString(), icon: "❄️" },
     { label: "Vertical Feet", value: `${(data.lifetime.verticalFt / 1000).toFixed(1)}k ft`, icon: "📈" },
@@ -221,7 +231,7 @@ export default function SnowboardingSection({
           ))}
         </div>
 
-        {/* Season Breakdown */}
+        {/* Season Selector Pills */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -237,77 +247,366 @@ export default function SnowboardingSection({
               letterSpacing: "0.15em",
             }}
           >
-            By Season
+            Season
           </h4>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+          {/* Pills Row */}
+          <div className="flex flex-wrap gap-2 mb-8">
             {data.seasons.map((season, index) => (
-              <motion.div
+              <button
                 key={season.season}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.5,
-                  delay: 0.45 + index * 0.1,
-                  ease: [0.23, 1, 0.32, 1],
+                onClick={() => {
+                  setSelectedSeason(index);
+                  setOpenDayIndex(null);
+                }}
+                className="px-5 py-2 rounded-full transition-all duration-300"
+                style={{
+                  background: selectedSeason === index ? "var(--foreground)" : "var(--card)",
+                  color: selectedSeason === index ? "var(--background)" : "var(--muted-foreground)",
+                  border: `1px solid ${selectedSeason === index ? "var(--foreground)" : "var(--border)"}`,
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "0.8rem",
+                  letterSpacing: "0.05em",
+                  cursor: "pointer",
                 }}
               >
-                <div
-                  className="p-5 rounded-lg h-full"
-                  style={{
-                    background: "var(--card)",
-                    border: "1px solid var(--border)",
-                  }}
-                >
-                  <div
-                    className="text-base font-semibold mb-4"
-                    style={{
-                      fontFamily: "var(--font-mono)",
-                      color: "var(--foreground)",
-                    }}
-                  >
-                    {season.season}
-                  </div>
-                  <div className="space-y-2">
-                    {[
-                      { label: "Days", value: season.daysOnMountain.toString() },
-                      { label: "Vertical", value: `${season.verticalFt.toLocaleString()} ft` },
-                      { label: "Lifts", value: season.liftsRidden.toString() },
-                      { label: "Mountain", value: season.favMountain },
-                      ...(season.highestElevationFt
-                        ? [{ label: "Max Elevation", value: `${season.highestElevationFt.toLocaleString()} ft` }]
-                        : []),
-                      ...(season.distanceMiles
-                        ? [{ label: "Distance", value: `${season.distanceMiles} mi` }]
-                        : []),
-                    ].map((row) => (
-                      <div key={row.label} className="flex justify-between items-baseline">
-                        <span
-                          style={{
-                            fontFamily: "var(--font-mono)",
-                            color: "var(--muted-foreground)",
-                            fontSize: "0.7rem",
-                            letterSpacing: "0.08em",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          {row.label}
-                        </span>
-                        <span
-                          style={{
-                            fontFamily: "var(--font-mono)",
-                            color: "var(--foreground)",
-                            fontSize: "0.85rem",
-                          }}
-                        >
-                          {row.value}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
+                {season.season}
+              </button>
             ))}
           </div>
+
+          {/* Selected Season Stats */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeSeason.season}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
+            >
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10">
+                {[
+                  { label: "Days", value: activeSeason.daysOnMountain.toString(), icon: "❄️" },
+                  { label: "Vertical", value: `${activeSeason.verticalFt.toLocaleString()} ft`, icon: "📈" },
+                  { label: "Lifts", value: activeSeason.liftsRidden.toString(), icon: "🚡" },
+                  { label: "Mountain", value: activeSeason.favMountain, icon: "🏔️" },
+                  ...(activeSeason.highestElevationFt
+                    ? [{ label: "Max Elevation", value: `${activeSeason.highestElevationFt.toLocaleString()} ft`, icon: "⛰️" }]
+                    : []),
+                  ...(activeSeason.distanceMiles
+                    ? [{ label: "Distance", value: `${activeSeason.distanceMiles} mi`, icon: "📏" }]
+                    : []),
+                ].map((stat, i) => (
+                  <motion.div
+                    key={stat.label}
+                    initial={{ opacity: 0, y: 14 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: i * 0.05, ease: [0.23, 1, 0.32, 1] }}
+                  >
+                    <div
+                      className="p-4 rounded-lg"
+                      style={{
+                        background: "var(--card)",
+                        border: "1px solid var(--border)",
+                      }}
+                    >
+                      <span className="text-xl mb-2 block" role="img" aria-label={stat.label}>
+                        {stat.icon}
+                      </span>
+                      <div
+                        className="text-xl md:text-2xl font-light mb-1"
+                        style={{
+                          fontFamily: "var(--font-mono)",
+                          color: "var(--foreground)",
+                          letterSpacing: "-0.02em",
+                        }}
+                      >
+                        {stat.value}
+                      </div>
+                      <p
+                        className="text-xs uppercase tracking-wider"
+                        style={{
+                          color: "var(--muted-foreground)",
+                          fontFamily: "var(--font-mono)",
+                          letterSpacing: "0.08em",
+                          fontSize: "0.6rem",
+                        }}
+                      >
+                        {stat.label}
+                      </p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Day-by-Day Accordion */}
+              {activeSeason.days && activeSeason.days.length > 0 && (
+                <div>
+                  <h4
+                    className="text-lg mb-4 uppercase tracking-widest"
+                    style={{
+                      fontFamily: "var(--font-mono)",
+                      color: "var(--muted-foreground)",
+                      fontSize: "0.7rem",
+                      letterSpacing: "0.15em",
+                    }}
+                  >
+                    Days
+                  </h4>
+                  <div className="space-y-3">
+                    {activeSeason.days.map((day, dayIdx) => {
+                      const isOpen = openDayIndex === dayIdx;
+                      return (
+                        <div
+                          key={day.date}
+                          className="rounded-lg overflow-hidden"
+                          style={{
+                            background: "var(--card)",
+                            border: "1px solid var(--border)",
+                          }}
+                        >
+                          {/* Collapsed Header Row */}
+                          <button
+                            onClick={() => setOpenDayIndex(isOpen ? null : dayIdx)}
+                            className="w-full flex items-center justify-between p-5 text-left transition-colors duration-200"
+                            style={{ cursor: "pointer", background: "transparent" }}
+                          >
+                            <div>
+                              <div
+                                className="text-base md:text-lg font-medium"
+                                style={{
+                                  fontFamily: "var(--font-mono)",
+                                  color: "var(--foreground)",
+                                }}
+                              >
+                                {formatDate(day.date)}
+                              </div>
+                              <div
+                                className="mt-1"
+                                style={{
+                                  fontFamily: "var(--font-mono)",
+                                  color: "var(--muted-foreground)",
+                                  fontSize: "0.7rem",
+                                  letterSpacing: "0.08em",
+                                  textTransform: "uppercase",
+                                }}
+                              >
+                                {day.resort}
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-6">
+                              <div className="text-right">
+                                <div
+                                  className="text-base md:text-lg font-medium"
+                                  style={{
+                                    fontFamily: "var(--font-mono)",
+                                    color: "var(--foreground)",
+                                  }}
+                                >
+                                  {day.verticalFt ? `${day.verticalFt.toLocaleString()} ft` : "—"}
+                                </div>
+                                <div
+                                  className="mt-1"
+                                  style={{
+                                    fontFamily: "var(--font-mono)",
+                                    color: "var(--muted-foreground)",
+                                    fontSize: "0.7rem",
+                                    letterSpacing: "0.08em",
+                                    textTransform: "uppercase",
+                                  }}
+                                >
+                                  {day.liftsRidden ?? 0} lifts
+                                </div>
+                              </div>
+                              {/* Chevron */}
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                style={{
+                                  color: "var(--muted-foreground)",
+                                  transition: "transform 0.3s ease",
+                                  transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+                                }}
+                              >
+                                <path d="M6 9l6 6 6-6" />
+                              </svg>
+                            </div>
+                          </button>
+
+                          {/* Expanded Content */}
+                          <AnimatePresence initial={false}>
+                            {isOpen && (
+                              <motion.div
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: "auto", opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+                                style={{ overflow: "hidden" }}
+                              >
+                                <div
+                                  className="px-5 pb-5"
+                                  style={{ borderTop: "1px solid var(--border)" }}
+                                >
+                                  {/* Day Stats Row */}
+                                  {(day.gpsVerticalFt || day.highestElevationFt || day.distanceMiles) && (
+                                    <div className="flex flex-wrap gap-6 pt-4 pb-4">
+                                      {day.gpsVerticalFt && (
+                                        <div>
+                                          <div
+                                            style={{
+                                              fontFamily: "var(--font-mono)",
+                                              color: "var(--foreground)",
+                                              fontSize: "0.9rem",
+                                            }}
+                                          >
+                                            {day.gpsVerticalFt.toLocaleString()} ft
+                                          </div>
+                                          <div
+                                            style={{
+                                              fontFamily: "var(--font-mono)",
+                                              color: "var(--muted-foreground)",
+                                              fontSize: "0.6rem",
+                                              letterSpacing: "0.08em",
+                                              textTransform: "uppercase",
+                                              marginTop: "2px",
+                                            }}
+                                          >
+                                            GPS Vertical
+                                          </div>
+                                        </div>
+                                      )}
+                                      {day.highestElevationFt && (
+                                        <div>
+                                          <div
+                                            style={{
+                                              fontFamily: "var(--font-mono)",
+                                              color: "var(--foreground)",
+                                              fontSize: "0.9rem",
+                                            }}
+                                          >
+                                            {day.highestElevationFt.toLocaleString()} ft
+                                          </div>
+                                          <div
+                                            style={{
+                                              fontFamily: "var(--font-mono)",
+                                              color: "var(--muted-foreground)",
+                                              fontSize: "0.6rem",
+                                              letterSpacing: "0.08em",
+                                              textTransform: "uppercase",
+                                              marginTop: "2px",
+                                            }}
+                                          >
+                                            Highest Elevation
+                                          </div>
+                                        </div>
+                                      )}
+                                      {day.distanceMiles && (
+                                        <div>
+                                          <div
+                                            style={{
+                                              fontFamily: "var(--font-mono)",
+                                              color: "var(--foreground)",
+                                              fontSize: "0.9rem",
+                                            }}
+                                          >
+                                            {day.distanceMiles} mi
+                                          </div>
+                                          <div
+                                            style={{
+                                              fontFamily: "var(--font-mono)",
+                                              color: "var(--muted-foreground)",
+                                              fontSize: "0.6rem",
+                                              letterSpacing: "0.08em",
+                                              textTransform: "uppercase",
+                                              marginTop: "2px",
+                                            }}
+                                          >
+                                            Distance
+                                          </div>
+                                        </div>
+                                      )}
+                                    </div>
+                                  )}
+
+                                  {/* Lifts List */}
+                                  {day.lifts && day.lifts.length > 0 && (
+                                    <div className="pt-2">
+                                      <div
+                                        className="mb-3"
+                                        style={{
+                                          fontFamily: "var(--font-mono)",
+                                          color: "var(--muted-foreground)",
+                                          fontSize: "0.6rem",
+                                          letterSpacing: "0.12em",
+                                          textTransform: "uppercase",
+                                        }}
+                                      >
+                                        Lifts
+                                      </div>
+                                      <div className="space-y-2">
+                                        {day.lifts.map((lift, liftIdx) => (
+                                          <div
+                                            key={liftIdx}
+                                            className="flex items-center justify-between"
+                                          >
+                                            <div className="flex items-center gap-3">
+                                              <span
+                                                style={{
+                                                  fontFamily: "var(--font-mono)",
+                                                  color: "var(--foreground)",
+                                                  fontSize: "0.8rem",
+                                                }}
+                                              >
+                                                {lift.name}
+                                              </span>
+                                              {lift.area && (
+                                                <span
+                                                  className="px-2 py-0.5 rounded-full"
+                                                  style={{
+                                                    fontFamily: "var(--font-mono)",
+                                                    fontSize: "0.55rem",
+                                                    letterSpacing: "0.08em",
+                                                    textTransform: "uppercase",
+                                                    color: "var(--muted-foreground)",
+                                                    background: "color-mix(in oklch, var(--border) 50%, transparent)",
+                                                  }}
+                                                >
+                                                  {lift.area}
+                                                </span>
+                                              )}
+                                            </div>
+                                            <span
+                                              style={{
+                                                fontFamily: "var(--font-mono)",
+                                                color: "var(--muted-foreground)",
+                                                fontSize: "0.75rem",
+                                              }}
+                                            >
+                                              {lift.time}
+                                            </span>
+                                          </div>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  )}
+                                </div>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
         </motion.div>
 
         {/* Description */}
