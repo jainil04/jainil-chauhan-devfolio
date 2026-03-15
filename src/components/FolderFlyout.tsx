@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -36,10 +36,38 @@ export default function FolderFlyout({
   const [mainApi, setMainApi] = useState<CarouselApi>();
   const [thumbApi, setThumbApi] = useState<CarouselApi>();
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [comparisonMode, setComparisonMode] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [imgSize, setImgSize] = useState<{ w: number; h: number } | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const images = folder ? getImages(folder) : [];
   const pairs = folder?.beforeAfterPairs;
+
+  /* ── Measure natural image size for dynamic panel dims ── */
+  useEffect(() => {
+    if (!images.length) return;
+    const img = new window.Image();
+    img.onload = () => setImgSize({ w: img.naturalWidth, h: img.naturalHeight });
+    img.src = images[0];
+  }, [folder?.id]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  /* Compute panel dimensions that fit the image within the viewport */
+  const vw = typeof window !== "undefined" ? window.innerWidth : 1200;
+  const vh = typeof window !== "undefined" ? window.innerHeight : 800;
+  const maxW = vw * 0.92;
+  const maxH = vh * 0.88;
+  let panelW = maxW;
+  let panelH = maxH;
+  if (imgSize) {
+    const ratio = imgSize.w / imgSize.h;
+    if (maxW / maxH > ratio) {
+      panelH = maxH;
+      panelW = maxH * ratio;
+    } else {
+      panelW = maxW;
+      panelH = maxW / ratio;
+    }
+  }
 
   /* ── Sync main ↔ thumb carousels ── */
   const onThumbClick = useCallback(
@@ -54,7 +82,7 @@ export default function FolderFlyout({
     if (!mainApi || !thumbApi) return;
     const index = mainApi.selectedScrollSnap();
     setSelectedIndex(index);
-    setComparisonMode(false); // reset on slide change
+    setHoveredIndex(null); // reset on slide change
     thumbApi.scrollTo(index);
   }, [mainApi, thumbApi]);
 
@@ -72,72 +100,45 @@ export default function FolderFlyout({
   /* Reset state when folder changes */
   useEffect(() => {
     setSelectedIndex(0);
-    setComparisonMode(false);
+    setHoveredIndex(null);
+    setImgSize(null);
   }, [folder?.id]);
 
   return (
     <AnimatePresence>
       {folder && (
         <>
-          {/* Backdrop */}
+          {/* Backdrop — blurred */}
           <motion.div
-            className="fixed inset-0 z-50"
-            style={{ background: "rgba(0,0,0,0.4)" }}
+            className="fixed inset-0 z-50 backdrop-blur-md"
+            style={{ background: "rgba(0,0,0,0.5)" }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
           />
 
-          {/* Panel */}
+          {/* Panel — centered, dynamically sized to image */}
           <motion.div
-            className="fixed bottom-0 left-0 right-0 z-50 overflow-hidden rounded-t-2xl"
+            ref={containerRef}
+            className="fixed z-50 overflow-hidden rounded-2xl"
             style={{
-              height: "93vh",
-              background: "var(--background)",
-              boxShadow: "0 -4px 40px rgba(0,0,0,0.12)",
+              width: panelW,
+              height: panelH,
+              top: "50%",
+              left: "50%",
+              x: "-50%",
+              background: "#000",
+              boxShadow: "0 8px 60px rgba(0,0,0,0.35)",
             }}
-            initial={{ y: "100%" }}
-            animate={{ y: 0 }}
-            exit={{ y: "100%" }}
-            transition={{ type: "spring", damping: 30, stiffness: 300 }}
+            initial={{ y: "-30%", opacity: 0, scale: 0.95 }}
+            animate={{ y: "-50%", opacity: 1, scale: 1 }}
+            exit={{ y: "-30%", opacity: 0, scale: 0.95 }}
+            transition={{ type: "spring", damping: 28, stiffness: 280 }}
           >
-            {/* ── Gallery — full-bleed ── */}
-            <div className="relative h-full w-full" style={{ background: "#000" }}>
-              {/* Main view — carousel or comparison */}
-              {comparisonMode && pairs?.[selectedIndex] ? (
-                <div
-                  className="relative h-full w-full cursor-pointer"
-                  onClick={() => setComparisonMode(false)}
-                >
-                  <ImageComparison className="h-full w-full">
-                    <ImageComparisonImage
-                      src={pairs[selectedIndex].after}
-                      alt="After edit"
-                      position="left"
-                    />
-                    <ImageComparisonImage
-                      src={pairs[selectedIndex].before}
-                      alt="Before edit"
-                      position="right"
-                    />
-                    <ImageComparisonSlider className="bg-white/80 w-0.5 backdrop-blur-sm">
-                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M18 8L22 12L18 16" />
-                          <path d="M6 8L2 12L6 16" />
-                        </svg>
-                      </div>
-                    </ImageComparisonSlider>
-                  </ImageComparison>
-
-                  {/* Labels */}
-                  <div className="absolute top-4 inset-x-0 flex justify-between px-4 text-xs pointer-events-none" style={{ color: "rgba(255,255,255,0.7)", fontFamily: "var(--font-mono)" }}>
-                    <span className="bg-black/40 backdrop-blur-sm rounded-full px-3 py-1">Before</span>
-                    <span className="bg-black/40 backdrop-blur-sm rounded-full px-3 py-1">After</span>
-                  </div>
-                </div>
-              ) : (
+            {/* ── Gallery ── */}
+            <div className="relative h-full w-full">
+              {/* Main view — carousel with hover comparison */}
                 <div className="group relative h-full w-full overflow-hidden">
                   {/* Main Carousel */}
                   <Carousel setApi={setMainApi} className="h-full w-full [&>div]:h-full">
@@ -145,11 +146,11 @@ export default function FolderFlyout({
                       {images.map((src, index) => (
                         <CarouselItem key={index} className="h-full">
                           <div
-                            className="relative w-full cursor-pointer"
-                            style={{ height: "93vh" }}
-                            onClick={() => {
-                              if (pairs?.[index]) setComparisonMode(true);
+                            className="relative h-full w-full"
+                            onMouseEnter={() => {
+                              if (pairs?.[index]) setHoveredIndex(index);
                             }}
+                            onMouseLeave={() => setHoveredIndex(null)}
                           >
                             <Image
                               src={src}
@@ -159,8 +160,38 @@ export default function FolderFlyout({
                               priority={index === 0}
                             />
 
+                            {/* Comparison overlay on hover */}
+                            {pairs?.[index] && hoveredIndex === index && (
+                              <div className="absolute inset-0 z-10">
+                                <ImageComparison className="h-full w-full" enableHover>
+                                  <ImageComparisonImage
+                                    src={pairs[index].after}
+                                    alt="After edit"
+                                    position="left"
+                                  />
+                                  <ImageComparisonImage
+                                    src={pairs[index].before}
+                                    alt="Before edit"
+                                    position="right"
+                                  />
+                                  <ImageComparisonSlider className="bg-white/80 w-0.5 backdrop-blur-sm">
+                                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center">
+                                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M18 8L22 12L18 16" />
+                                        <path d="M6 8L2 12L6 16" />
+                                      </svg>
+                                    </div>
+                                  </ImageComparisonSlider>
+                                </ImageComparison>
+                                <div className="absolute top-4 inset-x-0 flex justify-between px-4 text-xs pointer-events-none" style={{ color: "rgba(255,255,255,0.7)", fontFamily: "var(--font-mono)" }}>
+                                  <span className="bg-black/40 backdrop-blur-sm rounded-full px-3 py-1">Before</span>
+                                  <span className="bg-black/40 backdrop-blur-sm rounded-full px-3 py-1">After</span>
+                                </div>
+                              </div>
+                            )}
+
                             {/* Compare hint badge */}
-                            {pairs?.[index] && (
+                            {pairs?.[index] && hoveredIndex !== index && (
                               <div
                                 className="absolute top-4 right-4 flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs backdrop-blur-md transition-opacity group-hover:opacity-100 opacity-70"
                                 style={{ background: "rgba(0,0,0,0.5)", color: "#fff", fontFamily: "var(--font-mono)" }}
@@ -169,7 +200,7 @@ export default function FolderFlyout({
                                   <path d="M18 8L22 12L18 16" />
                                   <path d="M6 8L2 12L6 16" />
                                 </svg>
-                                Compare
+                                Hover to Compare
                               </div>
                             )}
                           </div>
@@ -233,23 +264,22 @@ export default function FolderFlyout({
                     </div>
                   )}
                 </div>
-              )}
             </div>
 
             {/* Close button — bottom right */}
             <button
               onClick={onClose}
-              className="fixed bottom-6 right-6 z-60 w-12 h-12 flex items-center justify-center rounded-full cursor-pointer transition-transform hover:scale-110 active:scale-95"
+              className="absolute bottom-4 right-4 z-60 w-10 h-10 flex items-center justify-center rounded-full cursor-pointer transition-transform hover:scale-110 active:scale-95"
               style={{
-                background: "var(--foreground)",
-                color: "var(--background)",
-                boxShadow: "0 2px 12px rgba(0,0,0,0.15)",
+                background: "rgba(255,255,255,0.9)",
+                color: "#000",
+                boxShadow: "0 2px 12px rgba(0,0,0,0.25)",
               }}
               aria-label="Close"
             >
               <svg
-                width="20"
-                height="20"
+                width="18"
+                height="18"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
