@@ -2,6 +2,12 @@
 
 @import "tailwindcss";
 
+@import "tw-animate-css";
+
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
 :root {
   /* ── Fonts (custom – not covered by shadcn) ── */
   --font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
@@ -42,7 +48,6 @@
   --sidebar-border: oklch(0.928 0.010 87.473);
   --sidebar-ring: oklch(0.837 0.251 137.198);
 }
-
 
 *, *::before, *::after { box-sizing: border-box; }
 
