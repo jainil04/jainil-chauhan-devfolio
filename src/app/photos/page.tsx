@@ -19,7 +19,7 @@ export default function PhotosPage() {
     >
       {/* ── Header ── */}
       <header className="sticky top-0 z-40 backdrop-blur-md" style={{ background: "color-mix(in oklch, var(--background) 85%, transparent)" }}>
-        <div className="mx-auto py-5 flex items-center justify-between" style={{ paddingLeft: "3.13rem", paddingRight: "3.13rem" }}>
+        <div className="mx-auto py-5 flex items-center justify-between px-4 md:px-[3.13rem]">
           <Link
             href="/"
             className="text-sm flex items-center gap-2 transition-opacity hover:opacity-70"
@@ -60,8 +60,8 @@ export default function PhotosPage() {
 
       {/* ── Hero ── */}
       <motion.section
-        className="mx-auto"
-        style={{ paddingTop: "5.63rem", paddingBottom: "3.13rem", paddingLeft: "3.13rem", paddingRight: "3.13rem" }}
+        className="mx-auto px-4 md:px-[3.13rem]"
+        style={{ paddingTop: "5.63rem", paddingBottom: "3.13rem" }}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
@@ -88,7 +88,7 @@ export default function PhotosPage() {
       </motion.section>
 
       {/* ── Grid ── */}
-      <section className="mx-auto" style={{ paddingBottom: "3.13rem", paddingLeft: "3.13rem", paddingRight: "3.13rem" }}>
+      <section className="mx-auto px-4 md:px-[3.13rem]" style={{ paddingBottom: "3.13rem" }}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-14 md:gap-y-20">
           {PHOTO_FOLDERS.map((folder, i) => (
             <FolderCard key={folder.id} folder={folder} index={i} onOpen={setOpenFolder} />
