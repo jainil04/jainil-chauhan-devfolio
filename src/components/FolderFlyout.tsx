@@ -11,17 +11,8 @@ import {
   CarouselItem,
   type CarouselApi,
 } from "@/components/ui/carousel";
-import {
-  ImageComparison,
-  ImageComparisonImage,
-  ImageComparisonSlider,
-} from "@/components/ui/image-comparison";
-
 /** Build the list of display images from folder data. */
 function getImages(folder: PhotoFolder): string[] {
-  if (folder.beforeAfterPairs?.length) {
-    return folder.beforeAfterPairs.map((p) => p.after);
-  }
   if (folder.photos?.length) return folder.photos;
   return [folder.coverImage];
 }
@@ -36,7 +27,6 @@ export default function FolderFlyout({
   const [mainApi, setMainApi] = useState<CarouselApi>();
   const [thumbApi, setThumbApi] = useState<CarouselApi>();
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [imgSize, setImgSize] = useState<{ w: number; h: number } | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(
@@ -45,7 +35,6 @@ export default function FolderFlyout({
   const dragControls = useDragControls();
 
   const images = folder ? getImages(folder) : [];
-  const pairs = folder?.beforeAfterPairs;
 
   /* ── Measure natural image size for dynamic panel dims ── */
   useEffect(() => {
@@ -94,7 +83,6 @@ export default function FolderFlyout({
     if (!mainApi) return;
     const index = mainApi.selectedScrollSnap();
     setSelectedIndex(index);
-    setHoveredIndex(null);
     thumbApi?.scrollTo(index);
   }, [mainApi, thumbApi]);
 
@@ -112,7 +100,6 @@ export default function FolderFlyout({
   /* Reset state when folder changes */
   useEffect(() => {
     setSelectedIndex(0);
-    setHoveredIndex(null);
     setImgSize(null);
   }, [folder?.id]);
 
@@ -186,43 +173,6 @@ export default function FolderFlyout({
                             className="object-contain"
                             priority={index === 0}
                           />
-
-                          {/* Comparison overlay */}
-                          {pairs?.[index] && hoveredIndex === index && (
-                            <div className="absolute inset-0 z-10">
-                              <ImageComparison className="h-full w-full">
-                                <ImageComparisonImage src={pairs[index].after} alt="After edit" position="left" className="object-contain" />
-                                <ImageComparisonImage src={pairs[index].before} alt="Before edit" position="right" className="object-contain" />
-                                <ImageComparisonSlider className="bg-white/80 w-0.5 backdrop-blur-sm">
-                                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                      <path d="M18 8L22 12L18 16" />
-                                      <path d="M6 8L2 12L6 16" />
-                                    </svg>
-                                  </div>
-                                </ImageComparisonSlider>
-                              </ImageComparison>
-                              <div className="absolute top-3 inset-x-0 flex justify-between px-4 text-xs pointer-events-none" style={{ color: "rgba(255,255,255,0.7)", fontFamily: "var(--font-mono)" }}>
-                                <span className="bg-black/40 backdrop-blur-sm rounded-full px-3 py-1">Before</span>
-                                <span className="bg-black/40 backdrop-blur-sm rounded-full px-3 py-1">After</span>
-                              </div>
-                            </div>
-                          )}
-
-                          {/* Tap to Compare button */}
-                          {pairs?.[index] && hoveredIndex !== index && (
-                            <button
-                              className="absolute bottom-14 right-3 flex items-center gap-1.5 rounded-full px-3 py-2 text-xs backdrop-blur-md"
-                              style={{ background: "rgba(0,0,0,0.55)", color: "#fff", fontFamily: "var(--font-mono)" }}
-                              onClick={(e) => { e.stopPropagation(); setHoveredIndex(index); }}
-                            >
-                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M18 8L22 12L18 16" />
-                                <path d="M6 8L2 12L6 16" />
-                              </svg>
-                              Compare
-                            </button>
-                          )}
                         </div>
                       </CarouselItem>
                     ))}
@@ -283,11 +233,7 @@ export default function FolderFlyout({
                     <CarouselContent className="h-full [&>div]:h-full">
                       {images.map((src, index) => (
                         <CarouselItem key={index} className="h-full">
-                          <div
-                            className="relative h-full w-full"
-                            onMouseEnter={() => { if (pairs?.[index]) setHoveredIndex(index); }}
-                            onMouseLeave={() => setHoveredIndex(null)}
-                          >
+                          <div className="relative h-full w-full">
                             <Image
                               src={src}
                               alt={`${folder.title} — ${index + 1}`}
@@ -295,40 +241,6 @@ export default function FolderFlyout({
                               className="object-cover"
                               priority={index === 0}
                             />
-
-                            {pairs?.[index] && hoveredIndex === index && (
-                              <div className="absolute inset-0 z-10">
-                                <ImageComparison className="h-full w-full" enableHover>
-                                  <ImageComparisonImage src={pairs[index].after} alt="After edit" position="left" />
-                                  <ImageComparisonImage src={pairs[index].before} alt="Before edit" position="right" />
-                                  <ImageComparisonSlider className="bg-white/80 w-0.5 backdrop-blur-sm">
-                                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center">
-                                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                        <path d="M18 8L22 12L18 16" />
-                                        <path d="M6 8L2 12L6 16" />
-                                      </svg>
-                                    </div>
-                                  </ImageComparisonSlider>
-                                </ImageComparison>
-                                <div className="absolute top-4 inset-x-0 flex justify-between px-4 text-xs pointer-events-none" style={{ color: "rgba(255,255,255,0.7)", fontFamily: "var(--font-mono)" }}>
-                                  <span className="bg-black/40 backdrop-blur-sm rounded-full px-3 py-1">Before</span>
-                                  <span className="bg-black/40 backdrop-blur-sm rounded-full px-3 py-1">After</span>
-                                </div>
-                              </div>
-                            )}
-
-                            {pairs?.[index] && hoveredIndex !== index && (
-                              <div
-                                className="absolute top-4 right-4 flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs backdrop-blur-md transition-opacity group-hover:opacity-100 opacity-70"
-                                style={{ background: "rgba(0,0,0,0.5)", color: "#fff", fontFamily: "var(--font-mono)" }}
-                              >
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                  <path d="M18 8L22 12L18 16" />
-                                  <path d="M6 8L2 12L6 16" />
-                                </svg>
-                                Hover to Compare
-                              </div>
-                            )}
                           </div>
                         </CarouselItem>
                       ))}
