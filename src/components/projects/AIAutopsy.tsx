@@ -19,7 +19,7 @@ Return your analysis in exactly this structure:
 Be direct, specific, and educational. Reference the actual words from the prompt and response.`;
 
 async function callChat(prompt: string, systemPrompt?: string) {
-  const res = await fetch("/api/chat", {
+  const res = await fetch("/api/ai-prompt-autopsy", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ prompt, systemPrompt }),

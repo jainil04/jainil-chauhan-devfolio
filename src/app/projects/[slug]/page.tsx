@@ -166,7 +166,7 @@ export default function ProjectDetailPage() {
           paddingRight: "3.13rem",
         }}
       >
-        {project.slug === "ai-autopsy" && <AIAutopsy />}
+        {project.slug === "ai-prompt-autopsy" && <AIAutopsy />}
         {project.slug === "prism" && <Prism />}
         {project.slug === "chain-of-thought-visualizer" && <ChainOfThoughtVisualizer />}
       </section>

@@ -2,8 +2,8 @@ import { Project } from "@/types/types";
 
 export const PROJECTS: Project[] = [
   {
-    slug: "ai-autopsy",
-    title: "AI Autopsy",
+    slug: "ai-prompt-autopsy",
+    title: "AI Prompt Autopsy",
     description:
       "Type any prompt, get an AI response, and immediately see a second AI analysis that dissects why the AI responded that way. Two API calls, two panels, one powerful learning experience.",
     coverImage: "",
