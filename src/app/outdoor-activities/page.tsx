@@ -47,10 +47,6 @@ export default function OutdoorActivitiesPage() {
       {/* ── Header ── */}
       <header
         className="sticky top-0 z-40 backdrop-blur-md"
-        style={{
-          background: "color-mix(in oklch, var(--background) 90%, transparent)",
-          borderBottom: "1px solid color-mix(in oklch, var(--border) 60%, transparent)",
-        }}
       >
         <div
           className="mx-auto py-5 flex items-center justify-between"

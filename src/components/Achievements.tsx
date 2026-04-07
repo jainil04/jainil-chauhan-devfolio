@@ -8,6 +8,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import type { Achievement } from "@/types/types";
+import BadgeIcon from "@/components/BadgeIcon";
 
 interface AchievementsProps {
   achievements: Achievement[];
@@ -81,9 +82,13 @@ export default function Achievements({
                     }}
                   >
                     <div className="flex items-start gap-4">
-                      <span className="text-3xl" role="img" aria-label={achievement.title}>
-                        {achievement.icon}
-                      </span>
+                      {achievement.badge ? (
+                        <BadgeIcon variant={achievement.badge} size={48} />
+                      ) : (
+                        <span className="text-3xl" role="img" aria-label={achievement.title}>
+                          {achievement.icon}
+                        </span>
+                      )}
                       <div className="flex-1">
                         <h5
                           className="text-base font-semibold mb-1"
@@ -146,9 +151,13 @@ export default function Achievements({
                     }}
                   >
                     <div className="flex items-start gap-4">
-                      <span className="text-3xl grayscale" role="img" aria-label={achievement.title}>
-                        {achievement.icon}
-                      </span>
+                      {achievement.badge ? (
+                        <BadgeIcon variant={achievement.badge} size={48} muted />
+                      ) : (
+                        <span className="text-3xl grayscale" role="img" aria-label={achievement.title}>
+                          {achievement.icon}
+                        </span>
+                      )}
                       <div className="flex-1">
                         <h5
                           className="text-base font-semibold mb-1"

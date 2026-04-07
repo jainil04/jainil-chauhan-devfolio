@@ -74,6 +74,7 @@ export interface Achievement {
   description: string;
   earned: boolean;
   icon: string;
+  badge?: import("@/components/BadgeIcon").BadgeVariant;
 }
 
 export interface SnowboardingLifetimeStats {

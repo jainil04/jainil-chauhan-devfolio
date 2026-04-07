@@ -112,6 +112,7 @@ export function generateAchievements(
     description: "Completed a hike over 20 miles",
     earned: trails.some((trail) => trail.length >= 20),
     icon: "🏔️",
+    badge: "summit",
   });
 
   // 5,000 ft Gain Club
@@ -121,6 +122,7 @@ export function generateAchievements(
     description: "Conquered a hike with 5,000+ feet of elevation gain",
     earned: trails.some((trail) => trail.elevationGain >= 5000),
     icon: "⛰️",
+    badge: "climbing",
   });
 
   // 100+ Total Miles
@@ -130,6 +132,7 @@ export function generateAchievements(
     description: "Hiked over 100 total miles",
     earned: stats.totalMiles >= 100,
     icon: "🥾",
+    badge: "boot",
   });
 
   // 10+ Trails in a Year
@@ -144,6 +147,7 @@ export function generateAchievements(
     description: `Completed 10+ trails in ${currentYear}`,
     earned: trailsThisYear.length >= 10,
     icon: "🌲",
+    badge: "tree",
   });
 
   // Half Dome
@@ -153,6 +157,7 @@ export function generateAchievements(
     description: "Conquered Yosemite's iconic Half Dome",
     earned: trails.some((trail) => trail.trail.toLowerCase().includes("half dome")),
     icon: "🏔️",
+    badge: "half-dome",
   });
 
   // 50,000+ Total Elevation
@@ -162,6 +167,7 @@ export function generateAchievements(
     description: "Climbed over 50,000 feet total elevation",
     earned: stats.totalElevationGain >= 50000,
     icon: "📈",
+    badge: "elevation",
   });
 
   // Multiple Parks
@@ -171,6 +177,7 @@ export function generateAchievements(
     description: "Visited 5+ different parks",
     earned: stats.parks.length >= 5,
     icon: "🌄",
+    badge: "sunrise",
   });
 
   // Ultra Endurance (15+ miles, 4k+ gain in single hike)
@@ -182,6 +189,7 @@ export function generateAchievements(
       (trail) => trail.length >= 15 && trail.elevationGain >= 4000
     ),
     icon: "💪",
+    badge: "endurance",
   });
 
   return achievements;

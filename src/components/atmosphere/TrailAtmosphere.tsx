@@ -169,32 +169,7 @@ const TrailSceneSVG = memo(function TrailSceneSVG() {
         fill="#7A5C3A"
       />
 
-      {/* ── Trail path (center foreground) ── */}
-      <path
-        d="M555 900 Q580 855 615 810 Q650 760 672 720 Q695 678 707 640 Q718 605 720 560"
-        stroke="#B09878"
-        strokeWidth="72"
-        fill="none"
-        strokeLinecap="round"
-        opacity="0.65"
-      />
-      <path
-        d="M555 900 Q580 855 615 810 Q650 760 672 720 Q695 678 707 640 Q718 605 720 560"
-        stroke="#C8AC88"
-        strokeWidth="48"
-        fill="none"
-        strokeLinecap="round"
-        opacity="0.45"
-      />
-      {/* Trail center highlight */}
-      <path
-        d="M570 900 Q593 855 625 810 Q660 760 680 720 Q702 678 712 640 Q722 605 722 560"
-        stroke="#D4BA98"
-        strokeWidth="16"
-        fill="none"
-        strokeLinecap="round"
-        opacity="0.25"
-      />
+
 
       {/* ── Rocks & debris ── */}
       <ellipse cx="615" cy="868" rx="9" ry="6" fill="#8A7B6B" opacity="0.65" />

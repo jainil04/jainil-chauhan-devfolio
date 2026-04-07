@@ -8,6 +8,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { SnowboardingData } from "@/types/types";
+import BadgeIcon, { type BadgeVariant } from "@/components/BadgeIcon";
 
 interface SnowboardingSectionProps {
   data: SnowboardingData;
@@ -119,15 +120,15 @@ export default function SnowboardingSection({
 
   const activeSeason = data.seasons[selectedSeason];
 
-  const lifetimeStats = [
-    { label: "Days on Mountain", value: data.lifetime.daysOnMountain.toString(), icon: "❄️" },
-    { label: "Vertical Feet", value: `${(data.lifetime.verticalFt / 1000).toFixed(1)}k ft`, icon: "📈" },
-    { label: "Lifts Ridden", value: data.lifetime.liftsRidden.toString(), icon: "🚡" },
-    { label: "Fav Mountain", value: data.lifetime.favMountain, icon: "🏔️" },
-    { label: "GPS Vertical", value: `${(data.lifetime.gpsVerticalFt / 1000).toFixed(1)}k ft`, icon: "📡" },
-    { label: "Highest Elevation", value: `${data.lifetime.highestElevationFt.toLocaleString()} ft`, icon: "⛰️" },
-    { label: "Distance", value: `${data.lifetime.distanceMiles} mi`, icon: "📏" },
-    { label: "Total Seasons", value: data.totalSeasons.toString(), icon: "🗓️" },
+  const lifetimeStats: { label: string; value: string; badge: BadgeVariant }[] = [
+    { label: "Days on Mountain", value: data.lifetime.daysOnMountain.toString(), badge: "snowflake" },
+    { label: "Vertical Feet", value: `${(data.lifetime.verticalFt / 1000).toFixed(1)}k ft`, badge: "elevation" },
+    { label: "Lifts Ridden", value: data.lifetime.liftsRidden.toString(), badge: "ski-lift" },
+    { label: "Fav Mountain", value: data.lifetime.favMountain, badge: "mountain-peak" },
+    { label: "GPS Vertical", value: `${(data.lifetime.gpsVerticalFt / 1000).toFixed(1)}k ft`, badge: "gps" },
+    { label: "Highest Elevation", value: `${data.lifetime.highestElevationFt.toLocaleString()} ft`, badge: "topography" },
+    { label: "Distance", value: `${data.lifetime.distanceMiles} mi`, badge: "snowboard" },
+    { label: "Total Seasons", value: data.totalSeasons.toString(), badge: "calendar" },
   ];
 
   return (
@@ -183,50 +184,42 @@ export default function SnowboardingSection({
             Lifetime
           </h4>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 mb-10">
           {lifetimeStats.map((stat, index) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ opacity: 1, scale: 1 }}
               transition={{
-                duration: 0.6,
+                duration: 0.5,
                 delay: index * 0.07,
                 ease: [0.23, 1, 0.32, 1],
               }}
+              className="flex flex-col items-center justify-center py-8 md:py-10 px-4"
             >
-              <div
-                className="p-4 rounded-lg"
+              <div className="mb-4 drop-shadow-md">
+                <BadgeIcon variant={stat.badge} size={100} />
+              </div>
+              <p
+                className="text-sm md:text-base mb-1"
                 style={{
-                  background: "var(--card)",
-                  border: "1px solid var(--border)",
+                  color: "oklch(0.30 0.02 70)",
+                  fontFamily: "var(--font-body)",
+                  fontWeight: 500,
                 }}
               >
-                <span className="text-xl mb-2 block" role="img" aria-label={stat.label}>
-                  {stat.icon}
-                </span>
-                <div
-                  className="text-xl md:text-2xl font-light mb-1"
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    color: "var(--foreground)",
-                    letterSpacing: "-0.02em",
-                  }}
-                >
-                  {stat.value}
-                </div>
-                <p
-                  className="text-xs uppercase tracking-wider"
-                  style={{
-                    color: "var(--muted-foreground)",
-                    fontFamily: "var(--font-mono)",
-                    letterSpacing: "0.08em",
-                    fontSize: "0.6rem",
-                  }}
-                >
-                  {stat.label}
-                </p>
-              </div>
+                {stat.label}
+              </p>
+              <p
+                className="text-2xl md:text-3xl font-bold"
+                style={{
+                  color: "oklch(0.22 0.02 70)",
+                  fontFamily: "var(--font-heading)",
+                  letterSpacing: "-0.02em",
+                }}
+              >
+                {stat.value}
+              </p>
             </motion.div>
           ))}
         </div>
@@ -284,57 +277,51 @@ export default function SnowboardingSection({
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
             >
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10">
-                {[
-                  { label: "Days", value: activeSeason.daysOnMountain.toString(), icon: "❄️" },
-                  { label: "Vertical", value: `${activeSeason.verticalFt.toLocaleString()} ft`, icon: "📈" },
-                  { label: "Lifts", value: activeSeason.liftsRidden.toString(), icon: "🚡" },
-                  { label: "Mountain", value: activeSeason.favMountain, icon: "🏔️" },
-                  ...(activeSeason.highestElevationFt
-                    ? [{ label: "Max Elevation", value: `${activeSeason.highestElevationFt.toLocaleString()} ft`, icon: "⛰️" }]
-                    : []),
-                  ...(activeSeason.distanceMiles
-                    ? [{ label: "Distance", value: `${activeSeason.distanceMiles} mi`, icon: "📏" }]
-                    : []),
-                ].map((stat, i) => (
+              <div className="grid grid-cols-2 md:grid-cols-3 mb-10">
+                {(
+                  [
+                    { label: "Days", value: activeSeason.daysOnMountain.toString(), badge: "snowflake" },
+                    { label: "Vertical", value: `${activeSeason.verticalFt.toLocaleString()} ft`, badge: "elevation" },
+                    { label: "Lifts", value: activeSeason.liftsRidden.toString(), badge: "ski-lift" },
+                    { label: "Mountain", value: activeSeason.favMountain, badge: "mountain-peak" },
+                    ...(activeSeason.highestElevationFt
+                      ? [{ label: "Max Elevation", value: `${activeSeason.highestElevationFt.toLocaleString()} ft`, badge: "topography" }]
+                      : []),
+                    ...(activeSeason.distanceMiles
+                      ? [{ label: "Distance", value: `${activeSeason.distanceMiles} mi`, badge: "snowboard" }]
+                      : []),
+                  ] as { label: string; value: string; badge: BadgeVariant }[]
+                ).map((stat, i) => (
                   <motion.div
                     key={stat.label}
-                    initial={{ opacity: 0, y: 14 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: i * 0.05, ease: [0.23, 1, 0.32, 1] }}
+                    initial={{ opacity: 0, scale: 0.92 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5, delay: i * 0.07, ease: [0.23, 1, 0.32, 1] }}
+                    className="flex flex-col items-center justify-center py-8 md:py-10 px-4"
                   >
-                    <div
-                      className="p-4 rounded-lg"
+                    <div className="mb-4 drop-shadow-md">
+                      <BadgeIcon variant={stat.badge} size={100} />
+                    </div>
+                    <p
+                      className="text-sm md:text-base mb-1"
                       style={{
-                        background: "var(--card)",
-                        border: "1px solid var(--border)",
+                        color: "oklch(0.30 0.02 70)",
+                        fontFamily: "var(--font-body)",
+                        fontWeight: 500,
                       }}
                     >
-                      <span className="text-xl mb-2 block" role="img" aria-label={stat.label}>
-                        {stat.icon}
-                      </span>
-                      <div
-                        className="text-xl md:text-2xl font-light mb-1"
-                        style={{
-                          fontFamily: "var(--font-mono)",
-                          color: "var(--foreground)",
-                          letterSpacing: "-0.02em",
-                        }}
-                      >
-                        {stat.value}
-                      </div>
-                      <p
-                        className="text-xs uppercase tracking-wider"
-                        style={{
-                          color: "var(--muted-foreground)",
-                          fontFamily: "var(--font-mono)",
-                          letterSpacing: "0.08em",
-                          fontSize: "0.6rem",
-                        }}
-                      >
-                        {stat.label}
-                      </p>
-                    </div>
+                      {stat.label}
+                    </p>
+                    <p
+                      className="text-2xl md:text-3xl font-bold"
+                      style={{
+                        color: "oklch(0.22 0.02 70)",
+                        fontFamily: "var(--font-heading)",
+                        letterSpacing: "-0.02em",
+                      }}
+                    >
+                      {stat.value}
+                    </p>
                   </motion.div>
                 ))}
               </div>
