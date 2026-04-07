@@ -1,10 +1,13 @@
 export type Project = {
+  slug: string;
   title: string;
   description: string;
-  imageUrl: string;
-  engagement?: string;
-  satisfaction?: string;
-  githubUrl: string;
+  coverImage: string;
+  category: string;
+  tags: string[];
+  techStack: string[];
+  githubUrl?: string;
+  liveUrl?: string;
 };
 
 export type ExperienceItem = {

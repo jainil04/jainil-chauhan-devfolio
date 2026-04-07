@@ -3,8 +3,10 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { PROJECTS } from "@/data/projects";
+import ProjectCard from "@/components/ProjectCard";
 
-export default function CodePage() {
+export default function ProjectsPage() {
   return (
     <div
       className="noise-overlay min-h-screen"
@@ -44,7 +46,7 @@ export default function CodePage() {
               color: "var(--foreground)",
             }}
           >
-            Code
+            Projects
           </h1>
 
           <div className="w-16" />
@@ -79,28 +81,14 @@ export default function CodePage() {
         </p>
       </motion.section>
 
-      {/* ── Content Sections ── */}
-      <section className="mx-auto max-w-4xl" style={{ paddingBottom: "3.13rem", paddingLeft: "3.13rem", paddingRight: "3.13rem" }}>
-
-        {/* Tech Stack */}
-        <motion.div
-          className="mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1, ease: [0.23, 1, 0.32, 1] }}
-        >
-          <div className="mb-6">
-            <h3
-              className="text-2xl md:text-3xl mb-2"
-              style={{
-                fontFamily: "var(--font-heading)",
-                color: "var(--foreground)",
-              }}
-            >
-              Adding more details soon...
-            </h3>
-          </div>
-        </motion.div>
+      {/* ── Project Gallery ── */}
+      <section
+        className="mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
+        style={{ paddingBottom: "5rem", paddingLeft: "3.13rem", paddingRight: "3.13rem" }}
+      >
+        {PROJECTS.map((project, index) => (
+          <ProjectCard key={project.slug} project={project} index={index} />
+        ))}
       </section>
     </div>
   );

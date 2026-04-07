@@ -2,26 +2,7 @@ import React from "react";
 
 import ProjectShowcase from "@/components/ProjectShowcase";
 import TechnologyStack from "@/components/TechnologyStack";
-import { Project } from "@/types/types";
-
-const projects: Project[] = [
-  {
-    title: "React Project",
-    description: "Details coming soon.",
-    imageUrl: "",
-    engagement: "12 min",
-    satisfaction: "4.5★",
-    githubUrl: "https://github.com/jainil04",
-  },
-  {
-    title: "React Project",
-    description: "Details coming soon.",
-    imageUrl: "",
-    engagement: "8 min",
-    satisfaction: "4.7★",
-    githubUrl: "https://github.com/jainil04",
-  },
-];
+import { PROJECTS } from "@/data/projects";
 
 export default function Showcase() {
   return (
@@ -39,7 +20,7 @@ export default function Showcase() {
           WebkitMaskImage: "linear-gradient(to left, black, transparent)"
         }} />
       </div>
-      <ProjectShowcase projects={projects} />
+      <ProjectShowcase projects={PROJECTS} />
     </section>
   );
 }

@@ -73,7 +73,7 @@ export const OBJECTS: SpaceObject[] = [
   },
   {
     id: "laptop",
-    label: "Code",
+    label: "Projects",
     subtitle: "Frontend & Systems",
     description: [
       "The terminal is open. The editor is split. Three monitors is aspirational but two is plenty.",
@@ -87,7 +87,7 @@ export const OBJECTS: SpaceObject[] = [
     floatDelay: 0.3,
     rotation: -1,
     accent: "#6b8f62",
-    href: "/code",
+    href: "/projects",
   },
   {
     id: "raspberry-pi",
