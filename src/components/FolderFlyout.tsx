@@ -5,6 +5,7 @@ import { motion, AnimatePresence, useDragControls } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { type PhotoFolder } from "@/data/photoFolders";
+import { useDialogA11y } from "@/hooks/useDialogA11y";
 import {
   Carousel,
   CarouselContent,
@@ -35,6 +36,7 @@ export default function FolderFlyout({
   const dragControls = useDragControls();
 
   const images = folder ? getImages(folder) : [];
+  useDialogA11y(!!folder, containerRef, onClose);
 
   /* ── Measure natural image size for dynamic panel dims ── */
   useEffect(() => {
@@ -126,6 +128,10 @@ export default function FolderFlyout({
             /* ═══ MOBILE: Full-screen bottom sheet ═══ */
             <motion.div
               ref={containerRef}
+              role="dialog"
+              aria-modal="true"
+              aria-label={folder.title}
+              tabIndex={-1}
               className="fixed inset-0 z-50 flex flex-col"
               style={{ background: "#000" }}
               initial={{ y: "100%" }}
@@ -161,7 +167,7 @@ export default function FolderFlyout({
 
               {/* Image section */}
               <div className="relative flex-1 min-h-0">
-                <Carousel setApi={setMainApi} className="h-full w-full [&>div]:h-full">
+                <Carousel aria-label={`${folder.title} photos`} setApi={setMainApi} className="h-full w-full [&>div]:h-full">
                   <CarouselContent className="h-full [&>div]:h-full">
                     {images.map((src, index) => (
                       <CarouselItem key={index} className="h-full">
@@ -200,10 +206,10 @@ export default function FolderFlyout({
                 <h2 className="text-lg font-semibold" style={{ color: "#fff", fontFamily: "var(--font-heading)" }}>
                   {folder.title}
                 </h2>
-                <p className="text-sm mt-1.5 leading-relaxed" style={{ color: "rgba(255,255,255,0.55)" }}>
+                <p className="text-sm mt-1.5 leading-relaxed" style={{ color: "rgba(255,255,255,0.75)" }}>
                   {folder.description}
                 </p>
-                <p className="text-xs mt-3" style={{ color: "rgba(255,255,255,0.3)", fontFamily: "var(--font-mono)" }}>
+                <p className="text-xs mt-3" style={{ color: "rgba(255,255,255,0.65)", fontFamily: "var(--font-mono)" }}>
                   {selectedIndex + 1} / {images.length}
                 </p>
               </div>
@@ -212,6 +218,10 @@ export default function FolderFlyout({
             /* ═══ DESKTOP: Original centered panel ═══ */
             <motion.div
               ref={containerRef}
+              role="dialog"
+              aria-modal="true"
+              aria-label={folder.title}
+              tabIndex={-1}
               className="fixed z-50 overflow-hidden rounded-2xl"
               style={{
                 width: panelW,
@@ -229,7 +239,7 @@ export default function FolderFlyout({
             >
               <div className="relative h-full w-full">
                 <div className="group relative h-full w-full overflow-hidden">
-                  <Carousel setApi={setMainApi} className="h-full w-full [&>div]:h-full">
+                  <Carousel aria-label={`${folder.title} photos`} setApi={setMainApi} className="h-full w-full [&>div]:h-full">
                     <CarouselContent className="h-full [&>div]:h-full">
                       {images.map((src, index) => (
                         <CarouselItem key={index} className="h-full">
@@ -259,7 +269,7 @@ export default function FolderFlyout({
                   {images.length > 1 && (
                     <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-4 transition-opacity duration-300">
                       <div className="relative mx-auto w-full max-w-md">
-                        <Carousel
+                        <Carousel aria-label={`${folder.title} thumbnails`}
                           setApi={setThumbApi}
                           opts={{ containScroll: "keepSnaps", dragFree: true }}
                           className="w-full"

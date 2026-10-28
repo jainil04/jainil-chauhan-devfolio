@@ -1,7 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useRef } from "react";
 import type { SpaceObject } from "@/types/types";
+import { useDialogA11y } from "@/hooks/useDialogA11y";
 
 export default function DetailPanel({
   obj,
@@ -10,6 +12,9 @@ export default function DetailPanel({
   obj: SpaceObject;
   onClose: () => void;
 }) {
+  const panelRef = useRef<HTMLDivElement>(null);
+  useDialogA11y(true, panelRef, onClose);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -34,6 +39,11 @@ export default function DetailPanel({
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 20, scale: 0.97 }}
         transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label={obj.label}
+        tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
         className="relative z-10 w-full max-w-2xl rounded-2xl p-8 md:p-12"
         style={{
@@ -48,7 +58,7 @@ export default function DetailPanel({
           style={{ background: "rgba(44,44,44,0.06)" }}
           aria-label="Close"
         >
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
             <path d="M1 1L13 13M13 1L1 13" stroke="#6b6b6b" strokeWidth="1.5" strokeLinecap="round" />
           </svg>
         </button>

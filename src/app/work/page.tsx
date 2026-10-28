@@ -93,6 +93,7 @@ export default function WorkPage() {
             }}
           >
             <svg
+              aria-hidden="true"
               width="16"
               height="16"
               viewBox="0 0 24 24"
@@ -176,7 +177,7 @@ export default function WorkPage() {
                 <span
                   className="text-base md:text-lg"
                   style={{
-                    color: "var(--primary)",
+                    color: "var(--primary-text)",
                     fontFamily: "var(--font-body)",
                     fontWeight: 600,
                   }}

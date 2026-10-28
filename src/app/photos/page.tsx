@@ -30,6 +30,7 @@ export default function PhotosPage() {
             }}
           >
             <svg
+              aria-hidden="true"
               width="16"
               height="16"
               viewBox="0 0 24 24"
@@ -102,7 +103,6 @@ export default function PhotosPage() {
           className="text-xs"
           style={{
             color: "var(--muted-foreground)",
-            opacity: 0.4,
             fontFamily: "var(--font-mono)",
             letterSpacing: "0.1em",
           }}

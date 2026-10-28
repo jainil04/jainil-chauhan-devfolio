@@ -1,23 +1,20 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import type { SpaceObject } from "@/types/types";
 import { SVG_MAP } from "@/data/objects";
 
-export default function CanvasObject({
-  obj,
-  onSelect,
-}: {
-  obj: SpaceObject;
-  onSelect: (obj: SpaceObject) => void;
-}) {
+const MotionLink = motion.create(Link);
+
+export default function CanvasObject({ obj }: { obj: SpaceObject }) {
   const SVGComponent = SVG_MAP[obj.id];
   if (!SVGComponent) return null;
 
   return (
-    <motion.button
-      onClick={() => onSelect(obj)}
-      className="group absolute cursor-pointer focus:outline-none"
+    <MotionLink
+      href={obj.href}
+      className="group absolute block cursor-pointer pointer-events-auto focus:outline-none"
       style={{
         left: `${obj.x}%`,
         top: `${obj.y}%`,
@@ -38,7 +35,7 @@ export default function CanvasObject({
         transition: { duration: 0.35, ease: "easeOut" },
       }}
       whileTap={{ scale: 0.97 }}
-      aria-label={`Explore: ${obj.label} — ${obj.subtitle}`}
+      aria-label={`${obj.label}, ${obj.subtitle}`}
     >
       {/* Glow ring on hover */}
       <motion.div
@@ -53,6 +50,7 @@ export default function CanvasObject({
 
       {/* SVG */}
       <div
+        aria-hidden="true"
         className="transition-all duration-500"
         style={{
           filter: `drop-shadow(0 8px 24px rgba(44,44,44,0.1))`,
@@ -81,6 +79,6 @@ export default function CanvasObject({
           {obj.label}
         </span>
       </div>
-    </motion.button>
+    </MotionLink>
   );
 }

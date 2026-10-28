@@ -93,6 +93,7 @@ function SnowfallCanvas() {
 
   return (
     <canvas
+      aria-hidden="true"
       ref={canvasRef}
       style={{
         position: "absolute",
@@ -355,6 +356,8 @@ export default function SnowboardingSection({
                           {/* Collapsed Header Row */}
                           <button
                             onClick={() => setOpenDayIndex(isOpen ? null : dayIdx)}
+                            aria-expanded={isOpen}
+                            aria-controls={`day-panel-${dayIdx}`}
                             className="w-full flex items-center justify-between p-5 text-left transition-colors duration-200"
                             style={{ cursor: "pointer", background: "transparent" }}
                           >
@@ -407,6 +410,7 @@ export default function SnowboardingSection({
                               </div>
                               {/* Chevron */}
                               <svg
+                                aria-hidden="true"
                                 width="16"
                                 height="16"
                                 viewBox="0 0 24 24"
@@ -430,6 +434,7 @@ export default function SnowboardingSection({
                           <AnimatePresence initial={false}>
                             {isOpen && (
                               <motion.div
+                                id={`day-panel-${dayIdx}`}
                                 initial={{ height: 0, opacity: 0 }}
                                 animate={{ height: "auto", opacity: 1 }}
                                 exit={{ height: 0, opacity: 0 }}

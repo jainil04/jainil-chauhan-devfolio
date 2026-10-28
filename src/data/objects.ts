@@ -85,7 +85,7 @@ export const OBJECTS: SpaceObject[] = [
     width: 180,
     floatDelay: 0.3,
     rotation: -1,
-    accent: "#6b8f62",
+    accent: "#4f7347",
     href: "/projects",
   },
   {
@@ -121,7 +121,7 @@ export const OBJECTS: SpaceObject[] = [
     width: 110,
     floatDelay: 1.8,
     rotation: 8,
-    accent: "#b8956a",
+    accent: "#85643a",
     href: "/ai-notes",
   },
 ];

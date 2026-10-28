@@ -94,6 +94,7 @@ export default function RaspberryPiPage() {
             }}
           >
             <svg
+              aria-hidden="true"
               width="16"
               height="16"
               viewBox="0 0 24 24"
@@ -173,7 +174,7 @@ export default function RaspberryPiPage() {
               {project.subtitle && (
                 <p
                   className="text-base md:text-lg"
-                  style={{ color: "var(--primary)", fontFamily: "var(--font-body)", fontWeight: 600 }}
+                  style={{ color: "var(--primary-text)", fontFamily: "var(--font-body)", fontWeight: 600 }}
                 >
                   {project.subtitle}
                 </p>
@@ -183,12 +184,12 @@ export default function RaspberryPiPage() {
             <div className="mb-6">{bulletList(project.details)}</div>
 
             <div className="my-6 pl-6 border-l-2" style={{ borderColor: "var(--accent)" }}>
-              <p
+              <h4
                 className="text-xs uppercase mb-2"
-                style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-mono)", letterSpacing: "0.1em" }}
+                style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-mono)", letterSpacing: "0.1em", fontWeight: 400 }}
               >
                 Fun facts
-              </p>
+              </h4>
               {project.funFacts.map((fact, i) => (
                 <p
                   key={i}
@@ -200,9 +201,9 @@ export default function RaspberryPiPage() {
               ))}
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            <ul aria-label="Tech" className="flex flex-wrap gap-2 list-none p-0">
               {project.tech.map((t) => (
-                <span
+                <li
                   key={t}
                   className="text-xs uppercase tracking-wider px-3 py-1 rounded-full"
                   style={{
@@ -214,9 +215,9 @@ export default function RaspberryPiPage() {
                   }}
                 >
                   {t}
-                </span>
+                </li>
               ))}
-            </div>
+            </ul>
           </motion.div>
         ))}
 

@@ -45,19 +45,19 @@ const TYPE_COLORS: Record<
 > = {
   observation: {
     bg: "color-mix(in oklch, #3b82f6 12%, var(--card))",
-    text: "#3b82f6",
+    text: "#1d4ed8",
     border: "color-mix(in oklch, #3b82f6 30%, transparent)",
     label: "OBSERVATION",
   },
   deduction: {
     bg: "color-mix(in oklch, #f59e0b 12%, var(--card))",
-    text: "#f59e0b",
+    text: "#92400e",
     border: "color-mix(in oklch, #f59e0b 30%, transparent)",
     label: "DEDUCTION",
   },
   conclusion: {
     bg: "color-mix(in oklch, #22c55e 12%, var(--card))",
-    text: "#22c55e",
+    text: "#166534",
     border: "color-mix(in oklch, #22c55e 30%, transparent)",
     label: "CONCLUSION",
   },
@@ -428,7 +428,6 @@ export default function ChainOfThoughtVisualizer() {
               style={{
                 color: "var(--muted-foreground)",
                 fontFamily: "var(--font-mono)",
-                opacity: 0.5,
               }}
             >
               {problem.length}/2000
@@ -475,6 +474,7 @@ export default function ChainOfThoughtVisualizer() {
       {/* ── Error ── */}
       {error && (
         <div
+          role="alert"
           className="mb-6 rounded-lg px-4 py-3 text-sm"
           style={{
             background:
@@ -565,8 +565,7 @@ export default function ChainOfThoughtVisualizer() {
                             color: colors.text,
                             fontFamily: "var(--font-mono)",
                             letterSpacing: "0.1em",
-                            opacity: 0.8,
-                          }}
+                                          }}
                         >
                           {colors.label}
                         </span>
@@ -576,7 +575,6 @@ export default function ChainOfThoughtVisualizer() {
                             style={{
                               color: "var(--muted-foreground)",
                               fontFamily: "var(--font-mono)",
-                              opacity: 0.55,
                             }}
                           >
                             ← {step.dependsOn.map((d) => `#${d}`).join(", ")}
@@ -611,8 +609,10 @@ export default function ChainOfThoughtVisualizer() {
             </div>
           </div>
 
-          {/* Right: React Flow graph */}
-          <GraphPanel steps={steps} />
+          {/* Right: React Flow graph (visual duplicate of the step list, hidden from assistive tech) */}
+          <div inert aria-hidden="true" className="contents">
+            <GraphPanel steps={steps} />
+          </div>
         </div>
       )}
 
@@ -634,8 +634,7 @@ export default function ChainOfThoughtVisualizer() {
             style={{
               color: "var(--accent-foreground)",
               fontFamily: "var(--font-mono)",
-              opacity: 0.7,
-            }}
+                          }}
           >
             Final Answer
           </p>
@@ -650,6 +649,14 @@ export default function ChainOfThoughtVisualizer() {
           </p>
         </motion.div>
       )}
+
+      <div className="sr-only" role="status" aria-live="polite">
+        {isStreaming
+          ? `Reasoning in progress. ${steps.length} steps so far.`
+          : finalAnswer
+            ? `Reasoning complete in ${steps.length} steps. Final answer: ${finalAnswer}`
+            : ""}
+      </div>
 
       {/* ── Empty State ── */}
       {!hasContent && !error && (
@@ -673,7 +680,6 @@ export default function ChainOfThoughtVisualizer() {
             className="text-sm"
             style={{
               color: "var(--muted-foreground)",
-              opacity: 0.6,
               fontFamily: "var(--font-body)",
             }}
           >

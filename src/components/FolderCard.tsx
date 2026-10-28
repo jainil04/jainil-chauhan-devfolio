@@ -8,8 +8,7 @@ import { type PhotoFolder } from "@/data/photoFolders";
 export default function FolderCard({ folder, index, onOpen }: { folder: PhotoFolder; index: number; onOpen: (folder: PhotoFolder) => void }) {
   return (
     <motion.div
-      className="group cursor-pointer"
-      onClick={() => onOpen(folder)}
+      className="group relative cursor-pointer"
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{
@@ -28,7 +27,7 @@ export default function FolderCard({ folder, index, onOpen }: { folder: PhotoFol
       >
         <Image
           src={folder.coverImage}
-          alt={folder.title}
+          alt=""
           fill
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
           sizes="(max-width: 768px) 100vw, 50vw"
@@ -44,7 +43,14 @@ export default function FolderCard({ folder, index, onOpen }: { folder: PhotoFol
           letterSpacing: "0.12em",
         }}
       >
-        {folder.title}
+        <button
+          type="button"
+          onClick={() => onOpen(folder)}
+          aria-haspopup="dialog"
+          className="text-left cursor-pointer uppercase tracking-wider after:absolute after:inset-0 after:content-['']"
+        >
+          {folder.title}
+        </button>
       </h2>
 
       {/* Description */}
@@ -60,9 +66,9 @@ export default function FolderCard({ folder, index, onOpen }: { folder: PhotoFol
       </p>
 
       {/* Tags */}
-      <div className="flex flex-wrap gap-2">
+      <ul aria-label="Tags" className="flex flex-wrap gap-2 list-none p-0">
         {folder.tags.map((tag) => (
-          <span
+          <li
             key={tag}
             className="text-xs uppercase tracking-wider px-3 py-1 rounded-full"
             style={{
@@ -75,9 +81,9 @@ export default function FolderCard({ folder, index, onOpen }: { folder: PhotoFol
             }}
           >
             {tag}
-          </span>
+          </li>
         ))}
-      </div>
+      </ul>
     </motion.div>
   );
 }

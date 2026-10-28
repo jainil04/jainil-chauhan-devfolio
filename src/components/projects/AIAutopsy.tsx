@@ -111,6 +111,7 @@ export default function AIAutopsy() {
 
       {error && (
         <div
+          role="alert"
           className="mb-6 rounded-lg px-4 py-3 text-sm"
           style={{
             background: "color-mix(in oklch, var(--destructive) 15%, var(--card))",
@@ -165,7 +166,6 @@ export default function AIAutopsy() {
             className="text-sm"
             style={{
               color: "var(--muted-foreground)",
-              opacity: 0.6,
               fontFamily: "var(--font-body)",
             }}
           >
@@ -229,10 +229,18 @@ function Panel({
       </div>
 
       {/* Panel body */}
-      <div className="px-5 py-5 flex-1 overflow-auto">
+      <div
+        className="px-5 py-5 flex-1 overflow-auto"
+        role="region"
+        aria-label={`${title}: ${subtitle}`}
+        aria-live="polite"
+        aria-busy={isLoading}
+      >
         {isLoading ? (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2" role="status">
+            <span className="sr-only">Loading…</span>
             <div
+              aria-hidden="true"
               className="w-2 h-2 rounded-full animate-pulse"
               style={{ background: "var(--accent)" }}
             />

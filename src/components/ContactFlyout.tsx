@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useDialogA11y } from "@/hooks/useDialogA11y";
 
 export default function ContactFlyout({
   open,
@@ -12,6 +13,8 @@ export default function ContactFlyout({
 }) {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+  useDialogA11y(open, panelRef, onClose);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -45,6 +48,11 @@ export default function ContactFlyout({
 
           {/* Flyout Panel from Right */}
           <motion.div
+            ref={panelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="contact-title"
+            tabIndex={-1}
             className="fixed top-0 right-0 z-50 h-full overflow-y-auto"
             style={{
               width: "20%",
@@ -66,7 +74,7 @@ export default function ContactFlyout({
                 style={{ background: "rgba(44,44,44,0.06)" }}
                 aria-label="Close"
               >
-                <svg width="16" height="16" viewBox="0 0 14 14" fill="none">
+                <svg width="16" height="16" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                   <path
                     d="M1 1L13 13M13 1L1 13"
                     stroke="#6b6b6b"
@@ -85,6 +93,7 @@ export default function ContactFlyout({
                 />
 
                 <h2
+                  id="contact-title"
                   className="text-2xl mb-2"
                   style={{
                     fontFamily: "var(--font-heading)",
@@ -102,6 +111,8 @@ export default function ContactFlyout({
 
                 {submitted ? (
                   <motion.div
+                    role="status"
+                    aria-live="polite"
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     className="text-center py-8"
@@ -158,6 +169,7 @@ export default function ContactFlyout({
                       <input
                         id="name"
                         name="name"
+                        autoComplete="name"
                         type="text"
                         required
                         value={form.name}
@@ -188,6 +200,7 @@ export default function ContactFlyout({
                       <input
                         id="email"
                         name="email"
+                        autoComplete="email"
                         type="email"
                         required
                         value={form.email}

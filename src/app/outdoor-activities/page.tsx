@@ -62,6 +62,7 @@ export default function OutdoorActivitiesPage() {
             }}
           >
             <svg
+              aria-hidden="true"
               width="16"
               height="16"
               viewBox="0 0 24 24"
@@ -138,6 +139,7 @@ export default function OutdoorActivitiesPage() {
         >
           <button
             onClick={() => setViewMode("trails")}
+            aria-pressed={viewMode === "trails"}
             className="px-6 py-2 rounded-full transition-all duration-300 flex items-center gap-2"
             style={{
               background:
@@ -152,10 +154,11 @@ export default function OutdoorActivitiesPage() {
               minWidth: "150px",
             }}
           >
-            <span role="img" aria-label="Hiking boot">🥾</span> Trails
+            <span aria-hidden="true">🥾</span> Trails
           </button>
           <button
             onClick={() => setViewMode("snowboarding")}
+            aria-pressed={viewMode === "snowboarding"}
             className="px-6 py-2 rounded-full transition-all duration-300 flex items-center gap-2"
             style={{
               background:
@@ -170,7 +173,7 @@ export default function OutdoorActivitiesPage() {
               minWidth: "165px",
             }}
           >
-            <span role="img" aria-label="Snowboarder">🏂</span> Snowboarding
+            <span aria-hidden="true">🏂</span> Snowboarding
           </button>
         </div>
       </div>
@@ -309,7 +312,6 @@ export default function OutdoorActivitiesPage() {
           className="text-xs"
           style={{
             color: "var(--muted-foreground)",
-            opacity: 0.4,
             fontFamily: "var(--font-mono)",
             letterSpacing: "0.1em",
           }}

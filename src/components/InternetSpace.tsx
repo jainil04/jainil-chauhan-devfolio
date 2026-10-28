@@ -1,24 +1,22 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
-import type { SpaceObject } from "@/types/types";
 import { OBJECTS, SVG_MAP } from "@/data/objects";
 import CanvasObject from "./CanvasObject";
+
+const MotionLink = motion.create(Link);
 
 /* ───────────────────── Main Space ───────────────────── */
 
 export default function InternetSpace() {
-  const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
 
-  const handleObjectSelect = useCallback((obj: SpaceObject) => {
-    router.push(obj.href);
-  }, [router]);
-
   React.useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
+    // The scattered canvas needs room in both dimensions; browser zoom shrinks the CSS viewport,
+    // so fall back to the reflowing layout whenever it would overlap.
+    const check = () => setIsMobile(window.innerWidth < 1024 || window.innerHeight < 760);
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
@@ -64,19 +62,19 @@ export default function InternetSpace() {
               className="text-4xl mb-5 leading-tight"
               style={{ fontFamily: "var(--font-heading)", color: "var(--foreground)" }}
             >
-              Hi, I&apos;m <span style={{ color: "var(--primary)" }}>Jainil</span>.
+              Hi, I&apos;m <span style={{ color: "var(--primary-text)" }}>Jainil</span>.
             </h1>
             <div
               className="space-y-3"
               style={{ color: "var(--muted-foreground)", lineHeight: "1.75" }}
             >
               <p className="text-base">I build things for the web and for myself.</p>
-              <p className="text-sm" style={{ opacity: 0.75 }}>
+              <p className="text-sm" >
                 Some live in browsers.<br />
                 Some live on Raspberry Pis.<br />
                 Some only exist in the mountains.
               </p>
-              <p className="text-sm" style={{ opacity: 0.65 }}>
+              <p className="text-sm" >
                 I care about performance, systems, and the quiet details
                 that make interfaces feel effortless.
               </p>
@@ -84,15 +82,17 @@ export default function InternetSpace() {
           </motion.div>
 
           {/* 2-col card grid */}
-          <div className="grid grid-cols-2 gap-3 w-full">
+          <nav aria-label="Explore" className="w-full">
+          <ul role="list" className="grid grid-cols-2 sm:grid-cols-3 gap-3 w-full max-w-3xl mx-auto list-none p-0 m-0">
             {OBJECTS.map((obj, i) => {
               const SVGComponent = SVG_MAP[obj.id];
               if (!SVGComponent) return null;
               return (
-                <motion.button
-                  key={obj.id}
-                  onClick={() => handleObjectSelect(obj)}
-                  className="flex flex-col items-center rounded-2xl cursor-pointer focus:outline-none text-center"
+                <li key={obj.id} className="flex">
+                <MotionLink
+                  href={obj.href}
+                  aria-label={`${obj.label}, ${obj.subtitle}`}
+                  className="flex flex-col items-center rounded-2xl cursor-pointer focus:outline-none text-center w-full"
                   style={{
                     padding: "16px",
                     minHeight: "120px",
@@ -103,6 +103,7 @@ export default function InternetSpace() {
                   whileTap={{ scale: 0.96 }}
                 >
                   <div
+                    aria-hidden="true"
                     style={{
                       width: "44px",
                       height: "44px",
@@ -118,7 +119,7 @@ export default function InternetSpace() {
                       style={{
                         color: obj.accent,
                         fontFamily: "var(--font-mono)",
-                        fontSize: "0.65rem",
+                        fontSize: "0.75rem",
                         letterSpacing: "0.06em",
                         fontWeight: 600,
                         lineHeight: 1.3,
@@ -130,31 +131,32 @@ export default function InternetSpace() {
                       style={{
                         color: "var(--muted-foreground)",
                         fontFamily: "var(--font-mono)",
-                        fontSize: "0.55rem",
+                        fontSize: "0.75rem",
                         letterSpacing: "0.04em",
-                        opacity: 0.55,
                         marginTop: "3px",
                       }}
                     >
                       {obj.subtitle}
                     </div>
                   </div>
-                </motion.button>
+                </MotionLink>
+                </li>
               );
             })}
-          </div>
+          </ul>
+          </nav>
 
           {/* Footer */}
           <motion.p
+            aria-hidden="true"
             className="text-center mt-10 text-xs"
             style={{
               color: "var(--muted-foreground)",
-              opacity: 0.4,
               fontFamily: "var(--font-mono)",
               letterSpacing: "0.1em",
             }}
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.4 }}
+            animate={{ opacity: 1 }}
             transition={{ delay: 1.5, duration: 0.8 }}
           >
             built with curiosity
@@ -193,10 +195,6 @@ export default function InternetSpace() {
       </div>
 
       <div className="relative z-10 h-screen flex flex-col overflow-hidden">
-        {OBJECTS.map((obj) => (
-          <CanvasObject key={obj.id} obj={obj} onSelect={handleObjectSelect} />
-        ))}
-
         {/* Centered hero text */}
         <motion.div
           className="relative z-20 text-center px-6 pointer-events-none my-auto"
@@ -208,24 +206,25 @@ export default function InternetSpace() {
             className="text-5xl lg:text-6xl mb-6 leading-tight"
             style={{ fontFamily: "var(--font-heading)", color: "var(--foreground)" }}
           >
-            Hi, I&apos;m <span style={{ color: "var(--primary)" }}>Jainil</span>.
+            Hi, I&apos;m <span style={{ color: "var(--primary-text)" }}>Jainil</span>.
           </h1>
           <div
             className="max-w-lg mx-auto space-y-3 mb-4"
             style={{ color: "var(--muted-foreground)", lineHeight: "1.75" }}
           >
             <p className="text-lg">I build things for the web and for myself.</p>
-            <p className="text-base" style={{ opacity: 0.75 }}>
+            <p className="text-base" >
               Some live in browsers.<br />
               Some live on Raspberry Pis.<br />
               Some only exist in the mountains.
             </p>
-            <p className="text-base" style={{ opacity: 0.65 }}>
+            <p className="text-base" >
               I care about performance, systems, and the quiet details<br />
               that make interfaces feel effortless.
             </p>
           </div>
           <motion.p
+            aria-hidden="true"
             className="mt-4 text-xs tracking-widest uppercase"
             style={{ color: "var(--accent)", fontFamily: "var(--font-mono)", letterSpacing: "0.2em" }}
             initial={{ opacity: 0 }}
@@ -236,8 +235,20 @@ export default function InternetSpace() {
           </motion.p>
         </motion.div>
 
+        {/* Explore links — after the hero in DOM order so the h1 is read first */}
+        <nav aria-label="Explore" className="absolute inset-0 pointer-events-none">
+          <ul role="list" className="list-none p-0 m-0">
+            {OBJECTS.map((obj) => (
+              <li key={obj.id}>
+                <CanvasObject obj={obj} />
+              </li>
+            ))}
+          </ul>
+        </nav>
+
         {/* Footer */}
         <motion.footer
+          aria-hidden="true"
           className="z-20 text-center absolute bottom-6 left-0 right-0"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -247,7 +258,6 @@ export default function InternetSpace() {
             className="text-xs"
             style={{
               color: "var(--muted-foreground)",
-              opacity: 0.4,
               fontFamily: "var(--font-mono)",
               letterSpacing: "0.1em",
             }}

@@ -43,6 +43,7 @@ export default function ProjectDetailPage() {
             }}
           >
             <svg
+              aria-hidden="true"
               width="16"
               height="16"
               viewBox="0 0 24 24"
@@ -104,9 +105,9 @@ export default function ProjectDetailPage() {
         </p>
 
         {/* Tech stack pills */}
-        <div className="flex flex-wrap gap-2 mb-6">
+        <ul aria-label="Tech stack" className="flex flex-wrap gap-2 mb-6 list-none p-0">
           {project.techStack.map((tech) => (
-            <span
+            <li
               key={tech}
               className="text-xs uppercase tracking-wider px-3 py-1 rounded-full"
               style={{
@@ -119,9 +120,9 @@ export default function ProjectDetailPage() {
               }}
             >
               {tech}
-            </span>
+            </li>
           ))}
-        </div>
+        </ul>
 
         {/* Links */}
         <div className="flex gap-4">
@@ -137,7 +138,7 @@ export default function ProjectDetailPage() {
                 letterSpacing: "0.05em",
               }}
             >
-              GitHub &rarr;
+              GitHub<span className="sr-only"> (opens in a new tab)</span> &rarr;
             </a>
           )}
           {project.liveUrl && (
@@ -152,7 +153,7 @@ export default function ProjectDetailPage() {
                 letterSpacing: "0.05em",
               }}
             >
-              Live Demo &rarr;
+              Live Demo<span className="sr-only"> (opens in a new tab)</span> &rarr;
             </a>
           )}
         </div>

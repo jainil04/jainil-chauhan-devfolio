@@ -36,7 +36,7 @@ export default function ProjectCard({
           {project.coverImage ? (
             <Image
               src={project.coverImage}
-              alt={project.title}
+              alt=""
               fill
               className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -50,6 +50,7 @@ export default function ProjectCard({
               }}
             >
               <span
+                aria-hidden="true"
                 className="text-4xl opacity-30"
                 style={{ color: "var(--foreground)" }}
               >

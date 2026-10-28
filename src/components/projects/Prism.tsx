@@ -13,17 +13,17 @@ interface Perspective {
 const STANCE_COLORS: Record<string, { bg: string; text: string; label: string }> = {
   for: {
     bg: "color-mix(in oklch, #22c55e 15%, var(--card))",
-    text: "#22c55e",
+    text: "#166534",
     label: "FOR",
   },
   against: {
     bg: "color-mix(in oklch, #ef4444 15%, var(--card))",
-    text: "#ef4444",
+    text: "#991b1b",
     label: "AGAINST",
   },
   nuanced: {
     bg: "color-mix(in oklch, #eab308 15%, var(--card))",
-    text: "#eab308",
+    text: "#854d0e",
     label: "NUANCED",
   },
 };
@@ -197,7 +197,6 @@ export default function Prism() {
               style={{
                 color: "var(--muted-foreground)",
                 fontFamily: "var(--font-mono)",
-                opacity: 0.5,
               }}
             >
               {claim.length}/500
@@ -222,6 +221,7 @@ export default function Prism() {
       {/* ── Error ── */}
       {error && (
         <div
+          role="alert"
           className="mb-6 rounded-lg px-4 py-3 text-sm"
           style={{
             background:
@@ -269,6 +269,10 @@ export default function Prism() {
         </motion.p>
       )}
 
+      <div className="sr-only" role="status" aria-live="polite">
+        {perspectives.length > 0 ? `${perspectives.length} perspectives generated.` : ""}
+      </div>
+
       {/* ── Empty State ── */}
       {!showCards && !error && (
         <div
@@ -291,7 +295,6 @@ export default function Prism() {
             className="text-sm"
             style={{
               color: "var(--muted-foreground)",
-              opacity: 0.6,
               fontFamily: "var(--font-body)",
             }}
           >

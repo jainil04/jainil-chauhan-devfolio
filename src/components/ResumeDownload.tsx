@@ -33,8 +33,8 @@ export default function ResumeDownload() {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        aria-haspopup="menu"
         aria-expanded={open}
+        aria-controls="resume-formats"
         className="flex items-center gap-2 px-5 py-3 rounded-lg text-sm font-medium transition-opacity hover:opacity-90"
         style={{
           background: "var(--accent)",
@@ -43,11 +43,12 @@ export default function ResumeDownload() {
           letterSpacing: "0.05em",
         }}
       >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
         </svg>
         Download Resume
         <svg
+          aria-hidden="true"
           width="12"
           height="12"
           viewBox="0 0 24 24"
@@ -63,9 +64,10 @@ export default function ResumeDownload() {
       </button>
 
       {open && (
-        <div
-          role="menu"
-          className="absolute left-0 mt-2 w-64 rounded-xl overflow-hidden z-50"
+        <ul
+          id="resume-formats"
+          aria-label="Resume formats"
+          className="absolute left-0 mt-2 w-64 rounded-xl overflow-hidden z-50 list-none p-0"
           style={{
             background: "var(--card)",
             border: "1px solid var(--border)",
@@ -73,14 +75,12 @@ export default function ResumeDownload() {
           }}
         >
           {FORMATS.map((f, i) => (
+            <li key={f.label} style={{ borderTop: i === 0 ? "none" : "1px solid var(--border)" }}>
             <a
-              key={f.label}
-              role="menuitem"
               href={f.href}
               download
               onClick={() => setOpen(false)}
-              className="block px-4 py-3 transition-colors hover:bg-black/5"
-              style={{ borderTop: i === 0 ? "none" : "1px solid var(--border)" }}
+              className="block px-4 py-3 transition-colors hover:bg-black/5 focus-visible:bg-black/5"
             >
               <span className="block text-sm" style={{ color: "var(--foreground)", fontWeight: 600 }}>
                 {f.label}
@@ -89,8 +89,9 @@ export default function ResumeDownload() {
                 {f.hint}
               </span>
             </a>
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </div>
   );

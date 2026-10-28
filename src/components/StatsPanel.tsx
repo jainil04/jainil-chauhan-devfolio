@@ -120,7 +120,7 @@ export default function StatsPanel({ stats, className = "" }: StatsPanelProps) {
             <div
               className="p-6 rounded-xl"
             >
-              <h4
+              <p
                 className="text-xs uppercase tracking-wider mb-3"
                 style={{
                   color: "oklch(0.42 0.03 70)",
@@ -129,7 +129,7 @@ export default function StatsPanel({ stats, className = "" }: StatsPanelProps) {
                 }}
               >
                 Longest Hike
-              </h4>
+              </p>
               <h3
                 className="text-lg md:text-xl mb-1"
                 style={{
@@ -194,7 +194,7 @@ export default function StatsPanel({ stats, className = "" }: StatsPanelProps) {
             <div
               className="p-6 rounded-xl"
             >
-              <h4
+              <p
                 className="text-xs uppercase tracking-wider mb-3"
                 style={{
                   color: "oklch(0.42 0.03 70)",
@@ -203,7 +203,7 @@ export default function StatsPanel({ stats, className = "" }: StatsPanelProps) {
                 }}
               >
                 Hardest Hike
-              </h4>
+              </p>
               <h3
                 className="text-lg md:text-xl mb-1"
                 style={{

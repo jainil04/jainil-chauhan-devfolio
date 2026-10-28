@@ -7,7 +7,10 @@ import { cn } from "@/lib/utils";
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
-  title: "Jainil Chauhan — Internet Space",
+  title: {
+    default: "Jainil Chauhan — Internet Space",
+    template: "%s — Jainil Chauhan",
+  },
   description:
     "A frontend engineer obsessed with performance, systems, and the quiet details that make interfaces feel effortless.",
 };
@@ -34,7 +37,12 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased" suppressHydrationWarning>
-        {children}
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
+        <main id="main-content" tabIndex={-1} className="outline-none">
+          {children}
+        </main>
         <GlobalContact />
       </body>
     </html>

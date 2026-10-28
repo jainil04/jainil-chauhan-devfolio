@@ -29,7 +29,9 @@
   --secondary: oklch(0.928 0.010 87.473);
   --secondary-foreground: oklch(0.348 0.000 89.876);
   --muted: oklch(0.928 0.010 87.473);
-  --muted-foreground: oklch(0.528 0.000 89.876);
+  --muted-foreground: oklch(0.5 0 89.876);
+  /* Brand green for text on light surfaces (>=4.5:1). --primary is for fills only. */
+  --primary-text: oklch(0.48 0.14 138);
   --accent: oklch(0.480 0.068 138.457);
   --accent-foreground: oklch(0.965 0.006 84.566);
   --destructive: oklch(0.577 0.245 27.325);
@@ -63,6 +65,39 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+}
+
+/* ── Accessibility ── */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+:focus:not(:focus-visible) { outline: none; }
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 10000;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.65rem;
+  background: var(--foreground);
+  color: var(--background);
+  font-family: var(--font-body);
+  font-weight: 600;
+  transform: translateY(-200%);
+  transition: transform 0.2s;
+}
+.skip-link:focus { transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 ::selection { background: var(--accent); color: var(--accent-foreground); }
