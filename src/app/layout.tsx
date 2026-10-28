@@ -3,16 +3,34 @@ import "./globals.css";
 import GlobalContact from "@/components/GlobalContact";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { SITE_URL, SITE_NAME } from "@/lib/seo";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
+const DESCRIPTION =
+  "Jainil Chauhan is a senior frontend engineer who builds fast, accessible e-commerce experiences. Explore his work, projects, photography and Raspberry Pi tinkering.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Jainil Chauhan — Internet Space",
-    template: "%s — Jainil Chauhan",
+    default: "Jainil Chauhan — Senior Frontend Engineer",
+    template: `%s — ${SITE_NAME}`,
   },
-  description:
-    "A frontend engineer obsessed with performance, systems, and the quiet details that make interfaces feel effortless.",
+  description: DESCRIPTION,
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "Jainil Chauhan — Senior Frontend Engineer",
+    description: DESCRIPTION,
+    url: "/",
+    siteName: SITE_NAME,
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Jainil Chauhan — Senior Frontend Engineer",
+    description: DESCRIPTION,
+  },
 };
 
 export default function RootLayout({
