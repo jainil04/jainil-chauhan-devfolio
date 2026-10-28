@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import ResumeDownload from "@/components/ResumeDownload";
 
 type Bullet = { lead?: string; text: string };
 
@@ -146,6 +147,7 @@ export default function WorkPage() {
         >
           Senior frontend engineer with 8 years building high-traffic e-commerce applications for Williams-Sonoma Inc. (Pottery Barn, West Elm, Williams Sonoma) and Levi Strauss &amp; Co. — micro-frontend architecture, Core Web Vitals, and accessible, responsive UI, with measurable performance and cost wins.
         </p>
+        <ResumeDownload />
       </motion.section>
 
       {/* ── Content Sections ── */}
