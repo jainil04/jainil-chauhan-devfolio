@@ -5,7 +5,6 @@ import {
   CameraSVG,
   LaptopSVG,
   RaspberryPiSVG,
-  StockChartSVG,
   // DeskLampSVG,
   FieldNotesSVG,
 } from "@/components/ObjectSVGs";
@@ -45,7 +44,7 @@ export const OBJECTS: SpaceObject[] = [
       "I like work that's both creative and technical: I'll obsess over micro-interactions and accessibility, then turn around and profile render traces, split bundles, and document decisions with before/after numbers.",
     ],
     tags: ["Front-End Engineering", "React", "Next.js", "TypeScript", "UI Systems", "Performance", "DX"],
-    x: 38,
+    x: 42,
     y: 73,
     width: 170,
     floatDelay: 0.8,
@@ -99,8 +98,8 @@ export const OBJECTS: SpaceObject[] = [
       "Embedded systems thinking keeps me grounded. Memory matters. Cycles matter. The constraints make you better.",
     ],
     tags: ["Home Lab", "IoT", "Linux", "Self-hosted"],
-    x: 62,
-    y: 72,
+    x: 72,
+    y: 42,
     width: 150,
     floatDelay: 2.0,
     rotation: 2,
@@ -108,26 +107,8 @@ export const OBJECTS: SpaceObject[] = [
     href: "/raspberry-pi",
   },
   {
-    id: "stock-chart",
-    label: "Markets",
-    subtitle: "Finance & Data",
-    description: [
-      "I track markets not for day trading, but because financial systems are the most complex real-time data processing challenges humans have built.",
-      "Understanding market microstructure made me better at designing real-time dashboards and data pipelines.",
-      "Also, compound interest is the most powerful force in the universe. Einstein probably didn't say that, but he should have.",
-    ],
-    tags: ["Investing", "Data Viz", "Real-time Systems"],
-    x: 72,
-    y: 42,
-    width: 160,
-    floatDelay: 0.6,
-    rotation: -3,
-    accent: "#4a6741",
-    href: "/markets",
-  },
-  {
-    id: "field-notes",
-    label: "Field Notes",
+    id: "ai-notes",
+    label: "AI Notes",
     subtitle: "Ideas & Sketches",
     description: [
       "Before anything becomes code, it lives in a notebook. Architecture decisions, API sketches, component hierarchies — all start analog.",
@@ -141,7 +122,7 @@ export const OBJECTS: SpaceObject[] = [
     floatDelay: 1.8,
     rotation: 8,
     accent: "#b8956a",
-    href: "/field-notes",
+    href: "/ai-notes",
   },
 ];
 
@@ -153,6 +134,5 @@ export const SVG_MAP: Record<string, React.FC<{ className?: string }>> = {
   camera: CameraSVG,
   laptop: LaptopSVG,
   "raspberry-pi": RaspberryPiSVG,
-  "stock-chart": StockChartSVG,
-  "field-notes": FieldNotesSVG,
+  "ai-notes": FieldNotesSVG,
 };

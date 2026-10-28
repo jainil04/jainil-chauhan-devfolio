@@ -4,7 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-export default function FieldNotesPage() {
+export default function AINotesPage() {
   return (
     <div
       className="noise-overlay min-h-screen"
@@ -44,7 +44,7 @@ export default function FieldNotesPage() {
               color: "var(--foreground)",
             }}
           >
-            Field Notes
+            AI Notes
           </h1>
 
           <div className="w-16" />

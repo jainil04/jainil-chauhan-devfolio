@@ -2,6 +2,28 @@ import { Project } from "@/types/types";
 
 export const PROJECTS: Project[] = [
   {
+    slug: "lighthouse-monitor",
+    title: "Lighthouse Monitor",
+    description:
+      "A full-stack Core Web Vitals monitor. Run Lighthouse audits against any URL with results streamed live over SSE, then track history, schedule recurring audits and get emailed when a metric regresses.",
+    coverImage: "",
+    category: "Performance",
+    tags: ["Vue", "Lighthouse", "SSE", "BullMQ", "Core Web Vitals"],
+    techStack: [
+      "Vue 3",
+      "Vite",
+      "Node.js",
+      "Express",
+      "PostgreSQL",
+      "BullMQ",
+      "Redis",
+      "Lighthouse",
+      "Puppeteer",
+    ],
+    githubUrl: "https://github.com/jainil04/lighthouse-performance-tests",
+    liveUrl: "https://lighthouse-performance-tests.vercel.app",
+  },
+  {
     slug: "ai-prompt-autopsy",
     title: "AI Prompt Autopsy",
     description:

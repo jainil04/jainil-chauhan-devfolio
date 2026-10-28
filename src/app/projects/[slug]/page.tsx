@@ -8,6 +8,7 @@ import { PROJECTS } from "@/data/projects";
 import AIAutopsy from "@/components/projects/AIAutopsy";
 import Prism from "@/components/projects/Prism";
 import ChainOfThoughtVisualizer from "@/components/projects/ChainOfThoughtVisualizer";
+import LighthouseMonitor from "@/components/projects/LighthouseMonitor";
 
 export default function ProjectDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -169,6 +170,7 @@ export default function ProjectDetailPage() {
         {project.slug === "ai-prompt-autopsy" && <AIAutopsy />}
         {project.slug === "prism" && <Prism />}
         {project.slug === "chain-of-thought-visualizer" && <ChainOfThoughtVisualizer />}
+        {project.slug === "lighthouse-monitor" && <LighthouseMonitor />}
       </section>
     </div>
   );

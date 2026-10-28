@@ -4,65 +4,72 @@ import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-const workExperience = [
+type Bullet = { lead?: string; text: string };
+
+const workExperience: {
+  title: string;
+  company: string;
+  date: string;
+  client?: string;
+  tech?: string;
+  responsibilities: Bullet[];
+}[] = [
   {
-    title: "Senior Front-End Engineer",
-    company: "NTT Data Americas",
+    title: "Senior Software Engineer, Frontend",
+    company: "Williams-Sonoma Inc.",
     date: "Feb 2021 – Present",
-    client: "Williams Sonoma, Inc.",
-    content: [
-      "When I joined, the frontend ecosystem was already large — multiple micro-frontends, shared dependencies, separate deployment streams. It worked, but it wasn't aging gracefully.",
-      "Bundle sizes were growing.\nPerformance was drifting.\nMemory usage spiked under real customer interactions.\nAnd every new feature risked adding more weight.",
-      "I stepped into ownership of the architecture layer.",
-      "Instead of treating performance as an afterthought, I treated it as a product requirement.",
-      "I restructured our Vue 3 micro-frontend setup using Module Federation with stricter dependency boundaries. I introduced dynamic imports strategically — not everywhere, but where it actually reduced critical path blocking. I reconfigured Webpack to enforce tree-shaking discipline and implemented Brotli compression in the delivery pipeline.",
-      "Then I measured everything.",
-      "Using Chrome DevTools heap snapshots and Vue DevTools profiling, I traced memory leaks to reactive misuse and component lifecycle inefficiencies. Some components were rewritten entirely using the Composition API to reduce unnecessary reactivity and CPU churn.",
-      "The impact was structural, not cosmetic.",
+    client: "Product MFE serving 8 brands · via Info Way Solutions, then NTT Data / Nexient",
+    responsibilities: [
+      {
+        lead: "Cut product page payload and boosted speed:",
+        text: "co-designed a Product BFF redesign with one other engineer and wrote most of the code; it defers SKU-level data (prices, images, flags) until user interaction, cutting payload from about 20MB and improving time to interactive by about 80%.",
+      },
+      {
+        lead: "Owned Core Web Vitals",
+        text: "(FCP, LCP, TTFB, TBT) across Global, Shop, and Product MFEs via code-splitting, deferred execution, and state reuse; presented before/after results to senior leadership.",
+      },
+      {
+        lead: "Led a cross-repo investigation",
+        text: "into runaway Bing Maps API usage across six repositories: standardized caching, fixed a Canadian postal-code cache bypass, and flagged exposed API keys, cutting monthly transactions from 139M to about 80M (42%) and avoiding a higher enterprise contract tier.",
+      },
+      {
+        lead: "Sustained the savings:",
+        text: "shipped a Mar 2026 follow-on fix cutting daily requests 18% (3.21M to 2.51M); usage has stayed under target six months running (about 70M a month vs. a 144M peak).",
+      },
+      {
+        lead: "Built accessibility into every release:",
+        text: "validated Product MFE features with VoiceOver, keyboard-only navigation, and Lighthouse accessibility audits, and fixed the issues found for inclusive shopping across brands.",
+      },
+      {
+        lead: "Built reusable, shared frontend architecture:",
+        text: "shared Quick Look and AI sales-nudge components across MFEs via Webpack Module Federation; centralized shared dependencies in the Global shell to shrink bundles.",
+      },
+      {
+        lead: "Debugged production browser issues:",
+        text: "traced an iOS Safari crash in the 3D Bedding Visualizer to off-screen geometry recomputation via device CPU profiling; shipped a visibility-gated fix.",
+      },
+      {
+        lead: "Delivered across teams:",
+        text: "shipped Figma-driven features across all 8 brands ahead of deadline with zero defects, backed by Jest tests (standard on every feature and bug fix); took over a teammate's Outward third-party integration mid-flight and released it to production with zero issues.",
+      },
+      {
+        lead: "On-call and tooling:",
+        text: "part of peak-season triage with QE (ELK, Grafana); reviewed PRs daily; built agentic PR and Jira tooling.",
+      },
     ],
-    metrics: [
-      "Client bundle size reduced by 60%",
-      "Peak heap usage dropped by 50%",
-      "Time-to-Interactive significantly improved",
-      "Lighthouse scores moved from the 60s to the high 90s"
-    ],
-    closing: [
-      "Beyond architecture, I handled high-priority production issues — tracing bugs across micro-frontends and API contracts, shipping same-day hotfixes that met SLA requirements.",
-      "At this scale, frontend isn't just UI.\nIt's systems engineering with a user interface.",
-      "I build for performance, maintainability, and measurable impact."
-    ]
+    tech: "JavaScript (ES6+), Vue 3, Vuex, Node.js (BFF), Webpack Module Federation, Tailwind, SCSS, Jest, Playwright, Docker, Git",
   },
   {
-    title: "Front-End Engineer",
-    company: "Info Way Solutions LLC",
-    date: "July 2018 – Jan 2021",
-    client: "Levi Strauss & Co.",
-    content: [
-      "This was where I transitioned from building features to understanding systems.",
-      "I worked in a Vue 2 micro-frontend environment, building responsive UI components backed by Vuex state management. The focus wasn't just shipping features — it was ensuring those features could evolve without breaking everything else.",
-      "I integrated GraphQL through Apollo Client, creating clean bridges between frontend components and middleware services. Instead of tightly coupling UI to backend responses, I structured data layers intentionally — separating query logic from presentation logic.",
-      "But what truly shaped my engineering mindset was experimentation at scale.",
-      "I developed and executed over 40 A/B and multivariate experiments using Adobe Target. Each experiment required custom JavaScript and CSS to dynamically alter user experiences without degrading performance or breaking the control group.",
-      "That meant thinking about:"
+    title: "Software Engineer, Frontend",
+    company: "Levi Strauss & Co.",
+    date: "Jul 2018 – Feb 2021",
+    client: "via Info Way Solutions",
+    responsibilities: [
+      { text: "Built the Order History page, Loyalty enrollment/dashboard, and checkout form for Levi's new Vue.js commerce platform." },
+      { text: "Built debounced typeahead search (Elasticsearch) and GraphQL schema/resolvers for the BFF, with JWT auth for REST calls." },
+      { text: "Drove an 18% mobile performance improvement via SCSS and asset-loading optimizations; built to WCAG 2.0 with Jest tests." },
+      { text: "As an Adobe Target A/B test developer, shipped redesigned navigation, carousel, and modal; several tests won." },
     ],
-    considerations: [
-      "Script execution timing",
-      "DOM mutation safety",
-      "Analytics tracking accuracy",
-      "Statistical integrity of results"
-    ],
-    closing: [
-      "Experiments weren't just UI tweaks — they were measurable business decisions.",
-      "To ensure stability, I wrote Jest unit tests that maintained branch coverage above 90%, reinforcing confidence in deployments and refactors.",
-      "This phase taught me discipline:\nMeasure.\nValidate.\nShip with confidence.",
-      "It laid the foundation for how I approach architecture today."
-    ]
-  },
-  {
-    title: "Server Test Operator",
-    company: "Staffmark LLC",
-    date: "Dec 2016 - Jun 2018",
-    responsibilities: [],
   },
 ];
 
@@ -137,7 +144,7 @@ export default function WorkPage() {
             lineHeight: "1.75",
           }}
         >
-          I&rsquo;m a Front-End Engineer focused on building production UI systems that stay fast at scale — clean architecture, measurable performance, and developer-friendly patterns.
+          Senior frontend engineer with 8 years building high-traffic e-commerce applications for Williams-Sonoma Inc. (Pottery Barn, West Elm, Williams Sonoma) and Levi Strauss &amp; Co. — micro-frontend architecture, Core Web Vitals, and accessible, responsive UI, with measurable performance and cost wins.
         </p>
       </motion.section>
 
@@ -198,90 +205,8 @@ export default function WorkPage() {
                   fontStyle: "italic"
                 }}
               >
-                Client: {job.client}
+                {job.client}
               </h4>
-            )}
-
-            {/* Narrative content */}
-            {job.content && (
-              <div className="space-y-4 mb-6">
-                {job.content.map((paragraph, i) => (
-                  <p
-                    key={i}
-                    className="text-base md:text-lg whitespace-pre-line"
-                    style={{
-                      color: "var(--muted-foreground)",
-                      lineHeight: "1.75",
-                    }}
-                  >
-                    {paragraph}
-                  </p>
-                ))}
-              </div>
-            )}
-
-            {/* Metrics */}
-            {job.metrics && (
-              <div className="my-6 pl-6 border-l-2" style={{ borderColor: "var(--accent)" }}>
-                {job.metrics.map((metric, i) => (
-                  <p
-                    key={i}
-                    className="text-base md:text-lg mb-2"
-                    style={{
-                      color: "var(--foreground)",
-                      lineHeight: "1.75",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {metric}
-                  </p>
-                ))}
-              </div>
-            )}
-
-            {/* Considerations */}
-            {job.considerations && (
-              <ul className="space-y-2 mb-6 ml-6">
-                {job.considerations.map((item, i) => (
-                  <li
-                    key={i}
-                    className="flex gap-3"
-                    style={{
-                      color: "var(--muted-foreground)",
-                      lineHeight: "1.75",
-                    }}
-                  >
-                    <span
-                      className="mt-2 shrink-0"
-                      style={{
-                        color: "var(--accent)",
-                        fontSize: "0.5rem",
-                      }}
-                    >
-                      ●
-                    </span>
-                    <span className="text-base md:text-lg">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            {/* Closing paragraphs */}
-            {job.closing && (
-              <div className="space-y-4 mt-6">
-                {job.closing.map((paragraph, i) => (
-                  <p
-                    key={i}
-                    className="text-base md:text-lg whitespace-pre-line"
-                    style={{
-                      color: "var(--muted-foreground)",
-                      lineHeight: "1.75",
-                    }}
-                  >
-                    {paragraph}
-                  </p>
-                ))}
-              </div>
             )}
 
             {/* Old bullet-point format (for backwards compatibility) */}
@@ -305,10 +230,25 @@ export default function WorkPage() {
                     >
                       ●
                     </span>
-                    <span className="text-base md:text-lg">{item}</span>
+                    <span className="text-base md:text-lg">
+                      {item.lead && (
+                        <strong style={{ color: "var(--foreground)", fontWeight: 600 }}>{item.lead} </strong>
+                      )}
+                      {item.text}
+                    </span>
                   </li>
                 ))}
               </ul>
+            )}
+
+            {job.tech && (
+              <p
+                className="mt-6 text-sm"
+                style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-mono)", lineHeight: "1.75" }}
+              >
+                <span style={{ color: "var(--foreground)" }}>Tech: </span>
+                {job.tech}
+              </p>
             )}
           </motion.div>
         ))}
